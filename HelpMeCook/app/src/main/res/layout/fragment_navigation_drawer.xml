@@ -9,9 +9,8 @@
         android:id="@+id/nav_drawer_icon"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_margin="12dp"
+        android:src="@drawable/magnify"/>
 
     <TextView
         android:id="@+id/nav_drawer_title"
@@ -20,6 +19,7 @@
         android:gravity="center_vertical"
         android:paddingRight="40dp"
         android:minHeight="45dp"
+        android:text="Buscar por Ingrediente"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
     <!-- color -->
 
