@@ -42,8 +42,6 @@ public class MainActivity extends FragmentActivity {
     // adapter da navigation drawer
     private NavDrawerListAdapter adapter;
 
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,9 +98,7 @@ public class MainActivity extends FragmentActivity {
             displayView(0);
         }
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-
-
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
