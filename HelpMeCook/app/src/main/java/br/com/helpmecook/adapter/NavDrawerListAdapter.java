@@ -50,10 +50,10 @@ public class NavDrawerListAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.fragment_navigation_drawer, null);
         }
 
-        ImageView imgIcon = (ImageView) convertView.findViewById(R.id.nav_drawer_icon);
+        //ImageView imgIcon = (ImageView) convertView.findViewById(R.id.nav_drawer_icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.nav_drawer_title);
 
-        imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
+        //imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
         txtTitle.setText(navDrawerItems.get(position).getTitle());
 
         return convertView;

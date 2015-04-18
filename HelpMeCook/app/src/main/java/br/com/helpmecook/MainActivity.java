@@ -1,13 +1,15 @@
 package br.com.helpmecook;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import br.com.helpmecook.adapter.NavDrawerListAdapter;
 import br.com.helpmecook.model.NavDrawerItem;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends ActionBarActivity {
 
     // SharedPreferences da posicao selecionada na navigation drawer
     public static final String PREFS_POSICAO = "posicao";
@@ -190,19 +192,9 @@ public class MainActivity extends FragmentActivity {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(PREFS_POSICAO, posicao);
         editor.commit();
-
-        Log.i("GREatStudents", "Aplicação Encerrada");
     }
 
-    /*
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
