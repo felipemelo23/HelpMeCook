@@ -3,6 +3,6 @@
     <color name="primary">#ef6c00</color>
     <color name="secondary">#c2111d</color>
     <color name="contrast">#ffc107</color>
-    <color name="background">#fafafa</color>
+    <color name="background">#eeeeee</color>
     <color name="text">#262626</color>
 </resources>

@@ -1,5 +1,6 @@
 package br.com.helpmecook;
 
+<<<<<<< HEAD
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -43,6 +44,25 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<NavDrawerItem> navDrawerItems;
     // adapter da navigation drawer
     private NavDrawerListAdapter adapter;
+=======
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.support.v4.widget.DrawerLayout;
+
+import br.com.helpmecook.fragment.PlaceholderFragment;
+
+public class MainActivity extends ActionBarActivity
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    private CharSequence mTitle;
+    private String[] navMenuTitles;
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +128,7 @@ public class MainActivity extends ActionBarActivity {
         return false;
     }
 
+<<<<<<< HEAD
     // Alterna entre os itens da nav drawer
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
@@ -135,6 +156,25 @@ public class MainActivity extends ActionBarActivity {
                 //fragment = new
                 break;
             default:
+=======
+    public void onSectionAttached(int number) {
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        switch (number) {
+            case 1:
+                mTitle = navMenuTitles[0];
+                break;
+            case 2:
+                mTitle = navMenuTitles[1];
+                break;
+            case 3:
+                mTitle = navMenuTitles[2];
+                break;
+            case 4:
+                mTitle = navMenuTitles[3];
+                break;
+            case 5:
+                mTitle = navMenuTitles[4];
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
                 break;
         }
 
@@ -206,6 +246,30 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onCreateOptionsMenu(menu);
+<<<<<<< HEAD
     }*/
 
 }
+=======
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+}
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231

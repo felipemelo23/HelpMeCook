@@ -1,15 +1,24 @@
 package br.com.helpmecook.model;
 
 /**
+<<<<<<< HEAD
  * Created by Thais Torres on 16/04/2015.
  */
+=======
+ * Created by Thais Torres on 22/04/2015.
+ */
+
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
 public class NavDrawerItem {
 
     private String title;
     private int icon;
+<<<<<<< HEAD
     private String count = "0";
     // boolean to set visiblity of the counter
     private boolean isCounterVisible = false;
+=======
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
 
     public NavDrawerItem(){}
 
@@ -18,6 +27,7 @@ public class NavDrawerItem {
         this.icon = icon;
     }
 
+<<<<<<< HEAD
     public NavDrawerItem(String title, int icon, boolean isCounterVisible, String count){
         this.title = title;
         this.icon = icon;
@@ -25,6 +35,8 @@ public class NavDrawerItem {
         this.count = count;
     }
 
+=======
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
     public String getTitle(){
         return this.title;
     }
@@ -33,6 +45,7 @@ public class NavDrawerItem {
         return this.icon;
     }
 
+<<<<<<< HEAD
     public String getCount(){
         return this.count;
     }
@@ -41,6 +54,8 @@ public class NavDrawerItem {
         return this.isCounterVisible;
     }
 
+=======
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
     public void setTitle(String title){
         this.title = title;
     }
@@ -48,6 +63,7 @@ public class NavDrawerItem {
     public void setIcon(int icon){
         this.icon = icon;
     }
+<<<<<<< HEAD
 
     public void setCount(String count){
         this.count = count;
@@ -56,4 +72,6 @@ public class NavDrawerItem {
     public void setCounterVisibility(boolean isCounterVisible){
         this.isCounterVisible = isCounterVisible;
     }
+=======
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
 }
