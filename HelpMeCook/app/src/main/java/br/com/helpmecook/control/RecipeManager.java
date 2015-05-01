@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Felipe on 30/04/2015.
  */
-public class RecipeManager {
+public class RecipeManager {/*
     private ConnectionAccessor accessor;
 
     public Recipe getRecipeById() {
@@ -46,5 +46,5 @@ public class RecipeManager {
 
     public Boolean syncAll() {
         return false;
-    }
+    }*/
 }

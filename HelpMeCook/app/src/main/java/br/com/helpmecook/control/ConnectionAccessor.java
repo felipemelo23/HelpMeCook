@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Felipe on 30/04/2015.
  */
-public class ConnectionAccessor {
+public class ConnectionAccessor {/*
     public Recipe getRecipeById() {
         return null;
     }
@@ -40,5 +40,5 @@ public class ConnectionAccessor {
 
     public Boolean classifyRecipe(int id, float taste, float difficult) {
         return false;
-    }
+    }*/
 }
