@@ -53,7 +53,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
-import br.com.helpmecook.fragment.PlaceholderFragment;
+import br.com.helpmecook.view.fragment.PlaceholderFragment;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
