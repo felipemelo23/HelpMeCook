@@ -1,83 +1,200 @@
 package br.com.helpmecook;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+import br.com.helpmecook.adapter.NavDrawerListAdapter;
+import br.com.helpmecook.model.NavDrawerItem;
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+public class MainActivity extends ActionBarActivity {
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
+    // SharedPreferences da posicao selecionada na navigation drawer
+    public static final String PREFS_POSICAO = "posicao";
+    // posicao selecionada na navigation drawer
+    private int posicao;
+    // layout da navigation drawer
+    private DrawerLayout drawerLayout;
+    // lista com os itens da navigation drawer
+    // responsavel por abrir e fechar a navigation drawer
+    private ActionBarDrawerToggle abDrawerToggle;
+    private ListView drawerMenuList;
+    // titulo da navigation drawer
+    private CharSequence drawerTitle;
+    // titulo da aplicacao
     private CharSequence mTitle;
+    // titulos dos itens da navigation drawer
+    private String[] navMenuTitles;
+    // itens da navigation drawer
+    private ArrayList<NavDrawerItem> navDrawerItems;
+    // adapter da navigation drawer
+    private NavDrawerListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        // Carregar a posicao selecionada na navigation drawer
+        final SharedPreferences settings = getSharedPreferences(PREFS_POSICAO, 0);
+        posicao = settings.getInt(PREFS_POSICAO, posicao);
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mTitle = drawerTitle = getTitle();
+
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_itens);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerMenuList = (ListView) findViewById(R.id.navigation_drawer);
+
+        navDrawerItems = new ArrayList<NavDrawerItem>();
+
+        //Adicionando os itens na nav drawer
+        //Busca por igrediente
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], R.drawable.magnify));
+        //Meu CookBook
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], R.drawable.file_document_box));
+        //Criar receita
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], R.drawable.pencil));
+        //Localizar Restaurante
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], R.drawable.silverware_variant));
+        //Localizar Supermercado
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], R.drawable.cart));
+
+        drawerMenuList.setOnItemClickListener(new SlideMenuClickListener());
+
+        // Selecionando o adapter da navigation drawer
+        adapter = new NavDrawerListAdapter(getApplicationContext(),
+                navDrawerItems);
+        drawerMenuList.setAdapter(adapter);
+
+        abDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(drawerTitle);
+                invalidateOptionsMenu();
+            }
+        };
+
+        drawerLayout.setDrawerListener(abDrawerToggle);
+
+        if (savedInstanceState == null) {
+            displayView(0);
+        }
+
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
+    // Alterna entre os itens da nav drawer
+    private class SlideMenuClickListener implements
+            ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            displayView(position);
         }
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+    /**
+     * Mostra o fragment selecionado (checar se esta tudo certo)
+     * */
+    private void displayView(int position) {
+        // Atualiza a view principal, com o fragmento selecionado
+        Fragment fragment = null;
+
+        // Atualiza a posicao
+        final SharedPreferences settings = getSharedPreferences(PREFS_POSICAO, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("posicao", position);
+        editor.commit();
+
+        switch (position) {
+            case 0:
+                //fragment = new
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment).commit();
+
+            // Atualiza o titulo e fecha a navigation drawer
+            drawerMenuList.setItemChecked(position, true);
+            drawerMenuList.setSelection(position);
+            setTitle(navMenuTitles[position]);
+            drawerLayout.closeDrawer(drawerMenuList);
+        } else {
+            // Erro na criação do fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        final SharedPreferences settings = getSharedPreferences(PREFS_POSICAO, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt(PREFS_POSICAO, posicao);
+        editor.commit();
+
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        abDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        abDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Atualiza a posicao para sempre abrir na lista de alunos
+        final SharedPreferences settings = getSharedPreferences(PREFS_POSICAO, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt(PREFS_POSICAO, posicao);
+        editor.commit();
+    }
+
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -89,61 +206,6 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
+    }*/
 
 }
