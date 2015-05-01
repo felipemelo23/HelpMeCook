@@ -1,17 +1,18 @@
 package br.com.helpmecook.control;
 
+<<<<<<< HEAD
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
 import java.util.Calendar;
+=======
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
 import java.util.List;
-
-import br.com.helpmecook.model.AbstractRecipe;
-import br.com.helpmecook.model.Recipe;
 
 /**
  * Created by Felipe on 30/04/2015.
  */
+<<<<<<< HEAD
 public class RecipeManager {
     private ConnectionAccessor accessor = new ConnectionAccessor();
 
@@ -41,62 +42,40 @@ public class RecipeManager {
         }
 
         return recipe;
+=======
+public class RecipeManager {/*
+    private ConnectionAccessor accessor;
+
+    public Recipe getRecipeById() {
+        return null;
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
     }
 
-    /**
-     * @param ids Lista de Identificadores de Receita.
-     * @return Retorna uma lista de receitas resumidas.
-     */
-    public List<AbstractRecipe> getAbstractRecipes(List<Integer> ids) {
-        return accessor.getAbstractRecipes(ids);
+    public List<AbstractRecipe> getAbstractRecipes(List<Integer>) {
+        return null;
     }
 
-    /**
-     * @param wanted Lista de ingredientes desejáveis.
-     * @param unwanted Lista de ingredientes indesejáveis.
-     * @return Retorna uma lista de identificadores de receitas que satisfazem exatamente a busca
-     * por ingredientes, ou seja, contém receitas com exatamente os ingredientes desejados,
-     * dadas as duas listas de ingredientes passadas como parâmetro.
-     */
     public List<Integer> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
-        return accessor.getResultByIngredientLists(wanted, unwanted);
+        return null;
     }
 
-    /**
-     * @param wanted Lista de ingredientes desejáveis.
-     * @param unwanted Lista de ingredientes indesejáveis.
-     * @return Retorna uma lista de identificadores de receitas que satisfazem a busca
-     * por ingredientes, mas têm 1 ingrediente a mais, ou seja, contém receitas com exatamente os ingredientes
-     * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parâmetro.
-     */
     public List<Integer> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
-        return accessor.getPlusByIngredientLists(wanted, unwanted);
+        return null;
     }
 
-    /**
-     * @param name Nome ou parte do nome de uma receita.
-     * @return Retorna uma lista de identificadores de receitas que possuem a String name passada como parâmetro.
-     * no seu nome.
-     */
     public List<Integer> getResultByRecipeName(String name) {
-        return accessor.getResultByRecipeName(name);
+        return null;
     }
 
-    /**
-     * @return Retorna as receitas visualizadas recentemente.
-     */
     public List<Integer> getRecentRecipes() {
-        RecentDAO recentDAO = new RecentDAO(this);
-        return recentDAO.readAll("ASC"); //Esse método deve retornar ordenado por LastAccess.
+        return null;
     }
 
-    /**
-     * @return Retorna as receitas mais populares, ou seja, mais visualizadas pelo usuários.
-     */
     public List<Integer> getPopularRecipes() {
-        return accessor.getPopularRecipes();
+        return null;
     }
 
+<<<<<<< HEAD
     /**
      * @return Retorna um objeto Cookbook inteiro para ser exibido.
      */
@@ -168,25 +147,18 @@ public class RecipeManager {
             unsyncDAO.insert(newRecipe);
             return false;
         }
+=======
+    public Boolean registerRecipe(Recipe recipe) {
+        return false;
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
     }
 
-    /**
-     * @param id Identificador de uma receita.
-     * @param taste Valor de classificação de sabor de uma receita.
-     * @param difficult Valor de classificação de dificuldade de uma receita.
-     * @return Retorna true se a classificação da receita for atualizada no banco de dados do servidor
-     * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
-     */
     public Boolean classifyRecipe(int id, float taste, float difficult) {
-        return accessor.classifyRecipe(id,taste,difficult);
+        return false;
     }
 
-    /**
-     * Garante que todas a receitas que estão no banco de dados local sejam sincronizadas no servidor.
-     * @return Retorna true se todas as receitas no banco de dados local conseguirem ser atualizadas
-     * no servidor e false se o alguma receita não puder ser atualizadas.
-     */
     public Boolean syncAll() {
+<<<<<<< HEAD
         UnsyncDAO unsyncDAO = new UnsyncDAO(this);
         List<Recipe> unsyncs = new ArrayList<Recipe>();
         unsyncs = unsyncDAO.readAll("ASC");
@@ -207,4 +179,8 @@ public class RecipeManager {
 
         return allSynced;
     }
+=======
+        return false;
+    }*/
+>>>>>>> 229ff594554c2008ce8c6cbf3d094595e0641231
 }
