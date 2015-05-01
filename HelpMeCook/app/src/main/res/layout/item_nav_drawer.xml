@@ -2,30 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:padding="8dp"
-    android:background="@drawable/list_selector">
+    android:background="@drawable/list_selector"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:src="@drawable/ic_magnify_grey600_24dp"
-        android:layout_centerVertical="true" />
+        android:src="@drawable/magnify" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/icon"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textColor="@color/text"
         android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingRight="40dp"
         android:text="Busca por Ingrediente"
-        android:paddingRight="40dp"/>
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/text" />
 
 </RelativeLayout>
 

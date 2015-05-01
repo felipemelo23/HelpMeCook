@@ -29,10 +29,10 @@
     <!-- Lista de icones da Nav Drawer-->
     <!-- Deve ficar na mesma ordem que os nomes -->
     <array name="nav_drawer_icons">
-        <item>@drawable/ic_magnify_grey600_24dp</item>
-        <item>@drawable/ic_file_document_box_grey600_24dp</item>
-        <item>@drawable/ic_pencil_grey600_24dp</item>
-        <item>@drawable/ic_silverware_variant_grey600_24dp</item>
-        <item>@drawable/ic_cart_grey600_24dp</item>
+        <item>@drawable/magnify</item>
+        <item>@drawable/file_document_box</item>
+        <item>@drawable/pencil</item>
+        <item>@drawable/silverware_variant</item>
+        <item>@drawable/cart</item>
     </array>
 </resources>
