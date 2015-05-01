@@ -14,8 +14,8 @@ public class RecipeManager {
     private ConnectionAccessor accessor = new ConnectionAccessor();
 
     /**
-     * @param id Número inteiro que identifica uma receita.
-     * @return Retorna a receita relativa ao id passado como parâmetro.
+     * @param id Numero inteiro que identifica uma receita.
+     * @return Retorna a receita relativa ao id passado como parametro.
      */
     public Recipe getRecipeById(int id) {
         RecipeDAO recipeDAO = new RecipeDAO(this);
@@ -24,12 +24,12 @@ public class RecipeManager {
         //Tenta achar a receita no banco de dados local.
         Recipe recipe = recipeDAO.read(id);
 
-        //Se a receita não estiver no banco de dados local, procura no servidor.
+        //Se a receita nao estiver no banco de dados local, procura no servidor.
         if (recipe == null) {
             recipe = accessor.getRecipeById(id);
         }
 
-        //Se a receita foi encontrada, atualiza o último acesso dela e adiciona ela na tabela Recents
+        //Se a receita foi encontrada, atualiza o ultimo acesso dela e adiciona ela na tabela Recents
         if (recipe != null) {
             Calendar cal = Calendar.getInstance();
             recipe.updateLastAcess(cal);
@@ -50,22 +50,22 @@ public class RecipeManager {
     }
 
     /**
-     * @param wanted Lista de ingredientes desejáveis.
-     * @param unwanted Lista de ingredientes indesejáveis.
+     * @param wanted Lista de ingredientes desejaveis.
+     * @param unwanted Lista de ingredientes indesejaveis.
      * @return Retorna uma lista de identificadores de receitas que satisfazem exatamente a busca
-     * por ingredientes, ou seja, contém receitas com exatamente os ingredientes desejados,
-     * dadas as duas listas de ingredientes passadas como parâmetro.
+     * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
+     * dadas as duas listas de ingredientes passadas como parametro.
      */
     public List<Integer> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getResultByIngredientLists(wanted, unwanted);
     }
 
     /**
-     * @param wanted Lista de ingredientes desejáveis.
-     * @param unwanted Lista de ingredientes indesejáveis.
+     * @param wanted Lista de ingredientes desejaveis.
+     * @param unwanted Lista de ingredientes indesejaveis.
      * @return Retorna uma lista de identificadores de receitas que satisfazem a busca
-     * por ingredientes, mas têm 1 ingrediente a mais, ou seja, contém receitas com exatamente os ingredientes
-     * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parâmetro.
+     * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
+     * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
      */
     public List<Integer> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getPlusByIngredientLists(wanted, unwanted);
@@ -73,7 +73,7 @@ public class RecipeManager {
 
     /**
      * @param name Nome ou parte do nome de uma receita.
-     * @return Retorna uma lista de identificadores de receitas que possuem a String name passada como parâmetro.
+     * @return Retorna uma lista de identificadores de receitas que possuem a String name passada como parametro.
      * no seu nome.
      */
     public List<Integer> getResultByRecipeName(String name) {
@@ -85,11 +85,11 @@ public class RecipeManager {
      */
     public List<Integer> getRecentRecipes() {
         RecentDAO recentDAO = new RecentDAO(this);
-        return recentDAO.readAll("ASC"); //Esse método deve retornar ordenado por LastAccess.
+        return recentDAO.readAll("ASC"); //Esse metodo deve retornar ordenado por LastAccess.
     }
 
     /**
-     * @return Retorna as receitas mais populares, ou seja, mais visualizadas pelo usuários.
+     * @return Retorna as receitas mais populares, ou seja, mais visualizadas pelo usuarios.
      */
     public List<Integer> getPopularRecipes() {
         return accessor.getPopularRecipes();
@@ -122,7 +122,7 @@ public class RecipeManager {
 
     /**
      * @param recipe Receita a ser adicionada no cookbook.
-     * @return Retorna true se a receita foi adicionada e false se ela não foi.
+     * @return Retorna true se a receita foi adicionada e false se ela nao foi.
      */
     public Boolean addToCookbook(Recipe recipe) {
         CookbookDAO cookbookDAO = new CookbookDAO(this);
@@ -132,12 +132,12 @@ public class RecipeManager {
     /**
      * @param recipe Receita a ser registrada no Banco de Dados no Servidor
      * @return Retorna true se a receita for registrada no banco de dados no servidor e retorna false
-     * se a receita não for registrada no banco de dados no servidor,
+     * se a receita nao for registrada no banco de dados no servidor,
      * mas for registrada no Banco de dados local.
      */
     public Boolean registerRecipe(Recipe recipe) {
-        //Instancia uma nova receita. A receita é criada sem ID e um ID global só é atribuído a ela
-        //quando ela é adicionada ao servidor.
+        //Instancia uma nova receita. A receita eh criada sem ID e um ID global so eh atribuido a ela
+        //quando ela eh adicionada ao servidor.
         Recipe newRecipe = recipe;
         RecipeDAO recipeDAO = new RecipeDAO(this);
         UnsyncDAO unsyncDAO = new UnsyncDAO(this);
@@ -147,7 +147,7 @@ public class RecipeManager {
         //Tenta adicionar a receita no servidor e pega dele o ID que ele deu para ela.
         int id = accessor.registerRecipe(recipe);
 
-        //Se conseguiu adicioar (Se o ID não é negativo).
+        //Se conseguiu adicioar (Se o ID não eh negativo).
         if (id >= 0) {
             //Atribui o ID a receita.
             newRecipe.setId(id);
@@ -156,12 +156,12 @@ public class RecipeManager {
             cookbookDAO.insert(newRecipe.getId());
             return true;
         } else { //Se não conseguiu adicionar.
-            //Atribui um ID aleatório e não repetido para a receita.
+            //Atribui um ID aleatorio e nao repetido para a receita.
             do {
                 newRecipe.setId((int) Math.random() % 1000000);
             } while (unsyncDAO.read(newRecipe.getId()) != null);
 
-            //Insere na tabela de receitas não sincronizadas.
+            //Insere na tabela de receitas nao sincronizadas.
             unsyncDAO.insert(newRecipe);
             return false;
         }
@@ -187,17 +187,17 @@ public class RecipeManager {
         UnsyncDAO unsyncDAO = new UnsyncDAO(this);
         List<Recipe> unsyncs = new ArrayList<Recipe>();
         unsyncs = unsyncDAO.readAll("ASC");
-        Boolean allSynced = true; //Assume-se inicialmente que todas a receitas serão sincronizadas.
+        Boolean allSynced = true; //Assume-se inicialmente que todas a receitas serao sincronizadas.
 
-        //Para todas as receitas na tabela de receitas não sincrinizadas.
+        //Para todas as receitas na tabela de receitas nao sincronizadas.
         for (Recipe recipe : unsyncs) {
             //Tenta registrar a receita.
             if (registerRecipe(recipe)) {
-                //Se conseguir, como a receita já foi adicionada na tabela local de receitas,
-                //apenas exclui ela da tabela de receitas não sincronizadas.
+                //Se conseguir, como a receita ja foi adicionada na tabela local de receitas,
+                //apenas exclui ela da tabela de receitas nao sincronizadas.
                 unsyncDAO.delete(recipe);
             } else {
-                //Se não conseguir não pode-se mais dizer que todas as receitas foram sincronizadas.
+                //Se nao conseguir, nao pode-se mais dizer que todas as receitas foram sincronizadas.
                 allSynced = false;
             }
         }
