@@ -2,15 +2,18 @@ package br.com.helpmecook.control;
 
 import java.util.List;
 
+import br.com.helpmecook.model.AbstractRecipe;
+import br.com.helpmecook.model.Recipe;
+
 /**
  * Created by Felipe on 30/04/2015.
  */
 public class ConnectionAccessor {
-    public Recipe getRecipeById() {
+    public Recipe getRecipeById(int id) {
         return null;
     }
 
-    public List<AbstractRecipe> getAbstractRecipes(List<Integer>) {
+    public List<AbstractRecipe> getAbstractRecipes(List<Integer> ids) {
         return null;
     }
 
@@ -34,8 +37,8 @@ public class ConnectionAccessor {
         return null;
     }
 
-    public Boolean registerRecipe(Recipe recipe) {
-        return false;
+    public int registerRecipe(Recipe recipe) {
+        return -1;
     }
 
     public Boolean classifyRecipe(int id, float taste, float difficult) {
