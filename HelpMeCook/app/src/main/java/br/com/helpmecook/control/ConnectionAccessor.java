@@ -3,6 +3,7 @@ package br.com.helpmecook.control;
 import java.util.List;
 
 import br.com.helpmecook.model.AbstractRecipe;
+import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.model.Recipe;
 
 /**
@@ -26,23 +27,15 @@ public class ConnectionAccessor {
     }
 
     /**
-     * @param wanted Lista de ingredientes desejaveis.
-     * @param unwanted Lista de ingredientes indesejaveis.
-     * @return Retorna uma lista de identificadores de receitas que satisfazem exatamente a busca
-     * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
-     * dadas as duas listas de ingredientes passadas como parametro.
-     */
+     *
+
     public List<Integer> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return null;
     }
 
     /**
-     * @param wanted Lista de ingredientes desejaveis.
-     * @param unwanted Lista de ingredientes indesejaveis.
-     * @return Retorna uma lista de identificadores de receitas que satisfazem a busca
-     * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
-     * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
-     */
+     *
+
     public List<Integer> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return null;
     }
@@ -75,10 +68,10 @@ public class ConnectionAccessor {
 
     /**
      * @param id Identificador de uma receita.
-     * @param taste Valor de classificação de sabor de uma receita.
-     * @param difficult Valor de classificação de dificuldade de uma receita.
-     * @return Retorna true se a classificação da receita for atualizada no banco de dados do servidor
-     * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
+     * @param taste Valor de classificaï¿½ï¿½o de sabor de uma receita.
+     * @param difficult Valor de classificaï¿½ï¿½o de dificuldade de uma receita.
+     * @return Retorna true se a classificaï¿½ï¿½o da receita for atualizada no banco de dados do servidor
+     * e retorna false se a classificaï¿½ï¿½o da receita nï¿½o for atualizada no banco de dados do servidor.
      */
     public Boolean classifyRecipe(int id, float taste, float difficult) {
         return false;
