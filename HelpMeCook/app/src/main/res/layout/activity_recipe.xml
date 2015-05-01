@@ -1,0 +1,130 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.cosmo.helpmecook.RecipeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:id="@+id/banner"
+                android:scaleType="centerCrop"
+                android:src="@drawable/receita"/>
+
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:id="@+id/add_cookbook"
+                android:scaleType="fitCenter"
+                android:layout_below="@id/banner"
+                android:layout_alignRight="@+id/banner"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bookmark_plus"
+                android:layout_marginBottom="-35dp"/>
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:id="@+id/rb_taste"
+                android:layout_below="@+id/banner"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentStart="true"
+                style="@style/style_name"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text"
+                android:text="Sabor"
+                android:id="@+id/tv_taste"
+                android:layout_alignTop="@+id/rb_taste"
+                android:layout_centerHorizontal="true" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:id="@+id/rb_difficulty"
+                android:layout_below="@+id/rb_taste"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentStart="true"
+                style="@style/style_name"
+                android:layout_marginTop="9dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Dificuldade"
+                android:textColor="@color/text"
+                android:id="@+id/tv_difficulty"
+                android:layout_alignTop="@+id/rb_difficulty"
+                android:layout_alignLeft="@+id/tv_taste"
+                android:layout_alignStart="@+id/tv_taste" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ingredient_icon"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lv_ingredient_recipe">
+
+            </ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/panela"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_recipe"
+                android:layout_marginLeft="20dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text"
+                android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
+                ></TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

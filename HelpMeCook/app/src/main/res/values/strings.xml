@@ -35,4 +35,5 @@
         <item>@drawable/silverware_variant</item>
         <item>@drawable/cart</item>
     </array>
+    <string name="title_activity_recipe">RecipeActivity</string>
 </resources>
