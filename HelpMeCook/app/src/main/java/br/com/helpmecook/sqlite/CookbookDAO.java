@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class CookbookDAO {
         dbHelper = new CookbookOpenHelper(context);
     }
 
-    public void open() {
+    public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
 
@@ -43,7 +44,7 @@ public class CookbookDAO {
     }
 
     public boolean delete(int id) {
-        long wReturn = database.delete(TABLE_NAME, ID + " = '" + id + "'", null);
+        long wReturn = database.delete(TABLE_NAME, ID + " = " + id, null);
 
         if (wReturn == 0) {
             return false;

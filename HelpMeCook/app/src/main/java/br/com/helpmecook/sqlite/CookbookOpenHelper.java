@@ -14,7 +14,7 @@ public class CookbookOpenHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String COOKBOOK_TABLE_CREATE =
-            "CREATE TABLE " + CookbookDAO.TABLE_NAME + " (" + CookbookDAO.ID + " INTERGER);";
+            "CREATE TABLE " + CookbookDAO.TABLE_NAME + " (" + CookbookDAO.ID + " INTERGER PRIMARY KEY);";
 
     public CookbookOpenHelper(Context context) {
         super(context, CookbookDAO.TABLE_NAME, null, DATABASE_VERSION);
