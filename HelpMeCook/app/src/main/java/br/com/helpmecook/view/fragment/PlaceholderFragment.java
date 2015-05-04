@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import br.com.helpmecook.MainActivity;
+import br.com.helpmecook.view.activity.MainActivity;
 import br.com.helpmecook.R;
 
 public class PlaceholderFragment extends Fragment {
