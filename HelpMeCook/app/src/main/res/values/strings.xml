@@ -36,4 +36,5 @@
         <item>@drawable/cart</item>
     </array>
     <string name="title_activity_recipe">RecipeActivity</string>
+    <string name="title_activity_name_search_results">NameSearchResultsActivity</string>
 </resources>
