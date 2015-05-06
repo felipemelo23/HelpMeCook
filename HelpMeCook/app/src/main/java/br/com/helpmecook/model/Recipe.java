@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by ck0119 on 30/04/15.
+ * Created by Mariana on 30/04/15.
  */
 public class Recipe extends AbstractRecipe {
     private List<Integer> ingredientList;
@@ -16,6 +16,7 @@ public class Recipe extends AbstractRecipe {
     private int estimatedTime;
     private String portionNum;
     private Calendar lastAcess;
+    private int sync = 0;
 
     public List<Integer> getIngredientList() {
         return ingredientList;
@@ -64,4 +65,9 @@ public class Recipe extends AbstractRecipe {
     public void addIngredient (int idIngredient){
         ingredientList.add(idIngredient);
     }
+
+    public int isSync(){ return sync; }
+
+    public void setSync(int isSync) { sync = isSync;  }
+
 }
