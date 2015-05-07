@@ -37,8 +37,8 @@ public class IngredientDAO {
         database = null;
     }
 
-    //As próximas funções não estarão disponíveis para acesso dos usuários comuns
-    // elas só serão usadas para mudanças nos ingredientes no banco de dados geral da aplicação
+    //As proximas funcoes estarao disponiveis para acesso dos usuarios comuns
+    // elas so serao usadas para mudancas nos ingredientes no banco de dados geral da aplicacao
 
     public long insert(Ingredient ingredient) {
         ContentValues values = new ContentValues();
@@ -67,10 +67,12 @@ public class IngredientDAO {
         }
     }
 
+    //essa funcao sera util para quando o aplicativo for iniciado pela primeira vez os ingredientes do servidor possam ser adicionados ao banco local
     public boolean insertListIngredients (List<Ingredient> listOfIngredients){
         for (Ingredient ingredient : listOfIngredients){
             if (insert(ingredient) < 0)  return false;
         }
         return true;
     }
+
 }
