@@ -1,9 +1,5 @@
 package br.com.helpmecook.model;
 
-/**
- * Created by mariana on 01/05/15.
- */
-
 import java.util.Calendar;
 import java.util.List;
 

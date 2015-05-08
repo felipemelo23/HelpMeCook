@@ -19,13 +19,16 @@ public class RecipeDAO {
 
     public static final String TABLE_NAME = "recipe";
     public static final String ID = "id";
+    public static final String NOME = "nome";
+    public static final String TASTE = "taste";
+    public static final String DIFFICULTY = "difficulty";
     public static final String INGREDIENT_LIST = "ingredientList";
     public static final String TEXT = "text";
     public static final String ESTIMATED_TIME = "estimatedTime";
     public static final String PORTION_NUM = "portionNum";
     public static final String SYNC = "sync";
 
-    private String[] allColumns = { ID, INGREDIENT_LIST, TEXT, ESTIMATED_TIME, PORTION_NUM, SYNC };
+    private String[] allColumns = { ID, NOME, TASTE, DIFFICULTY, INGREDIENT_LIST, TEXT, ESTIMATED_TIME, PORTION_NUM, SYNC };
 
     public RecipeDAO(Context context){
         dbHelper = new RecipeOpenHelper(context);
@@ -44,6 +47,9 @@ public class RecipeDAO {
     public long insert(Recipe recipe){
         ContentValues values = new ContentValues();
         values.put(ID, recipe.getId());
+        values.put(NOME, recipe.getName());
+        values.put(TASTE, recipe.getTaste());
+        values.put(DIFFICULTY, recipe.getDifficulty());
         values.put(INGREDIENT_LIST, idListToString(recipe));
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
@@ -56,6 +62,9 @@ public class RecipeDAO {
     public long update(Recipe recipe){
         ContentValues values = new ContentValues();
         values.put(ID, recipe.getId());
+        values.put(NOME, recipe.getName());
+        values.put(TASTE, recipe.getTaste());
+        values.put(DIFFICULTY, recipe.getDifficulty());
         values.put(INGREDIENT_LIST, idListToString(recipe));
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
@@ -83,6 +92,9 @@ public class RecipeDAO {
 
         if(c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
+            int indexNome = c.getColumnIndex(NOME);
+            int indexTaste = c.getColumnIndex(TASTE);
+            int indexDifficulty = c.getColumnIndex(DIFFICULTY);
             int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
@@ -91,6 +103,9 @@ public class RecipeDAO {
 
             recipe = new Recipe();
             recipe.setId(c.getInt(indexId));
+            recipe.setName(c.getString(indexNome));
+            recipe.setTaste(c.getFloat(indexTaste));
+            recipe.setDifficulty(c.getFloat(indexDifficulty));
             recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
             recipe.setText(c.getString(indexText));
             recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
@@ -116,6 +131,9 @@ public class RecipeDAO {
             recipes = new ArrayList<>();
 
             int indexId = c.getColumnIndex(ID);
+            int indexNome = c.getColumnIndex(NOME);
+            int indexTaste = c.getColumnIndex(TASTE);
+            int indexDifficulty = c.getColumnIndex(DIFFICULTY);
             int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
@@ -125,6 +143,9 @@ public class RecipeDAO {
             do {
                 recipe = new Recipe();
                 recipe.setId(c.getInt(indexId));
+                recipe.setName(c.getString(indexNome));
+                recipe.setTaste(c.getFloat(indexTaste));
+                recipe.setDifficulty(c.getFloat(indexDifficulty));
                 recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
                 recipe.setText(c.getString(indexText));
                 recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
@@ -134,9 +155,7 @@ public class RecipeDAO {
                 recipes.add(recipe);
             } while (c.moveToNext());
         }
-
             c.close();
-
             return recipes;
     }
 
