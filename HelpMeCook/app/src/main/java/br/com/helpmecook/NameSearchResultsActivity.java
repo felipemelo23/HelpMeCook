@@ -1,5 +1,6 @@
 package br.com.helpmecook;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,9 +52,9 @@ public class NameSearchResultsActivity extends ActionBarActivity {
 
 
     private void loadList() {
-        recipeDAO dao = new recipeDAO(this);
-        this.listRecipe = dao.listar();
-        dao.close();
+//        recipeDAO dao = new recipeDAO(this);
+//        this.listRecipe = dao.listar();
+//        dao.close();
 
         this.adapter = new ArrayAdapter<Recipe>(this, adapterLayout, listRecipe);
         this.lvRecipes.setAdapter(adapter);
