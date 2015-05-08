@@ -16,9 +16,12 @@ public class RecipeOpenHelper extends SQLiteOpenHelper{
     private static final String RECIPE_TABLE_CREATE =
             "CREATE TABLE " + RecipeDAO.TABLE_NAME + " (" +
                     RecipeDAO.ID + " INTEGER PRIMARY KEY," +
+                    RecipeDAO.NOME + " TEXT," +
+                    RecipeDAO.TASTE + " REAL, " +
+                    RecipeDAO.DIFFICULTY + " REAL, " +
                     RecipeDAO.INGREDIENT_LIST + " TEXT, " +
                     RecipeDAO.TEXT + " TEXT, " +
-                    RecipeDAO.ESTIMATED_TIME + " INTEGER" +
+                    RecipeDAO.ESTIMATED_TIME + " INTEGER, " +
                     RecipeDAO.PORTION_NUM + " TEXT, " +
                     RecipeDAO.SYNC + " INTEGER);";
 
