@@ -21,18 +21,8 @@
                 android:value=".view.activity.MainActivity" />
         </activity>
         <activity
-<<<<<<< HEAD
             android:name=".NameSearchResultsActivity"
             android:label="@string/title_activity_name_search_results" >
-=======
-            android:name=".TestDAOActivity"
-            android:label="@string/title_activity_test_dao" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
->>>>>>> d7d8037b8a86c85c3be492c260eff06dc754b15e
         </activity>
     </application>
 
