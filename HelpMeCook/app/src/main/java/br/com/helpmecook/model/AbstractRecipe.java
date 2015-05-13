@@ -7,11 +7,19 @@ import android.graphics.Bitmap;
  */
 
 public class AbstractRecipe {
-    private int id;
+    private long id;
     private String name;
     private float taste;
     private float difficulty;
     private Bitmap picture;
+
+    public AbstractRecipe() {
+        this.id = -1;
+        this.name = null;
+        this.taste = 0;
+        this.difficulty = 0;
+        this.picture = null;
+    }
 
     public String getName() {
         return name;
@@ -21,11 +29,11 @@ public class AbstractRecipe {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

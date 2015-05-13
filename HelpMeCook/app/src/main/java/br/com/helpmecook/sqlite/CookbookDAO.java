@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.helpmecook.model.Cookbook;
+import br.com.helpmecook.model.Recipe;
 
 /**
  * Created by Felipe on 04/05/2015.
@@ -37,9 +37,9 @@ public class CookbookDAO {
         database = null;
     }
 
-    public long insert(int id) {
+    public long insert(Recipe recipe) {
         ContentValues values = new ContentValues();
-        values.put(ID,id);
+        values.put(ID, recipe.getId());
         return database.insert(TABLE_NAME, null, values);
     }
 

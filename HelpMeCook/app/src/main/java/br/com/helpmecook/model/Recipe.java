@@ -12,7 +12,16 @@ public class Recipe extends AbstractRecipe {
     private int estimatedTime;
     private String portionNum;
     private Calendar lastAcess;
-    private int sync = 0;
+    private boolean sync;
+
+    public Recipe() {
+        super();
+        this.text = null;
+        this.estimatedTime = 0;
+        this.portionNum = null;
+        this.lastAcess = null;
+        this.sync = false;
+    }
 
     public List<Integer> getIngredientList() {
         return ingredientList;
@@ -62,8 +71,8 @@ public class Recipe extends AbstractRecipe {
         ingredientList.add(idIngredient);
     }
 
-    public int isSync(){ return sync; }
+    public boolean isSync(){ return sync; }
 
-    public void setSync(int isSync) { sync = isSync;  }
+    public void setSync(boolean isSync) { sync = isSync;  }
 
 }
