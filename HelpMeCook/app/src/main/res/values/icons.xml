@@ -7,6 +7,6 @@
         <item>@drawable/magnify</item>
         <item>@drawable/file_document_box</item>
         <item>@drawable/pencil</item>
-        <item>@drawable/map-marker</item>
+        <item>@drawable/map_marker</item>
     </array>
 </resources>
