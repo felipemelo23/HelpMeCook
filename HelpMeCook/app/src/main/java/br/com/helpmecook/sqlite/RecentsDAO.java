@@ -57,7 +57,7 @@ public class RecentsDAO {
         return database.update(RecentsDAO.TABLE_NAME, values, ID + " = " + recipe.getId(), null);
     }
 
-    public boolean delete(int id, Calendar lastAccess) {
+    public boolean delete(long id, Calendar lastAccess) {
         long wReturn = database.delete(TABLE_NAME, ID + " = " + id, null);
 
         if (wReturn == 0) {
@@ -67,7 +67,7 @@ public class RecentsDAO {
         }
     }
 
-    public Calendar read(int id) {
+    public Calendar read(long id) {
         Cursor c = database.query(TABLE_NAME, allColumns, null, null, null, null, null);
         Calendar calendar;
 
@@ -84,16 +84,16 @@ public class RecentsDAO {
         }
     }
 
-    public List<Integer> readAll() {
+    public List<Long> readAll() {
         Cursor c = database.query(TABLE_NAME, allColumns, null, null, null, null, LAST_ACCESS + " DESC");
-        int id;
-        ArrayList<Integer> recipes = new ArrayList<Integer>();
+        long id;
+        ArrayList<Long> recipes = new ArrayList<Long>();
 
         if (c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
 
             do {
-                id = c.getInt(indexId);
+                id = c.getLong(indexId);
                 recipes.add(id);
             } while(c.moveToNext());
         }

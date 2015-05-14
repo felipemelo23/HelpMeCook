@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Lista de icones da Nav Drawer-->
+    <!-- Deve ficar na mesma ordem que os nomes -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/home</item>
+        <item>@drawable/magnify</item>
+        <item>@drawable/file_document_box</item>
+        <item>@drawable/pencil</item>
+        <item>@drawable/map-marker</item>
+    </array>
+</resources>

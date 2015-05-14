@@ -82,7 +82,7 @@ public class RecipeDAO {
         return database.update(TABLE_NAME, values, ID + " = '" + recipe.getId() + "'", null);
     }
 
-    public boolean dalete(int id){
+    public boolean dalete(long id){
         long deleted = database.delete(TABLE_NAME, ID + " = '" + id + "'", null);
 
         if (deleted == 0) {
@@ -93,7 +93,7 @@ public class RecipeDAO {
 
     }
 
-    public Recipe read(int id){
+    public Recipe read(long id){
         Recipe recipe;
 
         Cursor c = database.query(TABLE_NAME, allColumns, ID + " ='" + id + "'", null, null, null, null);
@@ -110,7 +110,7 @@ public class RecipeDAO {
             int indexSync = c.getColumnIndex(SYNC);
 
             recipe = new Recipe();
-            recipe.setId(c.getInt(indexId));
+            recipe.setId(c.getLong(indexId));
             recipe.setName(c.getString(indexNome));
             recipe.setTaste(c.getFloat(indexTaste));
             recipe.setDifficulty(c.getFloat(indexDifficulty));
@@ -134,9 +134,9 @@ public class RecipeDAO {
 
     }
 
-    public ArrayList<Recipe> readAll() {
+    public List<Recipe> readAll() {
         Recipe recipe;
-        ArrayList<Recipe> recipes = new ArrayList();
+        List<Recipe> recipes = new ArrayList();
 
         Cursor c = database.query(TABLE_NAME, allColumns, null, null, null, null, null);
 
@@ -155,7 +155,7 @@ public class RecipeDAO {
 
             do {
                 recipe = new Recipe();
-                recipe.setId(c.getInt(indexId));
+                recipe.setId(c.getLong(indexId));
                 recipe.setName(c.getString(indexNome));
                 recipe.setTaste(c.getFloat(indexTaste));
                 recipe.setDifficulty(c.getFloat(indexDifficulty));
@@ -177,21 +177,62 @@ public class RecipeDAO {
             return recipes;
     }
 
+    public List<Recipe> readNotSync() {
+        Recipe recipe;
+        ArrayList<Recipe> recipes = new ArrayList();
+
+        Cursor c = database.query(TABLE_NAME, allColumns, null, null, null, null, null);
+
+        if(c.moveToFirst()) {
+            recipes = new ArrayList<>();
+
+            int indexId = c.getColumnIndex(ID);
+            int indexNome = c.getColumnIndex(NOME);
+            int indexTaste = c.getColumnIndex(TASTE);
+            int indexDifficulty = c.getColumnIndex(DIFFICULTY);
+            int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
+            int indexText = c.getColumnIndex(TEXT);
+            int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
+            int indexPortionNum = c.getColumnIndex(PORTION_NUM);
+            int indexSync = c.getColumnIndex(SYNC);
+
+            do {
+                if (c.getInt(indexSync) == 1) {
+                    recipe = new Recipe();
+                    recipe.setId(c.getLong(indexId));
+                    recipe.setName(c.getString(indexNome));
+                    recipe.setTaste(c.getFloat(indexTaste));
+                    recipe.setDifficulty(c.getFloat(indexDifficulty));
+                    recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
+                    recipe.setText(c.getString(indexText));
+                    recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
+                    recipe.setPortionNum(c.getString(indexPortionNum));
+                    recipe.setSync(false);
+
+                    recipes.add(recipe);
+                }
+            } while (c.moveToNext());
+        }
+        c.close();
+        return recipes;
+    }
+
     private String idListToString(Recipe recipe){
         String idList = "";
-        for (int ingId : recipe.getIngredientList()) {
+        for (long ingId : recipe.getIngredientList()) {
             idList = idList + " " + ingId;
         }
         return idList;
     }
 
     private List stringToIdList(String idList) {
-        List<Integer> ingredientList = new ArrayList<>();
+        List<Long> ingredientList = new ArrayList<Long>();
         StringTokenizer st = new StringTokenizer(idList);
         while (st.hasMoreTokens()) {
-            ingredientList.add(Integer.parseInt(st.nextToken()));
+            ingredientList.add(Long.parseLong(st.nextToken()));
         }
 
         return ingredientList;
     }
+
 }

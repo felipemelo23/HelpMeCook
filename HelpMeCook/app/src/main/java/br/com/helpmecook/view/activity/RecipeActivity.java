@@ -10,10 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import br.com.helpmecook.R;
-import br.com.helpmecook.control.RecipeManager;
-import br.com.helpmecook.model.Recipe;
 
 
 public class RecipeActivity extends Activity {

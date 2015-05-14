@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Mariana on 30/04/15.
  */
 public class Recipe extends AbstractRecipe {
-    private List<Integer> ingredientList;
+    private List<Long> ingredientList;
     private String text;
     private int estimatedTime;
     private String portionNum;
@@ -23,11 +23,11 @@ public class Recipe extends AbstractRecipe {
         this.sync = false;
     }
 
-    public List<Integer> getIngredientList() {
+    public List<Long> getIngredientList() {
         return ingredientList;
     }
 
-    public void setIngredientList(List<Integer> ingredientList) {
+    public void setIngredientList(List<Long> ingredientList) {
         this.ingredientList = ingredientList;
     }
 
@@ -67,7 +67,7 @@ public class Recipe extends AbstractRecipe {
         return ingredientList.size();
     }
 
-    public void addIngredient (int idIngredient){
+    public void addIngredient (long idIngredient){
         ingredientList.add(idIngredient);
     }
 

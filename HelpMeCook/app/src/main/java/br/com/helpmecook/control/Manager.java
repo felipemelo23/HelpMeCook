@@ -10,6 +10,7 @@ import br.com.helpmecook.model.Cookbook;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.sqlite.CookbookDAO;
+import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.sqlite.RecentsDAO;
 import br.com.helpmecook.sqlite.RecipeDAO;
 
@@ -82,7 +83,7 @@ public class Manager {
      * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
      * dadas as duas listas de ingredientes passadas como parametro.
      */
-    public List<Integer> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public List<Long> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getResultByIngredientLists(wanted, unwanted);
     }
 
@@ -93,19 +94,19 @@ public class Manager {
      * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
      * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
      */
-    public List<Integer> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public List<Long> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getPlusByIngredientLists(wanted, unwanted);
     }
 
     /**
-     * @return Retorna as receitas visualizadas recentemente.
+     * @return Retorna uma lista com os IDs das receitas visualizadas recentemente.
      */
-    public List<Integer> getRecentRecipes() {
+    public List<Long> getRecentRecipes() {
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
         try {
             recentsDAO.open();
-            List<Integer> recents = recentsDAO.readAll(); //Esse metodo deve retornar ordenado por LastAccess.
+            List<Long> recents = recentsDAO.readAll(); //Esse metodo esta retornar ordenado por LastAccess.
             recentsDAO.close();
 
             return  recents;
@@ -117,7 +118,7 @@ public class Manager {
 
     /**
      * @param recipe Receita a ser adicionada no cookbook.
-     * @return Retorna true se a receita foi adicionada e false se ela não foi.
+     * @return Retorna true se a receita foi adicionada ao cookbook e false se ela não foi.
      */
     public Boolean addToCookbook(Recipe recipe) {
         CookbookDAO cookbookDAO = new CookbookDAO(context);
@@ -137,6 +138,9 @@ public class Manager {
         }
     }
 
+    /**
+     * @return Lista dos ingredientes da aplicacao
+     */
     public List<Ingredient> getIngredients() {
         IngredientDAO ingredientDAO = new IngredientDAO(context);
 
@@ -152,6 +156,10 @@ public class Manager {
         }
     }
 
+    /**
+     * @param recipe Receita que sera removida do cookbook
+     * @return Retorna true se a receita foi removida do cookbook e false se ela não foi.
+     */
     public boolean removeFromCookbook(Recipe recipe) {
         CookbookDAO cookbookDAO = new CookbookDAO(context);
 
@@ -166,14 +174,30 @@ public class Manager {
         }
     }
 
-    public boolean classifyTaste(int id, float taste) {
-        return accessor.classifyTaste(id,taste);
+    /**
+     * @param id ID da receita que foi classificada
+     * @param taste Valor que foi atribuido ao sabor da receita
+     * @return Retorna true se a classificacao foi enviada para o servidor e false se nao
+     */
+    public boolean classifyTaste(long id, float taste) {
+        return accessor.classifyTaste(id, taste);
     }
 
+    /**
+     * @param id ID da receita que foi classificada
+     * @param difficulty Valor que foi atribuido a dificuldade da receita
+     * @return Retorna true se a classificacao foi enviada para o servidor e false se nao
+     */
     public boolean classifyDifficulty(int id, float difficulty) {
         return accessor.classifyDifficulty(id,difficulty);
     }
 
+    /**
+     * Essa funcao garante que todas as receitas no banco de dados local sejam enviadas para o
+     * servidor e que todas as funcoes que estao no banco de dados local e que estão no servidor
+     * e foram modificadas nele sejam atualizadas do banco de dados local
+     * @return Retorna true se ela garantiu tudo e falso se não
+     */
     public boolean syncAll() {
         RecipeDAO recipeDAO = new RecipeDAO(context);
 
@@ -199,14 +223,24 @@ public class Manager {
         }
     }
 
+    /**
+     * @param name Nome das receitas que se deseja encontrar
+     * @return Uma lista de AbstractRecipe que contem o nome procurado
+     */
     public List<AbstractRecipe> getResultByRecipeName(String name){
         return accessor.getResultByRecipeName(name);
     }
 
+    /**
+     * @return Uma lista de AbstractRecipe com as receitas populares
+     */
     public List<AbstractRecipe> getPopularRecipes (){
         return accessor.getPopularRecipes();
     }
 
+    /**
+     * @return Retorna um objeto Cookbook com a lista de receitas do Cookbook
+     */
     public Cookbook getCookbook(){
         CookbookDAO cookbookDAO = new CookbookDAO(context);
         RecipeDAO recipeDAO = new RecipeDAO(context);
@@ -216,8 +250,8 @@ public class Manager {
             cookbookDAO.open();
             recipeDAO.open();
 
-            List<Integer> ids = cookbookDAO.readAll();
-            for (int id : ids) {
+            List<Long> ids = cookbookDAO.readAll();
+            for (long id : ids) {
                 cookbook.addRecipe(recipeDAO.read(id));
             }
 
@@ -231,9 +265,10 @@ public class Manager {
         }
     }
 
-    // 0 = nao está nem no local nem remoto
-    // 1 = está apenas no local
-    // 2 = está tanto no local quanto remoto
+    /**
+     * @param recipe Receita que sera registrada
+     * @return Retorna 0 se nao esta nem no local nem remoto, 1 se esta apenas no local e 2 se esta tanto mo local quanto no remoto
+     */
     public int registerRecipe(Recipe recipe){
         CookbookDAO cookbookDAO = new CookbookDAO(context);
         long internalDB, remoteDBId;

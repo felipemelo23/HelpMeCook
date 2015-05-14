@@ -1,9 +1,8 @@
-package br.com.helpmecook;
+package br.com.helpmecook.view.activity;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -11,6 +10,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import br.com.helpmecook.R;
 import br.com.helpmecook.model.Recipe;
 
 
