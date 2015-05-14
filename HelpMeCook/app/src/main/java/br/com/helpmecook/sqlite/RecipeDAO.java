@@ -54,7 +54,11 @@ public class RecipeDAO {
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
-        values.put(SYNC, recipe.isSync());
+        if (recipe.isSync()) {
+            values.put(SYNC, 1);
+        } else {
+            values.put(SYNC, 0);
+        }
 
         return  database.insert(TABLE_NAME, null, values);
     }
@@ -69,7 +73,11 @@ public class RecipeDAO {
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
-        values.put(SYNC, recipe.isSync());
+        if (recipe.isSync()) {
+            values.put(SYNC, 1);
+        } else {
+            values.put(SYNC, 0);
+        }
 
         return database.update(TABLE_NAME, values, ID + " = '" + recipe.getId() + "'", null);
     }
@@ -110,7 +118,12 @@ public class RecipeDAO {
             recipe.setText(c.getString(indexText));
             recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
             recipe.setPortionNum(c.getString(indexPortionNum));
-            recipe.setSync(c.getInt(indexSync));
+            if (c.getInt(indexSync) == 0) {
+                recipe.setSync(true);
+            }
+            if (c.getInt(indexSync) == 1) {
+                recipe.setSync(false);
+            }
 
             c.close();
 
@@ -150,7 +163,12 @@ public class RecipeDAO {
                 recipe.setText(c.getString(indexText));
                 recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
                 recipe.setPortionNum(c.getString(indexPortionNum));
-                recipe.setSync(c.getInt(indexSync));
+                if (c.getInt(indexSync) == 0) {
+                    recipe.setSync(true);
+                }
+                if (c.getInt(indexSync) == 1) {
+                    recipe.setSync(false);
+                }
 
                 recipes.add(recipe);
             } while (c.moveToNext());

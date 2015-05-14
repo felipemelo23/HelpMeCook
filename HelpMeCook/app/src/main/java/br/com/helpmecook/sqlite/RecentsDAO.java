@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import br.com.helpmecook.model.Recipe;
+
 /**
  * Created by Felipe on 04/05/2015.
  */
@@ -39,20 +41,20 @@ public class RecentsDAO {
         database = null;
     }
 
-    public long insert(int id, Calendar lastAccess) {
+    public long insert(Recipe recipe) {
         ContentValues values = new ContentValues();
-        values.put(ID,id);
-        values.put(LAST_ACCESS,lastAccess.getTimeInMillis());
+        values.put(ID, recipe.getId());
+        values.put(LAST_ACCESS, recipe.getLastAcess().getTimeInMillis());
 
         return database.insert(RecentsDAO.TABLE_NAME, null, values);
     }
 
-    public long update(int id, Calendar lastAccess) {
+    public long update(Recipe recipe) {
         ContentValues values = new ContentValues();
-        values.put(ID,id);
-        values.put(LAST_ACCESS,lastAccess.getTimeInMillis());
+        values.put(ID, recipe.getId());
+        values.put(LAST_ACCESS, recipe.getLastAcess().getTimeInMillis());
 
-        return database.update(RecentsDAO.TABLE_NAME, values, ID + " = " + id, null);
+        return database.update(RecentsDAO.TABLE_NAME, values, ID + " = " + recipe.getId(), null);
     }
 
     public boolean delete(int id, Calendar lastAccess) {
