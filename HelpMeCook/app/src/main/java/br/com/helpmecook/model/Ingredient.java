@@ -1,19 +1,19 @@
 package br.com.helpmecook.model;
 
 /**
- * Created by Chibi on 30/04/2015.
+ * Created by Andre on 30/04/2015.
  */
 public class Ingredient {
 
-    private int id;
+    private long id;
     private String name;
-    private String iconPath;
+    private int iconPath;
 
-    public int getId(){
+    public long getId(){
         return this.id;
     }
 
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
 
@@ -24,11 +24,11 @@ public class Ingredient {
     public void setName(String name){
         this.name = name;
     }
-    public String getIconPath(){
+    public int getIconPath(){
         return this.iconPath;
     }
 
-    public void setIconPath(String iconPath){
+    public void setIconPath(int iconPath){
         this.iconPath = iconPath;
     };
 
