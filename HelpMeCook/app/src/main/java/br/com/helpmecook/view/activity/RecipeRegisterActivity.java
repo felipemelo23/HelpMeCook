@@ -1,5 +1,6 @@
 package br.com.helpmecook.view.activity;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,7 +8,7 @@ import android.view.MenuItem;
 
 import br.com.helpmecook.R;
 
-public class RecipeRegisterActivity extends ActionBarActivity {
+public class RecipeRegisterActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
