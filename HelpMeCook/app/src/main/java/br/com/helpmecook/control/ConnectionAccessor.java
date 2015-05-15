@@ -14,7 +14,7 @@ public class ConnectionAccessor {
      * @param id Numero inteiro que identifica uma receita.
      * @return Retorna a receita relativa ao id passado como parametro.
      */
-    public Recipe getRecipeById(int id) {
+    public Recipe getRecipeById(long id) {
         return null;
     }
 

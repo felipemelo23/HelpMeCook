@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Recipe;
@@ -16,8 +17,9 @@ import br.com.helpmecook.view.adapter.RecipeIngredientsAdapter;
 
 
 public class RecipeActivity extends Activity {
-    Recipe recipe;
     Manager manager;
+    long recipeId;
+    Recipe recipe;
 
     public static final String RECIPE_ID = "recipeID";
 
@@ -34,11 +36,18 @@ public class RecipeActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int id  = extras.getInt(RECIPE_ID);
-            recipe = manager.getRecipeById(id);
+            recipeId  = extras.getInt(RECIPE_ID);
         } else {
             //O que fazemos se o id não for enviado/recebido??
         }
+
+        loadRecipe(recipeId);
+    }
+
+    public void loadRecipe(long id) {
+        recipe = manager.getRecipeById(recipeId);
+
+        setTitle(recipe.getName());
 
         banner = (ImageView) findViewById(R.id.banner);
         // por enquanto as receitas nao tem imagens
@@ -52,36 +61,35 @@ public class RecipeActivity extends Activity {
         rbDifficulty.setRating(recipe.getDifficulty());
 
         lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
-        lvIngredient.setAdapter(new RecipeIngredientsAdapter(this, manager.get));
+        lvIngredient.setAdapter(new RecipeIngredientsAdapter(this, manager.getRecipeIngredients(recipe.getIngredientList())));
 
         recipeText = (TextView) findViewById(R.id.tv_recipe);
         recipeText.setText(recipe.getText());
-
-       // Recipe recipe = RecipeManager.getRecipeById(recipeId);
-       // banner.setImageBitmap(recipe.getPicture());
-       // recipeName.setText(recipe.getName());
     }
 
+    public boolean addToCookbook() {
+        return manager.addToCookbook(recipe);
+    }
+
+    public boolean removeFromCookbook() {
+        return manager.removeFromCookbook(recipe);
+    }
+
+    public boolean classifyTaste(float taste) {
+        return manager.classifyTaste(recipeId, taste);
+    }
+
+    public boolean classifyDifficulty(float difficulty) {
+        return manager.classifyDifficulty(recipeId, difficulty);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_recipe, menu);
-        return true;
+        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

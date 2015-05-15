@@ -11,10 +11,10 @@
             android:name=".view.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activity.RecipeActivity"
@@ -24,10 +24,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".view.activity.NameSearchResultsActivity"
             android:label="@string/title_activity_name_search_results" >
+        </activity>
+        <activity
+            android:name=".view.activity.RecipeRegisterActivity"
+            android:label="@string/title_activity_recipe_register"
+            android:parentActivityName=".view.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.helpmecook.view.activity.MainActivity" />
         </activity>
     </application>
 

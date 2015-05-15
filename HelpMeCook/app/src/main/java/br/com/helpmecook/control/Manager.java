@@ -2,6 +2,7 @@ package br.com.helpmecook.control;
 
 import android.content.Context;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Manager {
      * @param id Número inteiro que identifica uma receita.
      * @return Retorna a receita relativa ao id passado como parâmetro.
      */
-    public Recipe getRecipeById(int id) {
+    public Recipe getRecipeById(long id) {
         RecipeDAO recipeDAO = new RecipeDAO(context);
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
@@ -143,18 +144,38 @@ public class Manager {
      */
     public List<Ingredient> getIngredients() {
         IngredientDAO ingredientDAO = new IngredientDAO(context);
+        List<Ingredient> ingredients = null;
 
         try {
             ingredientDAO.open();
-           // List<Ingredient> ingredients = ingredientDAO.readAll();
+           // ingredients = ingredientDAO.readAll();
             ingredientDAO.close();
 
-           // return ingredients;
         } catch(java.sql.SQLException e) {
             e.printStackTrace();
-            return null;
         }
-        return null;
+
+        return ingredients;
+    }
+
+    public List<Ingredient> getRecipeIngredients(List<Long> ids) {
+        IngredientDAO ingredientDAO = new IngredientDAO(context);
+        List<Ingredient> ingredients = null;
+
+        try {
+            ingredientDAO.open();
+
+            for (long id : ids){
+                ingredients.add(ingredientDAO.read(id));
+            }
+
+            ingredientDAO.close();
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ingredients;
     }
 
     /**
@@ -189,7 +210,7 @@ public class Manager {
      * @param difficulty Valor que foi atribuido a dificuldade da receita
      * @return Retorna true se a classificacao foi enviada para o servidor e false se nao
      */
-    public boolean classifyDifficulty(int id, float difficulty) {
+    public boolean classifyDifficulty(long id, float difficulty) {
         return accessor.classifyDifficulty(id,difficulty);
     }
 

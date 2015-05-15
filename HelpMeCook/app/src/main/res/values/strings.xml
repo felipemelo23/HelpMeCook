@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">HelpMeCook</string>
+    <string name="title_activity_recipe">Recipe Details</string>
+    <string name="title_activity_name_search_results">Results from Name Search</string>
+    <string name="title_activity_recipe_register">Recipe Register</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
 
+    <!-- Nomes dos itens da nav drawer -->
     <string-array name="nav_drawer_items">
         <item>Início</item>
         <item>Buscar por Ingrediente</item>
@@ -11,8 +16,13 @@
         <item>Criar Receita</item>
         <item>Onde Encontrar Comida?</item>
     </string-array>
-    <string name="action_settings">Settings</string>
 
-    <string name="title_activity_recipe">RecipeActivity</string>
-    <string name="title_activity_name_search_results">NameSearchResultsActivity</string>
+    <!-- RecipeRegisterActivity -->
+    <string name="recipe_name">Recipe Name</string>
+    <string name="recipe_details">Recipe Details</string>
+    <string name="portion_num">Number of Potions</string>
+    <string name="estimated_time">Prep Time</string>
+
+
+
 </resources>
