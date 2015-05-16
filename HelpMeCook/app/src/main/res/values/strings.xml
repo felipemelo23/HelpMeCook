@@ -10,6 +10,8 @@
 
     <string name="taste">Sabor</string>
     <string name="difficulty">Dificuldade</string>
+    <string name="recents">Recentes</string>
+    <string name="pop">Mais vistas</string>
 
     <!-- Nomes dos itens da nav drawer -->
     <string-array name="nav_drawer_items">

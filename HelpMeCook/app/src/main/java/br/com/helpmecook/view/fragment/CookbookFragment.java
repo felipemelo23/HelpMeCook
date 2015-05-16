@@ -26,8 +26,6 @@ public class CookbookFragment extends Fragment{
     private Context context;
     private Cookbook cookbook;
 
-    public static final String RECIPE_ID = "recipeID";
-
     public CookbookFragment(Context context) {
         this.context = context;
         loadCookbook();
@@ -58,7 +56,7 @@ public class CookbookFragment extends Fragment{
 
     public void showRecipe(long id) {
         Intent intent = new Intent(context, RecipeActivity.class);
-        intent.putExtra(RECIPE_ID, id);
+        intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
         startActivity(intent);
     }
