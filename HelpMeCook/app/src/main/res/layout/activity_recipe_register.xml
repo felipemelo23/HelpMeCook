@@ -5,9 +5,5 @@
     android:padding="8dp"
     tools:context="br.com.helpmecook.view.activity.RecipeRegisterActivity">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@s"/>
 
 </LinearLayout>
