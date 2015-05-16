@@ -8,14 +8,13 @@ import android.view.MenuItem;
 
 import br.com.helpmecook.R;
 
-public class RecipeRegisterActivity extends Activity {
+public class RecipeRegisterActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_register);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

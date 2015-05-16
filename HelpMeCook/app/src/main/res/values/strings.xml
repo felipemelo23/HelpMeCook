@@ -25,8 +25,8 @@
     <!-- RecipeRegisterActivity -->
     <string name="recipe_name">Recipe Name</string>
     <string name="recipe_details">Recipe Details</string>
-    <string name="portion_num">Number of Potions</string>
-    <string name="estimated_time">Prep Time</string>
+    <string name="portion_num">Número de Porções</string>
+    <string name="estimated_time">Tempo de Presparação:</string>
     <string name="title_activity_test">TestActivity</string>
 
     <string name="hello_world">Hello world!</string>
@@ -36,7 +36,12 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="register_recipe_hint">Nome da Receita</string>
+    <string name="recipe_description_hint">Descrição</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="ingrendiets">Ingredientes</string>
+    <string name="minutes">minutos</string>
+    <string name="portions">porções</string>
 
 
 </resources>
