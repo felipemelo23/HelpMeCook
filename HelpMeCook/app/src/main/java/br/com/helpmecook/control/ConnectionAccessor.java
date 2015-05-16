@@ -22,7 +22,7 @@ public class ConnectionAccessor {
      * @param ids Lista de Identificadores de Receita.
      * @return Retorna uma lista de receitas resumidas.
      */
-    public List<AbstractRecipe> getAbstractRecipes(List<Integer> ids) {
+    public List<AbstractRecipe> getAbstractRecipes(List<Long> ids) {
         return null;
     }
 

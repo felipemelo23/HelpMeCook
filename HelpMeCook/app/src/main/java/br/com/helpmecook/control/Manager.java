@@ -70,7 +70,7 @@ public class Manager {
      * @param ids Lista de Identificadores de Receita.
      * @return Retorna uma lista de receitas resumidas.
      */
-    public static List<AbstractRecipe> getAbstractRecipes(List<Integer> ids) {
+    public static List<AbstractRecipe> getAbstractRecipes(List<Long> ids) {
         return accessor.getAbstractRecipes(ids);
     }
 
@@ -100,14 +100,14 @@ public class Manager {
      * @param context Contexto da aplicação
      * @return Retorna uma lista com os IDs das receitas visualizadas recentemente.
      */
-    public static List<Long> getRecentRecipes(Context context) {
+    public static List<AbstractRecipe> getRecentRecipes(Context context) {
         RecentsDAO recentsDAO = new RecentsDAO(context);
+        RecipeDAO recipeDAO = new RecipeDAO(context);
 
         try {
             recentsDAO.open();
-            List<Long> recents = recentsDAO.readAll(); //Esse metodo esta retornar ordenado por LastAccess.
-            recentsDAO.close();
-
+            List<Long> ids = recentsDAO.readAll(); //Esse metodo esta retornar ordenado por LastAccess.
+            List<AbstractRecipe> recents = getAbstractRecipes(ids);
             return  recents;
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
