@@ -23,6 +23,8 @@ public class RecipeDAO {
     public static final String TASTE = "taste";
     public static final String DIFFICULTY = "difficulty";
     public static final String INGREDIENT_LIST = "ingredientList";
+    public static final String INGREDIENT_QUANT = "ingredientQuant";
+    public static final String INGREDIENT_UNITS = "ingredientUnits";
     public static final String TEXT = "text";
     public static final String ESTIMATED_TIME = "estimatedTime";
     public static final String PORTION_NUM = "portionNum";
@@ -51,6 +53,8 @@ public class RecipeDAO {
         values.put(TASTE, recipe.getTaste());
         values.put(DIFFICULTY, recipe.getDifficulty());
         values.put(INGREDIENT_LIST, idListToString(recipe));
+        values.put(INGREDIENT_QUANT, qntListToString(recipe));
+        values.put(INGREDIENT_UNITS, unitsListToString(recipe));
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
@@ -70,6 +74,8 @@ public class RecipeDAO {
         values.put(TASTE, recipe.getTaste());
         values.put(DIFFICULTY, recipe.getDifficulty());
         values.put(INGREDIENT_LIST, idListToString(recipe));
+        values.put(INGREDIENT_QUANT, qntListToString(recipe));
+        values.put(INGREDIENT_UNITS, unitsListToString(recipe));
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
@@ -104,6 +110,8 @@ public class RecipeDAO {
             int indexTaste = c.getColumnIndex(TASTE);
             int indexDifficulty = c.getColumnIndex(DIFFICULTY);
             int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
+            int indexQuantityList = c.getColumnIndex(INGREDIENT_QUANT);
+            int indexUnitsList = c.getColumnIndex(INGREDIENT_UNITS);
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
             int indexPortionNum = c.getColumnIndex(PORTION_NUM);
@@ -115,6 +123,8 @@ public class RecipeDAO {
             recipe.setTaste(c.getFloat(indexTaste));
             recipe.setDifficulty(c.getFloat(indexDifficulty));
             recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
+            recipe.setNumberOfIng(stringToQntList(c.getString(indexQuantityList)));
+            recipe.setUnits(stringToUnitsList(c.getString(indexUnitsList)));
             recipe.setText(c.getString(indexText));
             recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
             recipe.setPortionNum(c.getString(indexPortionNum));
@@ -148,6 +158,8 @@ public class RecipeDAO {
             int indexTaste = c.getColumnIndex(TASTE);
             int indexDifficulty = c.getColumnIndex(DIFFICULTY);
             int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
+            int indexQuantityList = c.getColumnIndex(INGREDIENT_QUANT);
+            int indexUnitsList = c.getColumnIndex(INGREDIENT_UNITS);
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
             int indexPortionNum = c.getColumnIndex(PORTION_NUM);
@@ -160,6 +172,8 @@ public class RecipeDAO {
                 recipe.setTaste(c.getFloat(indexTaste));
                 recipe.setDifficulty(c.getFloat(indexDifficulty));
                 recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
+                recipe.setNumberOfIng(stringToQntList(c.getString(indexQuantityList)));
+                recipe.setUnits(stringToUnitsList(c.getString(indexUnitsList)));
                 recipe.setText(c.getString(indexText));
                 recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
                 recipe.setPortionNum(c.getString(indexPortionNum));
@@ -191,6 +205,8 @@ public class RecipeDAO {
             int indexTaste = c.getColumnIndex(TASTE);
             int indexDifficulty = c.getColumnIndex(DIFFICULTY);
             int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
+            int indexQuantityList = c.getColumnIndex(INGREDIENT_QUANT);
+            int indexUnitsList = c.getColumnIndex(INGREDIENT_UNITS);
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
             int indexPortionNum = c.getColumnIndex(PORTION_NUM);
@@ -204,6 +220,8 @@ public class RecipeDAO {
                     recipe.setTaste(c.getFloat(indexTaste));
                     recipe.setDifficulty(c.getFloat(indexDifficulty));
                     recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
+                    recipe.setNumberOfIng(stringToQntList(c.getString(indexQuantityList)));
+                    recipe.setUnits(stringToUnitsList(c.getString(indexUnitsList)));
                     recipe.setText(c.getString(indexText));
                     recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
                     recipe.setPortionNum(c.getString(indexPortionNum));
@@ -225,14 +243,49 @@ public class RecipeDAO {
         return idList;
     }
 
+    private String qntListToString(Recipe recipe) {
+        String idQnt = "";
+        for (int qnt : recipe.getNumberOfIng()) {
+            idQnt += " " + qnt;
+        }
+        return idQnt;
+    }
+
+    private String unitsListToString(Recipe recipe) {
+        String idUnits = "";
+        for (String unit : recipe.getUnits()) {
+            idUnits += "$" + unit;
+        }
+        return idUnits;
+    }
+
     private List stringToIdList(String idList) {
         List<Long> ingredientList = new ArrayList<Long>();
         StringTokenizer st = new StringTokenizer(idList);
         while (st.hasMoreTokens()) {
             ingredientList.add(Long.parseLong(st.nextToken()));
         }
-
         return ingredientList;
+    }
+
+    private List stringToQntList(String qntList) {
+        List<Integer> quantityList = new ArrayList<Integer>();
+        StringTokenizer st = new StringTokenizer(qntList);
+        while (st.hasMoreTokens()) {
+            quantityList.add(Integer.parseInt(st.nextToken()));
+        }
+        return quantityList;
+    }
+
+    private List stringToUnitsList(String untList) {
+        List<String> unitsList = new ArrayList<String>();
+        String[] st = untList.split("$");
+
+        for (int i = 0; i < st.length; i++) {
+            unitsList.add(st[i]);
+        }
+
+        return unitsList;
     }
 
 }

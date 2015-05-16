@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
@@ -18,6 +19,8 @@ import br.com.helpmecook.view.activity.MainActivity;
  */
 public class Recipe extends AbstractRecipe {
     private List<Long> ingredientList;
+    private List<Integer> numberOfIng;
+    private List<String> units;
     private String text;
     private int estimatedTime;
     private String portionNum;
@@ -26,6 +29,9 @@ public class Recipe extends AbstractRecipe {
 
     public Recipe() {
         super();
+        ingredientList = new ArrayList<Long>();
+        numberOfIng = new ArrayList<Integer>();
+        units = new ArrayList<String>();
         this.text = null;
         this.estimatedTime = 0;
         this.portionNum = null;
@@ -77,7 +83,9 @@ public class Recipe extends AbstractRecipe {
         return ingredientList.size();
     }
 
-    public void addIngredient (long idIngredient){
+    public void addIngredient (int quantity, String unit, long idIngredient){
+        numberOfIng.add(quantity);
+        units.add(unit);
         ingredientList.add(idIngredient);
     }
 
@@ -85,5 +93,19 @@ public class Recipe extends AbstractRecipe {
 
     public void setSync(boolean isSync) { sync = isSync;  }
 
+    public List<Integer> getNumberOfIng() {
+        return numberOfIng;
+    }
 
+    public void setNumberOfIng(List<Integer> numberOfIng) {
+        this.numberOfIng = numberOfIng;
+    }
+
+    public List<String> getUnits() {
+        return units;
+    }
+
+    public void setUnits(List<String> units) {
+        this.units = units;
+    }
 }
