@@ -212,7 +212,7 @@ public class Manager {
      * @return Retorna true se a classificacao foi enviada para o servidor e false se nao
      */
     public static boolean classifyDifficulty(long id, float difficulty) {
-        return accessor.classifyDifficulty(id,difficulty);
+        return accessor.classifyDifficulty(id, difficulty);
     }
 
     /**
@@ -288,6 +288,16 @@ public class Manager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * @param recipe Receita a ser verificada se está no Cookbook.
+     * @param context Contexto da aplicação
+     * @return retorna true se a receita está no Cookbook ou false se a receita não está no Cookbook.
+     */
+    public static boolean isOnCookbook(Recipe recipe, Context context) {
+        List<Recipe> recipesOnCookbook = getCookbook(context).getRecipeList();
+        return recipesOnCookbook.contains(recipe);
     }
 
     /**
