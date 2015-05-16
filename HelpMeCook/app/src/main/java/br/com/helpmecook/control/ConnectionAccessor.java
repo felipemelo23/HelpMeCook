@@ -93,4 +93,12 @@ public class ConnectionAccessor {
     public boolean classifyDifficulty(long id, float difficulty) {
         return false;
     }
+
+    /**
+     * @param recipes Lista com todas as receitas do usuário
+     * @return Retorna a lista de receitas com as receitas de entrada que foram modificadas no servidor.
+     */
+    public List<Recipe> syncRecipes(List<Recipe> recipes) {
+        return null;
+    }
 }

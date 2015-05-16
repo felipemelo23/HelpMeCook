@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.helpmecook.model.Ingredient;
@@ -87,6 +88,15 @@ public class IngredientDAO {
         } else {
             return null;
         }
+    }
+
+    public List<Ingredient> readAll() {
+        List<Ingredient> ingredients = new ArrayList<>();
+
+
+
+
+        return ingredients;
     }
 
     //essa funcao sera util para quando o aplicativo for iniciado pela primeira vez os ingredientes do

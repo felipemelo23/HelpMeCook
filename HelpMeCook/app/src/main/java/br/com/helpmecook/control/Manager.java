@@ -148,7 +148,7 @@ public class Manager {
 
         try {
             ingredientDAO.open();
-           // ingredients = ingredientDAO.readAll();
+            ingredients = ingredientDAO.readAll();
             ingredientDAO.close();
 
         } catch(java.sql.SQLException e) {
@@ -230,11 +230,11 @@ public class Manager {
                 registerRecipe(recipe);
             }
 
-           // List<Recipe> modifieds = accessor.syncRecipes(recipeDAO.readAll());
+            List<Recipe> modifieds = accessor.syncRecipes(recipeDAO.readAll());
 
-            //for (Recipe recipe : modifieds) {
-            //    recipeDAO.update(recipe);
-           // }
+            for (Recipe recipe : modifieds) {
+                recipeDAO.update(recipe);
+            }
 
             recipeDAO.close();
 
@@ -300,18 +300,18 @@ public class Manager {
             cookbookDAO.open();
 
             if ((remoteDBId == -1) && (recipe.getId() == -1)){
-                //recipe.setLocalId();
+                recipe.setLocalId();
                 cookbookDAO.insert(recipe);
+                cookbookDAO.close();
                 //setLocalId() deve setar o unSync() = false
                 return 1;
             }else{
                 recipe.setId(remoteDBId);
                 recipe.setSync(true);
                 internalDB = cookbookDAO.insert(recipe);
+                cookbookDAO.close();
                 return 2;
             }
-
-            //cookbookDAO.close();
         } catch (Exception e) {
             return 0;
         }
