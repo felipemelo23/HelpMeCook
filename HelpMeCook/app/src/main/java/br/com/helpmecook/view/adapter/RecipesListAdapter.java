@@ -60,6 +60,6 @@ public class RecipesListAdapter extends BaseAdapter{
         rbTaste.setRating(recipes.get(position).getTaste());
         rbDifficulty.setRating(recipes.get(position).getDifficulty());
 
-        return null;
+        return convertView;
     }
 }
