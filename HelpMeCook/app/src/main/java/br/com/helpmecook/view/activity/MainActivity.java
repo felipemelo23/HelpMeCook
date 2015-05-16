@@ -48,16 +48,16 @@ public class MainActivity extends ActionBarActivity
 
         switch (position) {
             case 0:
-                fragment = new HomeFragment();
+                fragment = new HomeFragment(MainActivity.this);
                 break;
             case 1:
                 //Busca por ingredient
                 break;
             case 2:
-                fragment = new CookbookFragment(getApplicationContext());
+                fragment = new CookbookFragment(MainActivity.this);
                 break;
             case 3:
-                startActivity(new Intent(this, RecipeRegisterActivity.class));
+                startActivity(new Intent(MainActivity.this, RecipeRegisterActivity.class));
                 break;
             case 4:
                 //Onde encontrar comida?
