@@ -1,7 +1,17 @@
 package br.com.helpmecook.model;
 
+import android.content.SharedPreferences;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Scanner;
+
+import br.com.helpmecook.view.activity.MainActivity;
 
 /**
  * Created by Mariana on 30/04/15.
@@ -75,6 +85,5 @@ public class Recipe extends AbstractRecipe {
 
     public void setSync(boolean isSync) { sync = isSync;  }
 
-    public void setLocalId() { /*TODO*/ }
 
 }

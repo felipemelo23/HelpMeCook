@@ -7,11 +7,11 @@ import android.graphics.Bitmap;
  */
 
 public class AbstractRecipe {
-    private long id;
-    private String name;
-    private float taste;
-    private float difficulty;
-    private Bitmap picture;
+    protected long id;
+    protected String name;
+    protected float taste;
+    protected float difficulty;
+    protected Bitmap picture;
 
     public AbstractRecipe() {
         this.id = -1;

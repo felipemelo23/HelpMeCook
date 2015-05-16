@@ -1,6 +1,7 @@
 package br.com.helpmecook.control;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -300,10 +301,18 @@ public class Manager {
             cookbookDAO.open();
 
             if ((remoteDBId == -1) && (recipe.getId() == -1)){
-                recipe.setLocalId();
+                SharedPreferences data = context.getSharedPreferences("localId",0);
+                SharedPreferences.Editor editor = data.edit();
+                long localId = data.getLong("localIdValue", Long.MAX_VALUE);
+
+                recipe.setId(localId);
+                recipe.setSync(false);
+
+                editor.putLong("localIdValue", localId - 1);
+                editor.commit();
+
                 cookbookDAO.insert(recipe);
                 cookbookDAO.close();
-                //setLocalId() deve setar o unSync() = false
                 return 1;
             }else{
                 recipe.setId(remoteDBId);
