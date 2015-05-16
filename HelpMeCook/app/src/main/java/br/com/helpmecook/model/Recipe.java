@@ -75,6 +75,6 @@ public class Recipe extends AbstractRecipe {
 
     public void setSync(boolean isSync) { sync = isSync;  }
 
-    public void setLocalId() { }
+    public void setLocalId() { /*TODO*/ }
 
 }

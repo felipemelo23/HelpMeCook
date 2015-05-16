@@ -9,6 +9,8 @@ public class Ingredient {
     private String name;
     private int iconPath;
 
+    public Ingredient
+
     public long getId(){
         return this.id;
     }
