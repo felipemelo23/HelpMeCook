@@ -53,7 +53,7 @@ public class CookbookFragment extends Fragment{
     }
 
     public void loadCookbook() {
-        this.cookbook = new Manager().getCookbook();
+        this.cookbook = Manager.getCookbook(context);
     }
 
     public void showRecipe(long id) {

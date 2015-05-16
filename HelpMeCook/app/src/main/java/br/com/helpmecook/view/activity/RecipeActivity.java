@@ -17,7 +17,6 @@ import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
 
 public class RecipeActivity extends Activity {
-    Manager manager;
     long recipeId;
     Recipe recipe;
 
@@ -45,7 +44,7 @@ public class RecipeActivity extends Activity {
     }
 
     public void loadRecipe(long id) {
-        recipe = manager.getRecipeById(recipeId);
+        recipe = Manager.getRecipeById(recipeId, this);
 
         setTitle(recipe.getName());
 
@@ -61,26 +60,26 @@ public class RecipeActivity extends Activity {
         rbDifficulty.setRating(recipe.getDifficulty());
 
         lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
-        lvIngredient.setAdapter(new IngredientsAdapter(this, manager.getRecipeIngredients(recipe.getIngredientList())));
+        lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
 
         recipeText = (TextView) findViewById(R.id.tv_recipe);
         recipeText.setText(recipe.getText());
     }
 
     public boolean addToCookbook() {
-        return manager.addToCookbook(recipe);
+        return Manager.addToCookbook(recipe, this);
     }
 
     public boolean removeFromCookbook() {
-        return manager.removeFromCookbook(recipe);
+        return Manager.removeFromCookbook(recipe, this);
     }
 
     public boolean classifyTaste(float taste) {
-        return manager.classifyTaste(recipeId, taste);
+        return Manager.classifyTaste(recipeId, taste);
     }
 
     public boolean classifyDifficulty(float difficulty) {
-        return manager.classifyDifficulty(recipeId, difficulty);
+        return Manager.classifyDifficulty(recipeId, difficulty);
     }
 
     @Override
