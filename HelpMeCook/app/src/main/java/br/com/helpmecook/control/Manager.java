@@ -296,7 +296,7 @@ public class Manager {
      * @return retorna true se a receita está no Cookbook ou false se a receita não está no Cookbook.
      */
     public static boolean isOnCookbook(Recipe recipe, Context context) {
-        List<Recipe> recipesOnCookbook = getCookbook(context).getRecipeList();
+        List<AbstractRecipe> recipesOnCookbook = getCookbook(context).getRecipeList();
         return recipesOnCookbook.contains(recipe);
     }
 
