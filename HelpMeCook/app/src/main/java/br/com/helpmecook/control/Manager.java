@@ -19,18 +19,18 @@ import br.com.helpmecook.sqlite.RecipeDAO;
  * Created by Felipe on 30/04/2015.
  */
 public class Manager {
-    private ConnectionAccessor accessor = new ConnectionAccessor();
-    private Context context;
+    private static ConnectionAccessor accessor = new ConnectionAccessor();
+    private static Context context;
 
-    public void setContext(Context context){
-        this.context = context;
+    public static void setContext(Context newContext){
+         context = newContext;
     }
 
     /**
      * @param id Número inteiro que identifica uma receita.
      * @return Retorna a receita relativa ao id passado como parâmetro.
      */
-    public Recipe getRecipeById(long id) {
+    public static Recipe getRecipeById(long id) {
         RecipeDAO recipeDAO = new RecipeDAO(context);
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
@@ -73,7 +73,7 @@ public class Manager {
      * @param ids Lista de Identificadores de Receita.
      * @return Retorna uma lista de receitas resumidas.
      */
-    public List<AbstractRecipe> getAbstractRecipes(List<Integer> ids) {
+    public static List<AbstractRecipe> getAbstractRecipes(List<Integer> ids) {
         return accessor.getAbstractRecipes(ids);
     }
 
@@ -84,7 +84,7 @@ public class Manager {
      * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
      * dadas as duas listas de ingredientes passadas como parametro.
      */
-    public List<Long> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public static List<Long> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getResultByIngredientLists(wanted, unwanted);
     }
 
@@ -95,14 +95,14 @@ public class Manager {
      * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
      * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
      */
-    public List<Long> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public static List<Long> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getPlusByIngredientLists(wanted, unwanted);
     }
 
     /**
      * @return Retorna uma lista com os IDs das receitas visualizadas recentemente.
      */
-    public List<Long> getRecentRecipes() {
+    public static List<Long> getRecentRecipes() {
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
         try {
@@ -121,7 +121,7 @@ public class Manager {
      * @param recipe Receita a ser adicionada no cookbook.
      * @return Retorna true se a receita foi adicionada ao cookbook e false se ela não foi.
      */
-    public Boolean addToCookbook(Recipe recipe) {
+    public static Boolean addToCookbook(Recipe recipe) {
         CookbookDAO cookbookDAO = new CookbookDAO(context);
 
         try{
@@ -142,7 +142,7 @@ public class Manager {
     /**
      * @return Lista dos ingredientes da aplicacao
      */
-    public List<Ingredient> getIngredients() {
+    public static List<Ingredient> getIngredients() {
         IngredientDAO ingredientDAO = new IngredientDAO(context);
         List<Ingredient> ingredients = null;
 
@@ -158,7 +158,7 @@ public class Manager {
         return ingredients;
     }
 
-    public List<Ingredient> getRecipeIngredients(List<Long> ids) {
+    public static List<Ingredient> getRecipeIngredients(List<Long> ids) {
         IngredientDAO ingredientDAO = new IngredientDAO(context);
         List<Ingredient> ingredients = null;
 
@@ -182,7 +182,7 @@ public class Manager {
      * @param recipe Receita que sera removida do cookbook
      * @return Retorna true se a receita foi removida do cookbook e false se ela não foi.
      */
-    public boolean removeFromCookbook(Recipe recipe) {
+    public static boolean removeFromCookbook(Recipe recipe) {
         CookbookDAO cookbookDAO = new CookbookDAO(context);
 
         try {
@@ -201,7 +201,7 @@ public class Manager {
      * @param taste Valor que foi atribuido ao sabor da receita
      * @return Retorna true se a classificacao foi enviada para o servidor e false se nao
      */
-    public boolean classifyTaste(long id, float taste) {
+    public static boolean classifyTaste(long id, float taste) {
         return accessor.classifyTaste(id, taste);
     }
 
@@ -210,7 +210,7 @@ public class Manager {
      * @param difficulty Valor que foi atribuido a dificuldade da receita
      * @return Retorna true se a classificacao foi enviada para o servidor e false se nao
      */
-    public boolean classifyDifficulty(long id, float difficulty) {
+    public static boolean classifyDifficulty(long id, float difficulty) {
         return accessor.classifyDifficulty(id,difficulty);
     }
 
@@ -220,7 +220,7 @@ public class Manager {
      * e foram modificadas nele sejam atualizadas do banco de dados local
      * @return Retorna true se ela garantiu tudo e falso se não
      */
-    public boolean syncAll() {
+    public static boolean syncAll() {
         RecipeDAO recipeDAO = new RecipeDAO(context);
 
         try {
@@ -249,21 +249,21 @@ public class Manager {
      * @param name Nome das receitas que se deseja encontrar
      * @return Uma lista de AbstractRecipe que contem o nome procurado
      */
-    public List<AbstractRecipe> getResultByRecipeName(String name){
+    public static List<AbstractRecipe> getResultByRecipeName(String name){
         return accessor.getResultByRecipeName(name);
     }
 
     /**
      * @return Uma lista de AbstractRecipe com as receitas populares
      */
-    public List<AbstractRecipe> getPopularRecipes (){
+    public static List<AbstractRecipe> getPopularRecipes (){
         return accessor.getPopularRecipes();
     }
 
     /**
      * @return Retorna um objeto Cookbook com a lista de receitas do Cookbook
      */
-    public Cookbook getCookbook(){
+    public static Cookbook getCookbook(){
         CookbookDAO cookbookDAO = new CookbookDAO(context);
         RecipeDAO recipeDAO = new RecipeDAO(context);
         Cookbook cookbook = new Cookbook();
@@ -291,7 +291,7 @@ public class Manager {
      * @param recipe Receita que sera registrada
      * @return Retorna 0 se nao esta nem no local nem remoto, 1 se esta apenas no local e 2 se esta tanto mo local quanto no remoto
      */
-    public int registerRecipe(Recipe recipe){
+    public static int registerRecipe(Recipe recipe){
         CookbookDAO cookbookDAO = new CookbookDAO(context);
         long internalDB, remoteDBId;
         remoteDBId = accessor.registerRecipe(recipe);
