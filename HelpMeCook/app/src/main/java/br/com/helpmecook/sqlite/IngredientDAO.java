@@ -91,12 +91,30 @@ public class IngredientDAO {
     }
 
     public List<Ingredient> readAll() {
-        List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient;
+        List<Ingredient> ingredients;
 
+        Cursor c = database.query(TABLE_NAME, allColumns, null, null, null, null, null);
 
+        if(c.moveToFirst()) {
+            ingredients = new ArrayList<Ingredient>();
 
+            int indexId = c.getColumnIndex(ID);
+            int indexIconPath = c.getColumnIndex(ICONPATH);
 
-        return ingredients;
+            do {
+                ingredient = new Ingredient();
+                ingredient.setId(c.getLong(indexId));
+                ingredient.setIconPath(c.getInt(indexIconPath));
+
+                ingredients.add(ingredient);
+            } while (c.moveToNext());
+
+            c.close();
+            return ingredients;
+        } else {
+            return null;
+        }
     }
 
     //essa funcao sera util para quando o aplicativo for iniciado pela primeira vez os ingredientes do
