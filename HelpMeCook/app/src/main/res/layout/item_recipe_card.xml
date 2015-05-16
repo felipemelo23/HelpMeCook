@@ -7,12 +7,18 @@
         android:id="@+id/iv_recipe_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/receita"/>
+        android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/"
+        android:id="@+id/tv_nome_recipe_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <RatingBar
+        android:id="@+id/rb_taste_card"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
