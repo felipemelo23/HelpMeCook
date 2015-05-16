@@ -13,7 +13,7 @@ import android.widget.TextView;
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Recipe;
-import br.com.helpmecook.view.adapter.RecipeIngredientsAdapter;
+import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
 
 public class RecipeActivity extends Activity {
@@ -61,7 +61,7 @@ public class RecipeActivity extends Activity {
         rbDifficulty.setRating(recipe.getDifficulty());
 
         lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
-        lvIngredient.setAdapter(new RecipeIngredientsAdapter(this, manager.getRecipeIngredients(recipe.getIngredientList())));
+        lvIngredient.setAdapter(new IngredientsAdapter(this, manager.getRecipeIngredients(recipe.getIngredientList())));
 
         recipeText = (TextView) findViewById(R.id.tv_recipe);
         recipeText.setText(recipe.getText());
