@@ -21,17 +21,13 @@ import br.com.helpmecook.sqlite.RecipeDAO;
  */
 public class Manager {
     private static ConnectionAccessor accessor = new ConnectionAccessor();
-    private static Context context;
-
-    public static void setContext(Context newContext){
-         context = newContext;
-    }
 
     /**
      * @param id Número inteiro que identifica uma receita.
+     * @param context Contexto da aplicação
      * @return Retorna a receita relativa ao id passado como parâmetro.
      */
-    public static Recipe getRecipeById(long id) {
+    public static Recipe getRecipeById(long id, Context context) {
         RecipeDAO recipeDAO = new RecipeDAO(context);
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
@@ -101,9 +97,10 @@ public class Manager {
     }
 
     /**
+     * @param context Contexto da aplicação
      * @return Retorna uma lista com os IDs das receitas visualizadas recentemente.
      */
-    public static List<Long> getRecentRecipes() {
+    public static List<Long> getRecentRecipes(Context context) {
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
         try {
@@ -120,9 +117,10 @@ public class Manager {
 
     /**
      * @param recipe Receita a ser adicionada no cookbook.
+     * @param context Contexto da aplicação
      * @return Retorna true se a receita foi adicionada ao cookbook e false se ela não foi.
      */
-    public static Boolean addToCookbook(Recipe recipe) {
+    public static Boolean addToCookbook(Recipe recipe, Context context) {
         CookbookDAO cookbookDAO = new CookbookDAO(context);
 
         try{
@@ -141,9 +139,10 @@ public class Manager {
     }
 
     /**
+     * @param context Contexto da aplicação
      * @return Lista dos ingredientes da aplicacao
      */
-    public static List<Ingredient> getIngredients() {
+    public static List<Ingredient> getIngredients(Context context) {
         IngredientDAO ingredientDAO = new IngredientDAO(context);
         List<Ingredient> ingredients = null;
 
@@ -159,7 +158,7 @@ public class Manager {
         return ingredients;
     }
 
-    public static List<Ingredient> getRecipeIngredients(List<Long> ids) {
+    public static List<Ingredient> getRecipeIngredients(List<Long> ids, Context context) {
         IngredientDAO ingredientDAO = new IngredientDAO(context);
         List<Ingredient> ingredients = null;
 
@@ -181,9 +180,10 @@ public class Manager {
 
     /**
      * @param recipe Receita que sera removida do cookbook
+     * @param context Contexto da aplicação
      * @return Retorna true se a receita foi removida do cookbook e false se ela não foi.
      */
-    public static boolean removeFromCookbook(Recipe recipe) {
+    public static boolean removeFromCookbook(Recipe recipe, Context context) {
         CookbookDAO cookbookDAO = new CookbookDAO(context);
 
         try {
@@ -219,16 +219,17 @@ public class Manager {
      * Essa funcao garante que todas as receitas no banco de dados local sejam enviadas para o
      * servidor e que todas as funcoes que estao no banco de dados local e que estão no servidor
      * e foram modificadas nele sejam atualizadas do banco de dados local
+     * @param context Contexto da aplicação
      * @return Retorna true se ela garantiu tudo e falso se não
      */
-    public static boolean syncAll() {
+    public static boolean syncAll(Context context) {
         RecipeDAO recipeDAO = new RecipeDAO(context);
 
         try {
             recipeDAO.open();
             List<Recipe> notSyncs = recipeDAO.readNotSync();
             for (Recipe recipe : notSyncs) {
-                registerRecipe(recipe);
+                registerRecipe(recipe, context);
             }
 
             List<Recipe> modifieds = accessor.syncRecipes(recipeDAO.readAll());
@@ -262,9 +263,10 @@ public class Manager {
     }
 
     /**
+     * @param context Contexto da aplicação
      * @return Retorna um objeto Cookbook com a lista de receitas do Cookbook
      */
-    public static Cookbook getCookbook(){
+    public static Cookbook getCookbook(Context context){
         CookbookDAO cookbookDAO = new CookbookDAO(context);
         RecipeDAO recipeDAO = new RecipeDAO(context);
         Cookbook cookbook = new Cookbook();
@@ -290,9 +292,10 @@ public class Manager {
 
     /**
      * @param recipe Receita que sera registrada
+     * @param context Contexto da aplicação
      * @return Retorna 0 se nao esta nem no local nem remoto, 1 se esta apenas no local e 2 se esta tanto mo local quanto no remoto
      */
-    public static int registerRecipe(Recipe recipe){
+    public static int registerRecipe(Recipe recipe, Context context){
         CookbookDAO cookbookDAO = new CookbookDAO(context);
         long internalDB, remoteDBId;
         remoteDBId = accessor.registerRecipe(recipe);
@@ -325,5 +328,4 @@ public class Manager {
             return 0;
         }
     }
-
 }
