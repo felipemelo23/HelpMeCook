@@ -1,15 +1,20 @@
 package br.com.helpmecook.view.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import br.com.helpmecook.R;
+import br.com.helpmecook.view.fragment.CookbookFragment;
+import br.com.helpmecook.view.fragment.HomeFragment;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 import br.com.helpmecook.view.fragment.PlaceholderFragment;
 
@@ -38,11 +43,39 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        //FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = null;
+
+        switch (position) {
+            case 0:
+                fragment = new HomeFragment();
+                break;
+            case 1:
+                //Busca por ingredient
+                break;
+            case 2:
+                fragment = new CookbookFragment(getApplicationContext());
+                break;
+            case 3:
+                startActivity(new Intent(this, RecipeRegisterActivity.class));
+                break;
+            case 4:
+                //Onde encontrar comida?
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment).commit();
+
+            // Atualiza o titulo e fecha a navigation drawer
+        } else {
+            // Erro na criação do fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
     }
 
     public void onSectionAttached(int number) {
