@@ -10,10 +10,7 @@
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
 
         </activity>
         <activity
@@ -27,6 +24,14 @@
         <activity
             android:name=".NameSearchResultsActivity"
             android:label="@string/title_activity_name_search_results" >
+        </activity>
+        <activity
+            android:name=".view.activity.IngredientSelectionActivity"
+            android:label="@string/title_activity_ingredient_selection" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
