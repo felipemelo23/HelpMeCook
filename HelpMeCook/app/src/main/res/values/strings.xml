@@ -3,6 +3,7 @@
     <string name="title_activity_recipe">Recipe Details</string>
     <string name="title_activity_name_search_results">Results from Name Search</string>
     <string name="title_activity_recipe_register">Recipe Register</string>
+    <string name="title_activity_ingredient_selection">Ingredient Selection</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
