@@ -4,7 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +32,10 @@ public class RecipeDAO {
     public static final String TEXT = "text";
     public static final String ESTIMATED_TIME = "estimatedTime";
     public static final String PORTION_NUM = "portionNum";
+    public static final String PICTURE = "picture";
     public static final String SYNC = "sync";
 
-    private String[] allColumns = { ID, NOME, TASTE, DIFFICULTY, INGREDIENT_LIST, TEXT, ESTIMATED_TIME, PORTION_NUM, SYNC };
+    private String[] allColumns = { ID, NOME, TASTE, DIFFICULTY, INGREDIENT_LIST, TEXT, ESTIMATED_TIME, PORTION_NUM, PICTURE, SYNC };
 
     public RecipeDAO(Context context){
         dbHelper = new RecipeOpenHelper(context);
@@ -58,6 +63,12 @@ public class RecipeDAO {
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
+        // transformando a foto de bitmap para byte[]
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        recipe.getPicture().compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] picture = baos.toByteArray();
+        values.put(PICTURE, picture);
+        // checando se já foi sincronizada com o servidor
         if (recipe.isSync()) {
             values.put(SYNC, 1);
         } else {
@@ -79,6 +90,12 @@ public class RecipeDAO {
         values.put(TEXT, recipe.getText());
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
+        // transformando a foto de bitmap para byte[]
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        recipe.getPicture().compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] picture = baos.toByteArray();
+        values.put(PICTURE, picture);
+        // checando se já foi sincronizada com o servidor
         if (recipe.isSync()) {
             values.put(SYNC, 1);
         } else {
@@ -115,6 +132,7 @@ public class RecipeDAO {
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
             int indexPortionNum = c.getColumnIndex(PORTION_NUM);
+            int indexPicture = c.getColumnIndex(PICTURE);
             int indexSync = c.getColumnIndex(SYNC);
 
             recipe = new Recipe();
@@ -128,6 +146,7 @@ public class RecipeDAO {
             recipe.setText(c.getString(indexText));
             recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
             recipe.setPortionNum(c.getString(indexPortionNum));
+            recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
             if (c.getInt(indexSync) == 0) {
                 recipe.setSync(true);
             }
@@ -163,6 +182,7 @@ public class RecipeDAO {
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
             int indexPortionNum = c.getColumnIndex(PORTION_NUM);
+            int indexPicture = c.getColumnIndex(PICTURE);
             int indexSync = c.getColumnIndex(SYNC);
 
             do {
@@ -176,6 +196,7 @@ public class RecipeDAO {
                 recipe.setUnits(stringToUnitsList(c.getString(indexUnitsList)));
                 recipe.setText(c.getString(indexText));
                 recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
+                recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
                 recipe.setPortionNum(c.getString(indexPortionNum));
                 if (c.getInt(indexSync) == 0) {
                     recipe.setSync(true);
@@ -210,6 +231,7 @@ public class RecipeDAO {
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
             int indexPortionNum = c.getColumnIndex(PORTION_NUM);
+            int indexPicture = c.getColumnIndex(PICTURE);
             int indexSync = c.getColumnIndex(SYNC);
 
             do {
@@ -225,6 +247,7 @@ public class RecipeDAO {
                     recipe.setText(c.getString(indexText));
                     recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
                     recipe.setPortionNum(c.getString(indexPortionNum));
+                    recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
                     recipe.setSync(false);
 
                     recipes.add(recipe);

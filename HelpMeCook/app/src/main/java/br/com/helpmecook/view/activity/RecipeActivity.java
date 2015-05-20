@@ -52,7 +52,7 @@ public class RecipeActivity extends Activity {
         setTitle(recipe.getName());
 
         banner = (ImageView) findViewById(R.id.banner);
-        // por enquanto as receitas nao tem imagens
+        banner.setImageBitmap(recipe.getPicture());
 
         addCookBook = (ImageButton) findViewById(R.id.add_cookbook);
         // Se a receita já estiver no cookbook, o botão de adicionar vira de remover
