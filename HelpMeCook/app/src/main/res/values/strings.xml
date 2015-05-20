@@ -12,6 +12,9 @@
     <string name="difficulty">Dificuldade</string>
     <string name="recents">Recentes</string>
     <string name="pop">Mais vistas</string>
+    <string name="classify_taste">Classifique o sabor dessa receita</string>
+    <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Nomes dos itens da nav drawer -->
     <string-array name="nav_drawer_items">
