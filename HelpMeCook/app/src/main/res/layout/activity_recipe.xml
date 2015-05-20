@@ -22,14 +22,14 @@
 
             <ImageButton
                 android:id="@+id/add_cookbook"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignRight="@+id/banner"
                 android:layout_below="@id/banner"
                 android:layout_marginBottom="-35dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="-10dp"
-                android:background="@drawable/bookmark_plus"
+                android:background="@drawable/cookbook_plus"
                 android:scaleType="fitCenter" />
 
             <RatingBar
