@@ -81,6 +81,12 @@ public class RecipeActivity extends Activity {
 
         rbDifficulty = (RatingBar) findViewById(R.id.rb_difficulty);
         rbDifficulty.setRating(recipe.getDifficulty());
+        rbDifficulty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                classifyDifficulty();
+            }
+        });
 
         lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
         lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
@@ -93,20 +99,16 @@ public class RecipeActivity extends Activity {
         boolean result = Manager.addToCookbook(recipe, RecipeActivity.this);
         if (result) {
             addCookBook.setImageDrawable(getResources().getDrawable(R.drawable.cookbook_minus));
-            return result;
-        } else {
-            return result;
         }
+        return result;
     }
 
     public boolean removeFromCookbook() {
         boolean result = Manager.removeFromCookbook(recipe, RecipeActivity.this);
         if (result) {
             addCookBook.setImageDrawable(RecipeActivity.this.getResources().getDrawable(R.drawable.cookbook_plus));
-            return result;
-        } else {
-            return result;
         }
+        return result;
     }
 
     public boolean classifyTaste() {
