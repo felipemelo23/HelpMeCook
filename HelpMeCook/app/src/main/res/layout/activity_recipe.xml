@@ -47,14 +47,14 @@
                 android:id="@+id/tv_taste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/rb_taste"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/rb_taste"
+                android:layout_toRightOf="@+id/rb_taste"
                 android:text="Sabor"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/text"
-                android:layout_alignTop="@+id/rb_taste"
-                android:layout_toRightOf="@+id/rb_taste"
-                android:layout_toEndOf="@+id/rb_taste"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp" />
+                android:textColor="@color/text" />
 
             <RatingBar
                 android:id="@+id/rb_difficulty"
