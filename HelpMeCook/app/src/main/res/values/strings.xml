@@ -15,6 +15,8 @@
     <string name="classify_taste">Classifique o sabor dessa receita</string>
     <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
     <string name="cancel">Cancelar</string>
+    <string name="recipe_register">Recipe Register</string>
+    <string name="no_ingredients">Selecione os ingredientes da receita</string>
 
     <!-- Nomes dos itens da nav drawer -->
     <string-array name="nav_drawer_items">
@@ -28,7 +30,7 @@
     <!-- RecipeRegisterActivity -->
     <string name="recipe_name">Nome da Receita</string>
     <string name="recipe_details">Modo de Preparo</string>
-    <string name="portion_num">Número de Porções</string>
+    <string name="portion_num">Número de Porções:</string>
     <string name="estimated_time">Tempo de Presparação:</string>
     <string name="ingredients">Ingresientes</string>
     <string name="add_ingredient">Adicionar Ingredient</string>

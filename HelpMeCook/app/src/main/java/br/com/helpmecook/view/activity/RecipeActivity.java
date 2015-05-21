@@ -20,8 +20,8 @@ import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
 
 public class RecipeActivity extends Activity {
-    long recipeId;
-    Recipe recipe;
+    private long recipeId;
+    private Recipe recipe;
 
     public static final String RECIPE_ID = "recipeID";
 
