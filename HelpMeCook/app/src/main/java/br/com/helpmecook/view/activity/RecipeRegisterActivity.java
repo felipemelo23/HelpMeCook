@@ -69,7 +69,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     public void registerRecipe() {
         recipe = new Recipe();
         if ((etName.getText().toString().equals(null)) || (etDescription.getText().toString().equals(null))){ // + lista de ingredientes
-            Toast.makeText(RecipeRegisterActivity.this, getResources().getString(R.string.no_ingredients), Toast.LENGTH_LONG).show();
+            Toast.makeText(RecipeRegisterActivity.this, getResources().getString(R.string.blank_fields), Toast.LENGTH_LONG).show();
         } else {
             recipe.setName(etName.getText().toString());
             recipe.setText(etDescription.getText().toString());
@@ -110,13 +110,12 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
         if (resultCode != RESULT_OK) {
             picture = null;
-            // o que faz se a foto escolhida nao for recebida??
+            // o que faz se a foto escolhida nao for recebida?? Só um Toast avisando?
         } else if (requestCode == SELECT_PICTURE) {
             Cursor cursor = getContentResolver().query(intent.getData(), null,
                     null, null, null);
