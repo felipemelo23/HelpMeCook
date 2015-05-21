@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import br.com.helpmecook.R;
+import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Recipe;
 
 public class RecipeRegisterActivity extends ActionBarActivity {
@@ -84,6 +85,9 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             if (!(etPortionNum.getText().toString().equals(null))) {
                 recipe.setPortionNum(etPortionNum.getText().toString());
             }
+
+            Manager.registerRecipe(recipe, RecipeRegisterActivity.this);
+            finish();
         }
     }
 
