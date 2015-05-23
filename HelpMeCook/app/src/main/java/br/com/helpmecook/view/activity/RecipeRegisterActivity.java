@@ -85,7 +85,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // Tem que fazer essa funcao
+        // Tem que fazer essa funcao(ainda tem que fazer, ou o comentário é que não foi apagado?)
         outState.putString(RECIPE_NAME_KEY, etName.getText().toString());
         outState.putIntArray(INGREDIENTS_KEY, ingredients);
         outState.putString(PREPARE_TIME_KEY, etPrepTime.getText().toString());
@@ -180,7 +180,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                     ingredients = intent.getExtras().getIntArray(INGREDIENTS_KEY);
                     break;
                 default:
-                    Toast.makeText(getApplicationContext(), "De onde voc� veio, meu amigo?", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "De onde voce veio, meu amigo?", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
