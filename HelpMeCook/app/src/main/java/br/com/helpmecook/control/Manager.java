@@ -3,6 +3,7 @@ package br.com.helpmecook.control;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -159,7 +160,7 @@ public class Manager {
 
     public static List<Ingredient> getRecipeIngredients(List<Long> ids, Context context) {
         IngredientDAO ingredientDAO = new IngredientDAO(context);
-        List<Ingredient> ingredients = null;
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
         try {
             ingredientDAO.open();
@@ -306,11 +307,13 @@ public class Manager {
      */
     public static int registerRecipe(Recipe recipe, Context context){
         CookbookDAO cookbookDAO = new CookbookDAO(context);
+        RecipeDAO recipeDAO = new RecipeDAO(context);
         long internalDB, remoteDBId;
         remoteDBId = accessor.registerRecipe(recipe);
 
         try {
             cookbookDAO.open();
+            recipeDAO.open();
 
             if ((remoteDBId == -1) && (recipe.getId() == -1)){
                 SharedPreferences data = context.getSharedPreferences("localId",0);
@@ -323,8 +326,10 @@ public class Manager {
                 editor.putLong("localIdValue", localId - 1);
                 editor.commit();
 
+                recipeDAO.insert(recipe);
                 cookbookDAO.insert(recipe);
                 cookbookDAO.close();
+                recipeDAO.close();
                 return 1;
             }else{
                 recipe.setId(remoteDBId);

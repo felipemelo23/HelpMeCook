@@ -1,6 +1,7 @@
 package br.com.helpmecook.view.activity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -13,12 +14,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Ingredient;
+import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
 
 
@@ -124,11 +127,16 @@ public class IngredientSelectionActivity extends ActionBarActivity {
 
                     for (int i=0; i<clicked.size(); i++) {
                         if (clicked.get(i) == 1) {
-                            wantedIngredients.set(i,allIngredients.get(i).getId());
+                            wantedIngredients.add(allIngredients.get(i).getId());
                         }
                     }
-                    intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
-                    setResult(MainActivity.RESULT_OK, intent);
+
+                    long wantedId[] = new long[wantedIngredients.size()];
+                    for (int i=0; i<wantedId.length;i++) {
+                        wantedId[i] = wantedIngredients.get(i);
+                    }
+                    intent.putExtra(WANTED_INGREDIENTS, wantedId);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
                 return false;

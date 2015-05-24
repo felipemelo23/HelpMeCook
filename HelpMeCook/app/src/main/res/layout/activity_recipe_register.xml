@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/ib_register_recipe"
+        <ImageView
+            android:id="@+id/iv_register_recipe"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:adjustViewBounds="false"
@@ -33,6 +33,7 @@
             android:textStyle="italic" />
 
         <TextView
+            android:id="@+id/tv_ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -47,10 +48,8 @@
         <ListView
             android:id="@+id/lv_recipe_register_ingredients"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:hint="@string/add_ingredient" />
-
 
         <LinearLayout
             android:layout_width="match_parent"

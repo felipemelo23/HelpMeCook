@@ -28,7 +28,7 @@ public class RecipeCardAdapter extends BaseAdapter{
         // Somente 6 receitas serao exibidas
         List<AbstractRecipe> recipes_aux = new ArrayList<>();
         for(int i = 0 ; i < 6 ; i++) {
-            recipes_aux.add(recipes.get(i));
+            //recipes_aux.add(recipes.get(i));
         }
         this.recipes = recipes_aux;
     }

@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">HelpMeCook</string>
-    <string name="title_activity_recipe">Recipe Details</string>
+    <string name="title_activity_recipe">Receita</string>
     <string name="title_activity_name_search_results">Results from Name Search</string>
-    <string name="title_activity_recipe_register">Recipe Register</string>
-    <string name="title_activity_ingredient_selection">Ingredient Selection</string>
+    <string name="title_activity_recipe_register">Criar Receita</string>
+    <string name="title_activity_ingredient_selection">Selecionar Ingredientes</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configurações</string>
 
     <string name="taste">Sabor</string>
     <string name="difficulty">Dificuldade</string>
@@ -17,7 +17,7 @@
     <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
     <string name="cancel">Cancelar</string>
     <string name="ok">OK</string>
-    <string name="recipe_register">Recipe Register</string>
+    <string name="recipe_register">Criar Receita</string>
     <string name="no_ingredients">Selecione os ingredientes da receita</string>
     <string name="blank_fields">Há campos obrigatórios em branco</string>
 
@@ -60,6 +60,8 @@
     <string name="title_activity_ingredient_search_result">IngredientSearchResultActivity</string>
     <string name="results">Resultados</string>
     <string name="resultsplusone">Receitas com mais ingredientes</string>
+    <string name="recipe_registered">Criada com sucesso! (Será que é gostosa?)</string>
+    <string name="what_are_you_doing">O que exatamente você está tentando fazer?</string>
 
 
 </resources>

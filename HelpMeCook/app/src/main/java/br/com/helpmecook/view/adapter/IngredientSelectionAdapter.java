@@ -13,7 +13,6 @@ import java.util.List;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.model.Ingredient;
-import br.com.helpmecook.view.activity.IngredientSelectionList;
 
 /**
  * Created by mariana on 16/05/15.
