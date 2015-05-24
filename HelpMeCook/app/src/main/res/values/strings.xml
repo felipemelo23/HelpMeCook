@@ -16,6 +16,7 @@
     <string name="classify_taste">Classifique o sabor dessa receita</string>
     <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
     <string name="cancel">Cancelar</string>
+    <string name="ok">OK</string>
     <string name="recipe_register">Recipe Register</string>
     <string name="no_ingredients">Selecione os ingredientes da receita</string>
     <string name="blank_fields">Há campos obrigatórios em branco</string>
@@ -43,15 +44,6 @@
 
     <string name="search">BUSCAR</string>
     <string name="name_search">Nome da Receita</string>
-
-<!--&lt;!&ndash; TODO: Remove or change this placeholder text &ndash;&gt;-->
-    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
-    <!--<string name="register_recipe_hint">Nome da Receita</string>-->
-    <!--<string name="recipe_description_hint">Descrição</string>-->
-    <!--<string name="add_ingredient">Add Ingredient</string>-->
-    <!--<string name="ingrendiets">Ingredientes</string>-->
-    <!--<string name="minutes">minutos</string>-->
-    <!--<string name="portions">porções</string>-->
 
 
 
