@@ -1,40 +1,59 @@
 <resources>
     <string name="app_name">HelpMeCook</string>
+    <string name="title_activity_recipe">Recipe Details</string>
+    <string name="title_activity_name_search_results">Results from Name Search</string>
+    <string name="title_activity_recipe_register">Recipe Register</string>
+    <string name="title_activity_ingredient_selection">Ingredient Selection</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string-array name="nav_drawer_itens">
-        <item>Buscar por Ingrediente</item>
-        <item>Meu CookBook</item>
-        <item>Criar Receita</item>
-        <item>Localizar Restaurantes</item>
-        <item>Localizar Supernercados</item>
-    </string-array>
-
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main_activity2">MainActivity2Activity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="taste">Sabor</string>
+    <string name="difficulty">Dificuldade</string>
+    <string name="recents">Recentes</string>
+    <string name="pop">Mais vistas</string>
+    <string name="classify_taste">Classifique o sabor dessa receita</string>
+    <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
+    <string name="cancel">Cancelar</string>
+    <string name="recipe_register">Recipe Register</string>
+    <string name="no_ingredients">Selecione os ingredientes da receita</string>
+    <string name="blank_fields">Há campos obrigatórios em branco</string>
 
-    <!-- Itens da Nav Drawer -->
+    <!-- Nomes dos itens da nav drawer -->
     <string-array name="nav_drawer_items">
+        <item>Início</item>
         <item>Buscar por Ingrediente</item>
         <item>Meu CookBook</item>
         <item>Criar Receita</item>
-        <item>Localizar Restaurantes</item>
-        <item>Localizar Supermercados</item>
+        <item>Onde Encontrar Comida?</item>
     </string-array>
 
-    <!-- Lista de icones da Nav Drawer-->
-    <!-- Deve ficar na mesma ordem que os nomes -->
-    <array name="nav_drawer_icons">
-        <item>@drawable/magnify</item>
-        <item>@drawable/file_document_box</item>
-        <item>@drawable/pencil</item>
-        <item>@drawable/silverware_variant</item>
-        <item>@drawable/cart</item>
-    </array>
-    <string name="title_activity_recipe">RecipeActivity</string>
-    <string name="title_activity_name_search_results">NameSearchResultsActivity</string>
+    <!-- RecipeRegisterActivity -->
+    <string name="recipe_name">Nome da Receita</string>
+    <string name="recipe_details">Modo de Preparo</string>
+    <string name="portion_num">Número de Porções:</string>
+    <string name="estimated_time">Tempo de Preparação:</string>
+    <string name="ingredients">Ingredientes</string>
+    <string name="add_ingredient">Adicionar Ingredient</string>
+    <string name="minutes">minutos</string>
+    <string name="portions">porções</string>
+    <string name="ingrendiets">Ingredientes</string>
+
+
+    <string name="search">BUSCAR</string>
+    <string name="name_search">Nome da Receita</string>
+
+<!--&lt;!&ndash; TODO: Remove or change this placeholder text &ndash;&gt;-->
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
+    <!--<string name="register_recipe_hint">Nome da Receita</string>-->
+    <!--<string name="recipe_description_hint">Descrição</string>-->
+    <!--<string name="add_ingredient">Add Ingredient</string>-->
+    <!--<string name="ingrendiets">Ingredientes</string>-->
+    <!--<string name="minutes">minutos</string>-->
+    <!--<string name="portions">porções</string>-->
+
+
+
+
 </resources>

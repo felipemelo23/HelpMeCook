@@ -14,66 +14,69 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:id="@+id/banner"
                 android:scaleType="centerCrop"
-                android:src="@drawable/receita"/>
+                android:src="@drawable/receita" />
 
             <ImageButton
-                android:layout_width="32dp"
-                android:layout_height="32dp"
                 android:id="@+id/add_cookbook"
-                android:scaleType="fitCenter"
-                android:layout_below="@id/banner"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignRight="@+id/banner"
-                android:layout_marginTop="-10dp"
+                android:layout_below="@id/banner"
+                android:layout_marginBottom="-35dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/bookmark_plus"
-                android:layout_marginBottom="-35dp"/>
+                android:layout_marginTop="-10dp"
+                android:background="@drawable/cookbook_plus"
+                android:scaleType="fitCenter" />
 
             <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="26dp"
                 android:id="@+id/rb_taste"
-                android:layout_below="@+id/banner"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"
-                android:layout_alignParentStart="true"
-                style="@style/style_name"
-                android:layout_marginTop="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/text"
-                android:text="Sabor"
-                android:id="@+id/tv_taste"
-                android:layout_alignTop="@+id/rb_taste"
-                android:layout_centerHorizontal="true" />
-
-            <RatingBar
+                style="@style/rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
-                android:id="@+id/rb_difficulty"
-                android:layout_below="@+id/rb_taste"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"
                 android:layout_alignParentStart="true"
-                style="@style/style_name"
-                android:layout_marginTop="9dp"/>
+                android:layout_below="@+id/banner"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp" />
 
             <TextView
+                android:id="@+id/tv_taste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/rb_taste"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/rb_taste"
+                android:layout_toRightOf="@+id/rb_taste"
+                android:text="Sabor"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Dificuldade"
-                android:textColor="@color/text"
+                android:textColor="@color/text" />
+
+            <RatingBar
+                android:id="@+id/rb_difficulty"
+                style="@style/rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rb_taste"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="9dp" />
+
+            <TextView
                 android:id="@+id/tv_difficulty"
-                android:layout_alignTop="@+id/rb_difficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/tv_taste"
-                android:layout_alignStart="@+id/tv_taste" />
+                android:layout_alignStart="@+id/tv_taste"
+                android:layout_alignTop="@+id/rb_difficulty"
+                android:text="Dificuldade"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text" />
 
 
         </RelativeLayout>
@@ -81,20 +84,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ingredient_icon"/>
+                android:src="@drawable/ingredient_icon" />
 
             <ListView
+                android:id="@+id/lv_ingredient_recipe"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/lv_ingredient_recipe">
+                android:layout_height="wrap_content">
 
             </ListView>
 
@@ -103,26 +106,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:paddingBottom="16dp"
-            android:layout_marginTop="20dp">
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/panela"/>
+                android:src="@drawable/pan" />
 
             <TextView
+                android:id="@+id/tv_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_recipe"
                 android:layout_marginLeft="20dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/text"
                 android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
-                ></TextView>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text"></TextView>
 
         </LinearLayout>
 

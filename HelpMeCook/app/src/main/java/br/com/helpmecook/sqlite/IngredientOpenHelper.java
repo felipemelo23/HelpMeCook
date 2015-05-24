@@ -14,7 +14,7 @@ public class IngredientOpenHelper extends SQLiteOpenHelper{
             "CREATE TABLE " + IngredientDAO.TABLE_NAME + " (" +
                     IngredientDAO.ID + " INTEGER PRIMARY KEY, " +
                     IngredientDAO.NAME + " TEXT, " +
-                    IngredientDAO.ICONPATH + " TEXT);";
+                    IngredientDAO.ICONPATH + " INTEGER);";
 
 
     public IngredientOpenHelper(Context context) {

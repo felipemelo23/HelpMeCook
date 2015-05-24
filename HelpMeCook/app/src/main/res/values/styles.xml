@@ -5,10 +5,19 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="style_name" parent="@android:style/Widget.RatingBar">
+    <style name="rating_bar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingbarcustom</item>
         <item name="android:minHeight">32dp</item>
         <item name="android:maxHeight">32dp</item>
+    </style>
+
+    <style name="TextWithShadow" >
+        <item name="android:paddingLeft">4px</item>
+        <item name="android:paddingBottom">4px</item>
+        <item name="android:shadowColor">@color/text</item>
+        <item name="android:shadowDx">5</item>
+        <item name="android:shadowDy">5</item>
+        <item name="android:shadowRadius">1</item>
     </style>
 
 </resources>

@@ -1,14 +1,45 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="br.com.helpmecook.NameSearchResultsActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:padding="12dp"
+        android:weightSum="10">
 
-<ListView
-    android:id="@+id/lvRecipes"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+        <EditText
+            android:id="@+id/et_name_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:hint="@string/name_search" />
+
+        <Button
+            android:id="@+id/bt_execute_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="3"
+            android:background="@color/contrast"
+            android:text="@string/search"
+            android:textColor="@color/background"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/lv_name_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp">
+
+    </ListView>
+
 </LinearLayout>

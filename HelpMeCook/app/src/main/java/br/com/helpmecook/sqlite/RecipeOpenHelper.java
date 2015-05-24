@@ -23,6 +23,7 @@ public class RecipeOpenHelper extends SQLiteOpenHelper{
                     RecipeDAO.TEXT + " TEXT, " +
                     RecipeDAO.ESTIMATED_TIME + " INTEGER, " +
                     RecipeDAO.PORTION_NUM + " TEXT, " +
+                    RecipeDAO.PICTURE + " Blob, " +
                     RecipeDAO.SYNC + " INTEGER);";
 
     public RecipeOpenHelper(Context context) {

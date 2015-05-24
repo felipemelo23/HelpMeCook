@@ -9,12 +9,12 @@ import java.util.List;
  * Created by Chibi on 30/04/2015.
  */
 public class Cookbook {
-    public List<Recipe> recipes;
+    public List<AbstractRecipe> recipes;
 
-    public List<Recipe> getRecipeList(){
+    public List<AbstractRecipe> getRecipeList(){
         return this.recipes;
     }
-    public void setRecipeList(List<Recipe> recipes){
+    public void setRecipeList(List<AbstractRecipe> recipes){
         this.recipes = recipes;
     }
 
@@ -22,7 +22,7 @@ public class Cookbook {
         this.recipes.add(recipe);
         return true;
     }
-    public Recipe getRecipeAt(int index){
+    public AbstractRecipe getRecipeAt(int index){
         return this.recipes.get(index);
     }
 
@@ -31,8 +31,8 @@ public class Cookbook {
         return false;
     }
 
-    public Recipe getRecipeById(int id){
-        Recipe recipe;
+    public AbstractRecipe getRecipeById(int id){
+        AbstractRecipe recipe;
         recipe = new Recipe();
         for(int i = 0; i < this.recipes.size(); i++){
             recipe = this.recipes.get(i);

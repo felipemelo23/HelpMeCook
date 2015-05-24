@@ -1,23 +1,27 @@
 package br.com.helpmecook.view.activity;
 
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.widget.DrawerLayout;
 
 import br.com.helpmecook.R;
+import br.com.helpmecook.view.fragment.CookbookFragment;
+import br.com.helpmecook.view.fragment.HomeFragment;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
-import br.com.helpmecook.view.fragment.PlaceholderFragment;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    public static final int MAIN = 0;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private CharSequence mTitle;
     private String[] navMenuTitles;
 
@@ -38,11 +42,38 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        Fragment fragment = null;
+
+        switch (position) {
+            case 0:
+                fragment = new HomeFragment(this);
+                break;
+            case 1:
+                //Busca por ingredient
+                break;
+            case 2:
+                fragment = new CookbookFragment(MainActivity.this);
+                break;
+            case 3:
+                startActivity(new Intent(MainActivity.this, RecipeRegisterActivity.class));
+                break;
+            case 4:
+                //Onde encontrar comida?
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment).commit();
+
+            // Atualiza o titulo e fecha a navigation drawer
+        } else {
+            // Erro na criação do fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
     }
 
     public void onSectionAttached(int number) {
@@ -101,8 +132,4 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
 }

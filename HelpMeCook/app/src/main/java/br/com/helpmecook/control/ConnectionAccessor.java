@@ -14,7 +14,7 @@ public class ConnectionAccessor {
      * @param id Numero inteiro que identifica uma receita.
      * @return Retorna a receita relativa ao id passado como parametro.
      */
-    public Recipe getRecipeById(int id) {
+    public Recipe getRecipeById(long id) {
         return null;
     }
 
@@ -22,21 +22,29 @@ public class ConnectionAccessor {
      * @param ids Lista de Identificadores de Receita.
      * @return Retorna uma lista de receitas resumidas.
      */
-    public List<AbstractRecipe> getAbstractRecipes(List<Integer> ids) {
+    public List<AbstractRecipe> getAbstractRecipes(List<Long> ids) {
         return null;
     }
 
     /**
-     *
-
-    public List<Integer> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+     * @param wanted Lista de ingredientes desejaveis.
+     * @param unwanted Lista de ingredientes indesejaveis.
+     * @return Retorna uma lista de identificadores de receitas que satisfazem exatamente a busca
+     * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
+     * dadas as duas listas de ingredientes passadas como parametro.
+     */
+    public List<Long> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return null;
     }
 
     /**
-     *
-
-    public List<Integer> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+     * @param wanted Lista de ingredientes desejaveis.
+     * @param unwanted Lista de ingredientes indesejaveis.
+     * @return Retorna uma lista de identificadores de receitas que satisfazem a busca
+     * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
+     * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
+     */
+    public List<Long> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return null;
     }
 
@@ -45,14 +53,14 @@ public class ConnectionAccessor {
      * @return Retorna uma lista de identificadores de receitas que possuem a String name passada como parametro.
      * no seu nome.
      */
-    public List<Integer> getResultByRecipeName(String name) {
+    public List<AbstractRecipe> getResultByRecipeName(String name) {
         return null;
     }
 
     /**
      * @return Retorna as receitas mais populares, ou seja, mais visualizadas pelo usuarios.
      */
-    public List<Integer> getPopularRecipes() {
+    public List<AbstractRecipe> getPopularRecipes() {
         return null;
     }
 
@@ -68,12 +76,29 @@ public class ConnectionAccessor {
 
     /**
      * @param id Identificador de uma receita.
-     * @param taste Valor de classifica��o de sabor de uma receita.
-     * @param difficult Valor de classifica��o de dificuldade de uma receita.
-     * @return Retorna true se a classifica��o da receita for atualizada no banco de dados do servidor
-     * e retorna false se a classifica��o da receita n�o for atualizada no banco de dados do servidor.
+     * @param taste Valor de classificação de sabor de uma receita.
+     * @return Retorna true se a classificação da receita for atualizada no banco de dados do servidor
+     * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
      */
-    public Boolean classifyRecipe(int id, float taste, float difficult) {
+    public boolean classifyTaste(long id, float taste) {
         return false;
+    }
+
+    /**
+     * @param id Identificador de uma receita.
+     * @param difficulty Valor de classificação de dificuldade de uma receita.
+     * @return Retorna true se a classificação da receita for atualizada no banco de dados do servidor
+     * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
+     */
+    public boolean classifyDifficulty(long id, float difficulty) {
+        return false;
+    }
+
+    /**
+     * @param recipes Lista com todas as receitas do usuário
+     * @return Retorna a lista de receitas com as receitas de entrada que foram modificadas no servidor.
+     */
+    public List<Recipe> syncRecipes(List<Recipe> recipes) {
+        return null;
     }
 }

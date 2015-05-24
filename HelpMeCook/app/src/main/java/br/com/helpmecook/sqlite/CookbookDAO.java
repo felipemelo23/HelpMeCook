@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.helpmecook.model.Cookbook;
+import br.com.helpmecook.model.Recipe;
 
 /**
  * Created by Felipe on 04/05/2015.
@@ -37,13 +37,13 @@ public class CookbookDAO {
         database = null;
     }
 
-    public long insert(int id) {
+    public long insert(Recipe recipe) {
         ContentValues values = new ContentValues();
-        values.put(ID,id);
+        values.put(ID, recipe.getId());
         return database.insert(TABLE_NAME, null, values);
     }
 
-    public boolean delete(int id) {
+    public boolean delete(long id) {
         long wReturn = database.delete(TABLE_NAME, ID + " = " + id, null);
 
         if (wReturn == 0) {
@@ -53,9 +53,9 @@ public class CookbookDAO {
         }
     }
 
-    public List<Integer> readAll() {
-        int id;
-        ArrayList<Integer> recipes = new ArrayList<Integer>();
+    public List<Long> readAll() {
+        long id;
+        ArrayList<Long> recipes = new ArrayList<Long>();
 
         Cursor c = database.query(TABLE_NAME, allColumns, null, null, null, null, null);
 
@@ -63,7 +63,7 @@ public class CookbookDAO {
             int indexId = c.getColumnIndex(ID);
 
             do {
-                id = c.getInt(indexId);
+                id = c.getLong(indexId);
                 recipes.add(id);
             } while(c.moveToNext());
         }

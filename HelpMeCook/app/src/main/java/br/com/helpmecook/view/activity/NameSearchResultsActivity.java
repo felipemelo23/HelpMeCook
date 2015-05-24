@@ -1,30 +1,46 @@
-package br.com.helpmecook;
+package br.com.helpmecook.view.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.List;
 
+import br.com.helpmecook.R;
+import br.com.helpmecook.control.Manager;
+import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Recipe;
+import br.com.helpmecook.view.adapter.RecipesListAdapter;
 
 
 public class NameSearchResultsActivity extends ActionBarActivity {
-    private ListView lvRecipes;
-    private List<Recipe> listRecipe;
-    private ArrayAdapter<Recipe> adapter;
-    private int adapterLayout = android.R.layout.simple_list_item_1;
+    public static final String SEARCH_NAME = "searchName";
+    private String searchName;
+    private ListView resultRecipes;
+    private List<AbstractRecipe> results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name_search_results);
-        lvRecipes = (ListView) findViewById(R.id.lvRecipes);
+
+        Intent intent = getIntent();
+
+        searchName = intent.getExtras().getString(SEARCH_NAME);
+
+        EditText etSearchName = (EditText) findViewById(R.id.et_name_search);
+        etSearchName.setText(searchName);
+
+        executeNameSearch();
+        //lvRecipes = (ListView) findViewById(R.id.lvRecipes);
     }
 
 
@@ -50,14 +66,35 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void actionExecuteSearch(View view) {
+        EditText etSearchName = (EditText) findViewById(R.id.et_name_search);
+        searchName = etSearchName.getText().toString();
+        executeNameSearch();
+    }
 
-    private void loadList() {
-//        recipeDAO dao = new recipeDAO(this);
-//        this.listRecipe = dao.listar();
-//        dao.close();
+    private void executeNameSearch() {
+        results = Manager.getResultByRecipeName(searchName);
 
-        this.adapter = new ArrayAdapter<Recipe>(this, adapterLayout, listRecipe);
-        this.lvRecipes.setAdapter(adapter);
+        RecipesListAdapter adapter = new RecipesListAdapter(getApplicationContext(), results);
+
+        resultRecipes = (ListView) findViewById(R.id.lv_name_search_result);
+        resultRecipes.setAdapter(adapter);
+
+        resultRecipes.setOnItemClickListener(
+            new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    showRecipe(results.get(position).getId());
+                }
+            }
+        );
+    }
+
+    public void showRecipe(long id) {
+        Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
+        intent.putExtra(RecipeActivity.RECIPE_ID, id);
+
+        startActivity(intent);
     }
 
     @Override
@@ -77,6 +114,6 @@ public class NameSearchResultsActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.loadList();
+//        this.loadList();
     }
 }
