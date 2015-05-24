@@ -5,15 +5,20 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.List;
+
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
+import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Cookbook;
+import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipesListAdapter;
 
@@ -38,7 +43,12 @@ public class CookbookFragment extends Fragment{
                 container, false);
 
         lv_recipes_cookbook = (ListView) fragmentView.findViewById(R.id.lv_cookbook);
-        lv_recipes_cookbook.setAdapter(new RecipesListAdapter(context, cookbook.getRecipeList()));
+        List<AbstractRecipe> recipes = cookbook.getRecipeList();
+        Log.i("Debug Cookbook", "Número de Receitas no Cookbook: " + recipes.size());
+        for (AbstractRecipe r : recipes) {
+            Log.i("Debug Cookbook", r + "");
+        }
+        lv_recipes_cookbook.setAdapter(new RecipesListAdapter(context, recipes));
 
         lv_recipes_cookbook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

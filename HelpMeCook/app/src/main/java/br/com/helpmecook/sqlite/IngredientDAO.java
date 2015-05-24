@@ -54,7 +54,7 @@ public class IngredientDAO {
             long result = database.insert(TABLE_NAME, null, values);
             return result;
         } catch (SQLiteConstraintException e) {
-
+            e.printStackTrace();
         }
         return -1;
     }

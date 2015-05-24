@@ -3,9 +3,11 @@ package br.com.helpmecook.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,7 +37,8 @@ public class RecipeDAO {
     public static final String PICTURE = "picture";
     public static final String SYNC = "sync";
 
-    private String[] allColumns = { ID, NOME, TASTE, DIFFICULTY, INGREDIENT_LIST, TEXT, ESTIMATED_TIME, PORTION_NUM, PICTURE, SYNC };
+    private String[] allColumns = { ID, NOME, TASTE, DIFFICULTY, INGREDIENT_LIST, INGREDIENT_QUANT,
+            INGREDIENT_UNITS, TEXT, ESTIMATED_TIME, PORTION_NUM, PICTURE, SYNC };
 
     public RecipeDAO(Context context){
         dbHelper = new RecipeOpenHelper(context);
@@ -75,7 +78,15 @@ public class RecipeDAO {
             values.put(SYNC, 0);
         }
 
-        return  database.insert(TABLE_NAME, null, values);
+        try {
+            long result = database.insert(TABLE_NAME, null, values);
+            Log.i("DebugRecipeDAO", "Insert: " + result);
+            return result;
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+        }
+        return -1;
+
     }
 
     public long update(Recipe recipe){
@@ -119,11 +130,16 @@ public class RecipeDAO {
     public Recipe read(long id){
         Recipe recipe;
 
+        //String sql = "SELECT * FROM " + TABLE_NAME ;
+
         Cursor c = database.query(TABLE_NAME, allColumns, ID + " ='" + id + "'", null, null, null, null);
+        //Cursor c = dbHelper.getReadableDatabase().rawQuery(sql,null);
+
+        Log.i("DebugCookbookManagerDAO", "Tamanho da Tabela " + c.getCount());
 
         if(c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
-            int indexNome = c.getColumnIndex(NOME);
+            int indexName = c.getColumnIndex(NOME);
             int indexTaste = c.getColumnIndex(TASTE);
             int indexDifficulty = c.getColumnIndex(DIFFICULTY);
             int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
@@ -137,7 +153,7 @@ public class RecipeDAO {
 
             recipe = new Recipe();
             recipe.setId(c.getLong(indexId));
-            recipe.setName(c.getString(indexNome));
+            recipe.setName(c.getString(indexName));
             recipe.setTaste(c.getFloat(indexTaste));
             recipe.setDifficulty(c.getFloat(indexDifficulty));
             recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
@@ -158,6 +174,7 @@ public class RecipeDAO {
 
             return recipe;
         } else {
+            Log.i("DebugCookbookManagerDAO", "Exceção");
             return null;
         }
 
