@@ -57,7 +57,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
 
         final IngredientSelectionAdapter ingredientSelectionAdapter = new IngredientSelectionAdapter(this, R.layout.item_ingredient, allIngredients);
 
-
         lvList = (ListView)findViewById(R.id.lvListIngredient);
 
         lvList.setAdapter(ingredientSelectionAdapter);
@@ -80,11 +79,7 @@ public class IngredientSelectionActivity extends ActionBarActivity {
                 ingredientSelectionAdapter.notifyDataSetChanged();
             }
         });
-
-
-
     }
-
 
     private void executeSearch(){
         wantedIngredients = new ArrayList<Long>(allIngredients.size());
@@ -114,7 +109,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ingredient_selection_activity, menu);
         return true;
     }
