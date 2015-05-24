@@ -31,7 +31,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
     private ArrayList<Long> wantedIngredients;
     private ArrayList<Long> unwantedIngredients;
     private List<Ingredient> allIngredients;
-    IngredientSelectionList ingredient_data[];
     public List<Integer> clicked;
     public static final String REQUEST_CODE = "Request_code";
     int origin;
@@ -47,12 +46,8 @@ public class IngredientSelectionActivity extends ActionBarActivity {
 
         allIngredients = Manager.getIngredients(getApplicationContext());
 
-        ingredient_data = new IngredientSelectionList[]{
-                        new IngredientSelectionList(R.drawable.teste, "Sorvete de Morango"),
-                        new IngredientSelectionList(R.drawable.teste, "Biscoito de Morango"),
-                        new IngredientSelectionList(R.drawable.teste, "Recheadinho de Morango"),
 
-        };
+
 
         clicked = new ArrayList<Integer>();
 
@@ -61,7 +56,7 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         }
 
 
-        final IngredientSelectionAdapter ingredientSelectionAdapter = new IngredientSelectionAdapter(this, R.layout.item_ingredient, ingredient_data);
+        final IngredientSelectionAdapter ingredientSelectionAdapter = new IngredientSelectionAdapter(this, R.layout.item_ingredient, allIngredients);
 
 
         lvList = (ListView)findViewById(R.id.lvListIngredient);
@@ -72,15 +67,15 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(clicked.get(position)== 0){
-                    ingredient_data[position].setIcon(R.drawable.teste2);
+                    allIngredients.get(position).setIconPath(R.drawable.checkbox_yellow);
                     clicked.set(position, 1);
                 }
                 else if((clicked.get(position)==1)&&(origin == MainActivity.MAIN)){
-                    ingredient_data[position].setIcon(R.drawable.teste3);
+                    allIngredients.get(position).setIconPath(R.drawable.close_circle);
                     clicked.set(position, 2);
                 }
                 else{
-                    ingredient_data[position].setIcon(R.drawable.teste);
+                    allIngredients.get(position).setIconPath(R.drawable.checkbox_blank_circle);
                     clicked.set(position, 0);
                 }
                 ingredientSelectionAdapter.notifyDataSetChanged();
