@@ -5,26 +5,44 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import br.com.helpmecook.R;
+import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.view.activity.IngredientSelectionList;
 
 /**
  * Created by mariana on 16/05/15.
  */
-public class IngredientSelectionAdapter extends ArrayAdapter<IngredientSelectionList>{
+public class IngredientSelectionAdapter extends BaseAdapter {
     Context context;
     int layoutResourceId;
-    IngredientSelectionList data[] = null;
+    List<Ingredient> data = null;
 
-    public IngredientSelectionAdapter(Context context, int layoutResourceId, IngredientSelectionList[] data) {
-        super(context, layoutResourceId, data);
+    public IngredientSelectionAdapter(Context context, int layoutResourceId, List<Ingredient> data) {
+        super();
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
+    }
+
+    @Override
+    public int getCount() {
+        return data.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return data.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return data.get(position).getId();
     }
 
     @Override
@@ -49,9 +67,9 @@ public class IngredientSelectionAdapter extends ArrayAdapter<IngredientSelection
             holder = (ListHolder)row.getTag();
         }
 
-        IngredientSelectionList ingredientselectionlist = data[position];
-        holder.imgIcon.setImageResource(ingredientselectionlist.icon);
-        holder.txtTitle.setText(ingredientselectionlist.title);
+        Ingredient ingredient = data.get(position);
+        holder.imgIcon.setImageResource(ingredient.getIconPath());
+        holder.txtTitle.setText(ingredient.getName());
 
 
         return row;
