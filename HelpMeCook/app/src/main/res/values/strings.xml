@@ -46,7 +46,7 @@
     <!--IngredientSearchResults-->
     <string name="title_activity_ingredient_search_result">IngredientSearchResultActivity</string>
     <string name="results">Resultados</string>
-    <string name="resultsplusone">Receitas com +1 Ingrediente</string>
+    <string name="resultsplusone">Receitas com mais ingredientes</string>
 
 
 </resources>

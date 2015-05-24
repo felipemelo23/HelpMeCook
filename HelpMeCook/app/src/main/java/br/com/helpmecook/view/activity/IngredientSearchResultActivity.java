@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import br.com.helpmecook.R;
@@ -20,6 +22,7 @@ import br.com.helpmecook.view.adapter.RecipesListAdapter;
 
 public class IngredientSearchResultActivity extends ActionBarActivity {
     private ListView resultRecipes;
+    private ListView resultRecipesPlus;
     private List<AbstractRecipe> results;
     private List<AbstractRecipe> plus;
 
@@ -27,6 +30,23 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient_search_result);
+
+        Intent intent = getIntent();
+
+        long wantedId[] = intent.getLongArrayExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
+        long unwantedId[] = intent.getLongArrayExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
+
+        List<Long> wanted = new ArrayList<Long>();
+        List<Long> unwanted = new ArrayList<Long>();
+        for (int i = 0; i < wantedId.length; i++) {
+            wanted.add(wantedId[i]);
+        }
+        for (int i = 0; i < unwantedId.length; i++) {
+            unwanted.add(unwantedId[i]);
+        }
+
+        showResults(Manager.getRecipeIngredients(wanted,getApplicationContext()),
+                    Manager.getRecipeIngredients(unwanted,getApplicationContext()));
     }
 
 
@@ -53,11 +73,37 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     }
 
     public void showResults(List<Ingredient> wanted, List<Ingredient> unwanted){
-        //getResultByIngredientLists(wanted, unwanted);
-        //getPlusByIngredientLists(wanted, unwanted);
+        results = Manager.getResultByIngredientLists(wanted, unwanted);
+        plus = Manager.getPlusByIngredientLists(wanted, unwanted);
 
-        RecipesListAdapter adapter = new RecipesListAdapter(getApplicationContext(), results);
-        RecipesListAdapter adapter2 = new RecipesListAdapter(getApplicationContext(), plus);
+        RecipesListAdapter resultsAdapter = new RecipesListAdapter(getApplicationContext(), results);
+        RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
+
+        resultRecipes = (ListView) findViewById(R.id.lvRecipes);
+        resultRecipes.setAdapter(resultsAdapter);
+
+        resultRecipesPlus = (ListView) findViewById(R.id.lvRecipesPlus);
+        resultRecipesPlus.setAdapter(plusAdapter);
+
+
+        resultRecipes.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        showRecipe(results.get(position).getId());
+                    }
+                }
+        );
+
+        resultRecipesPlus.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        showRecipe(plus.get(position).getId());
+                    }
+                }
+        );
+
 
 
     }

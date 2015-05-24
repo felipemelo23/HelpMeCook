@@ -21,13 +21,13 @@
         android:layout_weight="1" />
     <TextView
         android:padding="16dp"
-        android:id="@+id/tvResultsPlusOne"
+        android:id="@+id/tvResultsPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/resultsplusone" />
     <ListView
-        android:id="@+id/lvRecipesPlusOne"
+        android:id="@+id/lvRecipesPlus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />

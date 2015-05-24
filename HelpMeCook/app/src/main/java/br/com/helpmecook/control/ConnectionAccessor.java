@@ -33,7 +33,7 @@ public class ConnectionAccessor {
      * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
      * dadas as duas listas de ingredientes passadas como parametro.
      */
-    public List<Long> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public List<AbstractRecipe> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return null;
     }
 
@@ -44,7 +44,7 @@ public class ConnectionAccessor {
      * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
      * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
      */
-    public List<Long> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public List<AbstractRecipe> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return null;
     }
 

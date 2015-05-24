@@ -27,6 +27,9 @@
         <activity
             android:name=".view.activity.NameSearchResultsActivity"
             android:label="@string/title_activity_name_search_results" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.helpmecook.view.activity.MainActivity" />
         </activity>
         <activity
             android:name=".view.activity.RecipeRegisterActivity"
@@ -43,6 +46,9 @@
         <activity
             android:name=".view.activity.IngredientSearchResultActivity"
             android:label="@string/title_activity_ingredient_search_result" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.helpmecook.view.activity.IngredientSelectionActivity" />
         </activity>
     </application>
 
