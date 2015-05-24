@@ -43,6 +43,10 @@
     <string name="ingrendiets">Ingredientes</string>
     <string name="minutes">minutos</string>
     <string name="portions">porções</string>
+    <!--IngredientSearchResults-->
+    <string name="title_activity_ingredient_search_result">IngredientSearchResultActivity</string>
+    <string name="results">Resultados</string>
+    <string name="resultsplusone">Receitas com +1 Ingrediente</string>
 
 
 </resources>
