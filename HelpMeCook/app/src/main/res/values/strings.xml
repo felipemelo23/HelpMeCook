@@ -44,5 +44,7 @@
     <string name="minutes">minutos</string>
     <string name="portions">porções</string>
 
+    <string name="btOk">Ok</string>
+
 
 </resources>
