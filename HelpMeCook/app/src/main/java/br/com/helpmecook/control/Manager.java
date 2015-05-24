@@ -3,7 +3,6 @@ package br.com.helpmecook.control;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class Manager {
      * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
      * dadas as duas listas de ingredientes passadas como parametro.
      */
-    public static List<Long> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public static List<AbstractRecipe> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getResultByIngredientLists(wanted, unwanted);
     }
 
@@ -92,7 +91,7 @@ public class Manager {
      * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
      * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
      */
-    public static List<Long> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public static List<AbstractRecipe> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getPlusByIngredientLists(wanted, unwanted);
     }
 
