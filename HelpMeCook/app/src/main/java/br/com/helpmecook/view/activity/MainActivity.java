@@ -20,8 +20,8 @@ import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    public static final int MAIN = 0;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private CharSequence mTitle;
     private String[] navMenuTitles;
 
