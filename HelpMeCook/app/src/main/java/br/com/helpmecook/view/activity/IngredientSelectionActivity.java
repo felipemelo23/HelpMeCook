@@ -91,24 +91,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
 
     }
 
-    public void buttonClick(View view){
-        if (origin == MainActivity.MAIN) {
-            executeSearch();
-        }
-        else{
-            wantedIngredients = new long[allIngredients.size()];
-            Intent intent = getIntent();
-
-            for (int i=0; i<clicked.size(); i++) {
-                if (clicked.get(i) == 1) {
-                    wantedIngredients[i] = allIngredients.get(i).getId();
-                }
-            }
-            intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
-            setResult(MainActivity.RESULT_OK, intent);
-            finish();
-        }
-    }
 
     private void executeSearch(){
         wantedIngredients = new ArrayList<Long>(allIngredients.size());

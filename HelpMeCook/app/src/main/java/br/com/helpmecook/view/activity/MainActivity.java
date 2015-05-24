@@ -16,7 +16,6 @@ import br.com.helpmecook.R;
 import br.com.helpmecook.view.fragment.CookbookFragment;
 import br.com.helpmecook.view.fragment.HomeFragment;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
-import br.com.helpmecook.view.fragment.PlaceholderFragment;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -43,12 +42,11 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        //FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = null;
 
         switch (position) {
             case 0:
-                fragment = new HomeFragment(MainActivity.this);
+                fragment = new HomeFragment(this);
                 break;
             case 1:
                 //Busca por ingredient

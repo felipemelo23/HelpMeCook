@@ -22,19 +22,19 @@
 
             <ImageButton
                 android:id="@+id/add_cookbook"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignRight="@+id/banner"
                 android:layout_below="@id/banner"
                 android:layout_marginBottom="-35dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="-10dp"
-                android:background="@drawable/bookmark_plus"
+                android:background="@drawable/cookbook_plus"
                 android:scaleType="fitCenter" />
 
             <RatingBar
                 android:id="@+id/rb_taste"
-                style="@style/style_name"
+                style="@style/rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
                 android:layout_alignParentLeft="true"
@@ -48,14 +48,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/rb_taste"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/rb_taste"
+                android:layout_toRightOf="@+id/rb_taste"
                 android:text="Sabor"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/text" />
 
             <RatingBar
                 android:id="@+id/rb_difficulty"
-                style="@style/style_name"
+                style="@style/rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
                 android:layout_alignParentLeft="true"

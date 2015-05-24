@@ -1,144 +1,146 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:paddingTop="0dp">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".RecipeRegisterActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:contentDescription="Imagem da receita"
-            android:id="@+id/ivRegisterRecipe"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/ib_register_recipe"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/plate"
-            android:cropToPadding="false"
+            android:layout_height="150dp"
             android:adjustViewBounds="false"
-            android:scaleType="centerCrop"/>
+            android:cropToPadding="false"
+            android:scaleType="centerCrop"
+            android:src="@drawable/plate" />
+
         <EditText
-            android:id="@+id/tvRecipeRegisterTitle"
+            android:id="@+id/et_recipe_register_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:textStyle="italic"
-            android:hint="@string/register_recipe_hint"
-            android:gravity="start"/>
+            android:gravity="start"
+            android:hint="@string/recipe_name"
+            android:padding="16dp"
+            android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/tvRecipeRegisterIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
-            android:textSize="16sp"
-            android:text="@string/ingrendiets"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
             android:gravity="left"
-            android:layout_weight="1" />
+            android:text="@string/ingrendiets"
+            android:textSize="16sp" />
 
         <ListView
-            android:id="@+id/lvRegisterRecipeIngredients"
+            android:id="@+id/lv_recipe_register_ingredients"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/add_ingredient"
-            />
-
+            android:hint="@string/add_ingredient" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="4dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:orientation="horizontal"
             android:weightSum="100">
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="@string/estimated_time"
                 android:layout_gravity="center"
-                android:layout_weight="60"/>
+                android:layout_weight="50"
+                android:text="@string/estimated_time"
+                android:textSize="18dp" />
+
             <EditText
-                android:id="@+id/etPreparationTime"
-                android:textAlignment="center"
+                android:id="@+id/et_recipe_register_preparation_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_weight="20"/>
+                android:layout_weight="25"
+                android:inputType="number"
+                android:textAlignment="center" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
-                android:textSize="18sp"
-                android:layout_weight="20"
-                android:text="@string/minutes"/>
+                android:layout_weight="25"
+                android:text="@string/minutes"
+                android:textSize="18dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="4dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:orientation="horizontal"
             android:weightSum="100">
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:layout_weight="50"
                 android:text="@string/portion_num"
-                android:layout_weight="60"
-                android:layout_gravity="center"/>
+                android:textSize="18sp" />
+
             <EditText
-                android:id="@+id/etPortionsNumber"
-                android:textAlignment="center"
+                android:id="@+id/et_recipe_register_portions_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_weight="20"/>
+                android:layout_weight="25"
+                android:inputType="number"
+                android:textAlignment="center" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
-                android:textSize="18sp"
-                android:layout_weight="20"
-                android:text="@string/portions"/>
+                android:layout_weight="25"
+                android:text="@string/portions"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <EditText
-            android:id="@+id/tvRegisterRecipeDescription"
+            android:id="@+id/et_recipe_register_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:gravity="start"
+            android:hint="@string/recipe_details"
+            android:inputType="textMultiLine"
             android:lines="4"
             android:textSize="16sp"
-            android:textStyle="italic"
-            android:hint="@string/recipe_description_hint"
-            android:gravity="start"
-            />
+            android:textStyle="italic" />
     </LinearLayout>
 </ScrollView>

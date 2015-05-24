@@ -97,15 +97,6 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-//    private void loadList() {
-//        recipeDAO dao = new recipeDAO(this);
-//        this.listRecipe = dao.listar();
-//        dao.close();
-//
-//        this.adapter = new ArrayAdapter<Recipe>(this, adapterLayout, listRecipe);
-//        this.lvRecipes.setAdapter(adapter);
-//    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //outState.putStringArrayList(ALUNOS_KEY, (ArrayList<Aluno>) listaAlunos);
