@@ -43,6 +43,7 @@
 
     <string name="search">BUSCAR</string>
     <string name="name_search">Nome da Receita</string>
+    <string name="btOk">Ok</string>
 
 <!--&lt;!&ndash; TODO: Remove or change this placeholder text &ndash;&gt;-->
     <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
