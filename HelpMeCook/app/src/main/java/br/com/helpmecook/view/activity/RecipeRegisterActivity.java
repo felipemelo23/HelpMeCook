@@ -52,6 +52,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     private EditText etPrepTime;
     private EditText etPortionNum;
     private EditText etDescription;
+    private TextView tvIngredients;
     private Bitmap picture;
     private long ingredients[];
 
@@ -69,7 +70,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         etPortionNum = (EditText) findViewById(R.id.et_recipe_register_portions_number);
         etDescription = (EditText) findViewById(R.id.et_recipe_register_description);
         picture = BitmapFactory.decodeResource(ivRecipePicture.getResources(), R.drawable.plate);
-        TextView tvIngredients = (TextView) findViewById(R.id.tv_ingredients);
+        tvIngredients = (TextView) findViewById(R.id.tv_ingredients);
 
 
 
@@ -107,17 +108,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
         outState.putParcelable(PICTURE_KEY,picture);
 
-
-
-        /*System.out.println(picture);
-        int bytes = picture.getByteCount();
-        ByteBuffer buffer = ByteBuffer.allocate(bytes);
-        picture.copyPixelsToBuffer(buffer);
-        byte[] array = buffer.array();
-
-        Log.i("Debug", "Tamanho do Buffer: " + array.length);
-
-        outState.putByteArray(PICTURE_KEY, array);*/
         super.onSaveInstanceState(outState);
     }
 
@@ -132,11 +122,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         etPortionNum.setText(savedInstanceState.getString(PORTION_KEY));
         etDescription.setText(savedInstanceState.getString(DESCRIPTION_KEY));
 
-        /*byte[] array = savedInstanceState.getByteArray(PICTURE_KEY);
-        ByteBuffer buffer = ByteBuffer.wrap(array);
-        Log.i("Debug", "Tamanho do Buffer: " + array.length);
-
-        picture.copyPixelsFromBuffer(buffer);*/
         picture = savedInstanceState.getParcelable(PICTURE_KEY);
     }
 
@@ -264,6 +249,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                     int idx = cursor.getColumnIndex(ImageColumns.DATA);
                     String fileSrc = cursor.getString(idx);
                     picture = BitmapFactory.decodeFile(fileSrc);
+                    //Muda a imagem que está sendo exibida
+                    ivRecipePicture.setImageBitmap(picture);
                     break;
                 case SELECT_INGREDIENT:
 

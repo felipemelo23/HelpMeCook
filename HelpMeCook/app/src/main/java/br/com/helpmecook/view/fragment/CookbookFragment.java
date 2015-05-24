@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -23,6 +24,7 @@ import br.com.helpmecook.view.adapter.RecipesListAdapter;
 @SuppressLint("ValidFragment")
 public class CookbookFragment extends Fragment{
     private ListView lv_recipes_cookbook;
+    private TextView tv_alert;
     private Context context;
     private Cookbook cookbook;
 
@@ -38,14 +40,22 @@ public class CookbookFragment extends Fragment{
                 container, false);
 
         lv_recipes_cookbook = (ListView) fragmentView.findViewById(R.id.lv_cookbook);
-        lv_recipes_cookbook.setAdapter(new RecipesListAdapter(context, cookbook.getRecipeList()));
+        tv_alert = (TextView) fragmentView.findViewById(R.id.tv_cookbook_alert);
 
-        lv_recipes_cookbook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showRecipe(cookbook.getRecipeAt(position).getId());
-            }
-        });
+        if(!(cookbook.getRecipeList() == null)) {
+            tv_alert.setVisibility(View.INVISIBLE);
+            lv_recipes_cookbook.setAdapter(new RecipesListAdapter(context, cookbook.getRecipeList()));
+
+            lv_recipes_cookbook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    showRecipe(cookbook.getRecipeAt(position).getId());
+                }
+            });
+        } else {
+            lv_recipes_cookbook.setVisibility(View.INVISIBLE);
+        }
+
 
         return fragmentView;
     }
