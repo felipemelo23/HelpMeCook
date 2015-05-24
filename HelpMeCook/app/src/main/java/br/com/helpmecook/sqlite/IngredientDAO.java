@@ -3,6 +3,7 @@ package br.com.helpmecook.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ public class IngredientDAO {
     public static final String NAME = "name";
     public static final String ICONPATH = "icon_path";
 
-    private String[] allColumns = { ID, ICONPATH };
+    private String[] allColumns = { ID, NAME, ICONPATH };
 
     public IngredientDAO(Context context) {
         dbHelper = new IngredientOpenHelper(context);
@@ -49,7 +50,13 @@ public class IngredientDAO {
         values.put(NAME, ingredient.getName());
         values.put(ICONPATH, ingredient.getIconPath());
 
-        return database.insert(TABLE_NAME, null, values);
+        try {
+            long result = database.insert(TABLE_NAME, null, values);
+            return result;
+        } catch (SQLiteConstraintException e) {
+
+        }
+        return -1;
     }
 
     public long update(Ingredient ingredient) {
@@ -76,10 +83,12 @@ public class IngredientDAO {
 
         if(c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
+            int indexName = c.getColumnIndex(NAME);
             int indexIconPath = c.getColumnIndex(ICONPATH);
 
             ingredient = new Ingredient();
             ingredient.setId(c.getLong(indexId));
+            ingredient.setName(c.getString(indexName));
             ingredient.setIconPath(c.getInt(indexIconPath));
 
             c.close();
@@ -100,11 +109,13 @@ public class IngredientDAO {
             ingredients = new ArrayList<Ingredient>();
 
             int indexId = c.getColumnIndex(ID);
+            int indexName = c.getColumnIndex(NAME);
             int indexIconPath = c.getColumnIndex(ICONPATH);
 
             do {
                 ingredient = new Ingredient();
                 ingredient.setId(c.getLong(indexId));
+                ingredient.setName(c.getString(indexName));
                 ingredient.setIconPath(c.getInt(indexIconPath));
 
                 ingredients.add(ingredient);

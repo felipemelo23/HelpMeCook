@@ -11,8 +11,13 @@ import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.sql.SQLException;
 
 import br.com.helpmecook.R;
+import br.com.helpmecook.model.Ingredient;
+import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.view.fragment.CookbookFragment;
 import br.com.helpmecook.view.fragment.HomeFragment;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
@@ -21,9 +26,11 @@ public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public static final int MAIN = 0;
+
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
     private String[] navMenuTitles;
+    private int easteregg = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +56,9 @@ public class MainActivity extends ActionBarActivity
                 fragment = new HomeFragment(this);
                 break;
             case 1:
-                //Busca por ingredient
+                Intent intent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);
+                intent.putExtra(IngredientSelectionActivity.REQUEST_CODE, MAIN);
+                startActivity(intent);
                 break;
             case 2:
                 fragment = new CookbookFragment(MainActivity.this);
@@ -127,6 +136,10 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            easteregg++;
+            if (easteregg > 10) {
+                Toast.makeText(getApplicationContext(),getString(R.string.what_are_you_doing),Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 

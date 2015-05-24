@@ -42,6 +42,9 @@
         <activity
             android:name=".view.activity.IngredientSelectionActivity"
             android:label="@string/title_activity_ingredient_selection" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.helpmecook.view.activity.MainActivity" />
         </activity>
         <activity
             android:name=".view.activity.IngredientSearchResultActivity"

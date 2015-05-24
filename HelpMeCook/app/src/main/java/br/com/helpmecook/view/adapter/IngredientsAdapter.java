@@ -46,16 +46,16 @@ public class IngredientsAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.item_ingredients, null);
+            convertView = mInflater.inflate(R.layout.item_ingredient, null);
         }
 
-        ImageView icon = (ImageView) convertView.findViewById(R.id.icon_ingredient);
-        TextView name = (TextView) convertView.findViewById(R.id.name_ingredient);
+        ImageView icon = (ImageView) convertView.findViewById(R.id.imgIcon);
+        TextView name = (TextView) convertView.findViewById(R.id.txtTitle);
 
         icon.setImageDrawable(context.getResources().getDrawable(ingredients.get(position).getIconPath()));
         name.setText(ingredients.get(position).getName());
 
-        return null;
+        return convertView;
     }
 
 }
