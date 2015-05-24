@@ -111,8 +111,8 @@ public class RecipeActivity extends Activity {
         return result;
     }
 
-    public boolean classifyTaste() {
-        final boolean result;
+    public void classifyTaste() {
+        //final boolean result;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
 
@@ -127,7 +127,7 @@ public class RecipeActivity extends Activity {
 
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-                result = false;
+                //result = false;
                 dialog.cancel();
             }
         });
@@ -135,17 +135,18 @@ public class RecipeActivity extends Activity {
 
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-                result = Manager.classifyTaste(recipeId, ratingBar.getRating());
+                //result = Manager.classifyTaste(recipeId, ratingBar.getRating());
+                Manager.classifyTaste(recipeId, ratingBar.getRating());
                 dialog.dismiss();
             }
         });
 
        builder.create();
-        return result;
+        //return result;
     }
 
-    public boolean classifyDifficulty() {
-        final boolean result;
+    public void classifyDifficulty() {
+        //final boolean result;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
 
@@ -160,7 +161,7 @@ public class RecipeActivity extends Activity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int arg1) {
-                        result = false;
+                        //result = false;
                         dialog.cancel();
                     }
                 });
@@ -168,13 +169,14 @@ public class RecipeActivity extends Activity {
 
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-                result = Manager.classifyDifficulty(recipeId, ratingBar.getRating());
+               // result = Manager.classifyDifficulty(recipeId, ratingBar.getRating());
+                Manager.classifyDifficulty(recipeId, ratingBar.getRating());
                 dialog.dismiss();
             }
         });
 
         builder.create();
-        return result;
+        //return result;
     }
 
     @Override

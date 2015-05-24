@@ -16,6 +16,7 @@
     <string name="classify_taste">Classifique o sabor dessa receita</string>
     <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
     <string name="cancel">Cancelar</string>
+    <string name="ok">OK</string>
     <string name="recipe_register">Recipe Register</string>
     <string name="no_ingredients">Selecione os ingredientes da receita</string>
     <string name="blank_fields">Há campos obrigatórios em branco</string>

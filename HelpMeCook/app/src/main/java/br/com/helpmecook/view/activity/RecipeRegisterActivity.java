@@ -28,7 +28,7 @@ import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
 public class RecipeRegisterActivity extends ActionBarActivity {
 
-    private static final String REGISTER_RECIPE = "RegisterRecipe";
+    private static final int REGISTER_RECIPE = 1;
     private static final int SELECT_INGREDIENT = 2;
     private static final int SELECT_PICTURE = 1;
     private static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
