@@ -4,6 +4,7 @@ package br.com.helpmecook.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.FragmentManager;
+import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -26,6 +27,8 @@ public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public static final int MAIN = 0;
+    private static final String NAV_ITEM_KEY = "navItemPosition";
+    private int navItemPosition = 0;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
@@ -34,6 +37,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("Ciclo de Vida", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -45,15 +49,31 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+    }
+
+/*    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i("Ciclo de Vida", "onSaveInstanceState");
+        outState.putInt(NAV_ITEM_KEY,navItemPosition);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.i("Ciclo de Vida", "onRestoreInstanceState");
+        super.onRestoreInstanceState(savedInstanceState);
+        onNavigationDrawerItemSelected(savedInstanceState.getInt(NAV_ITEM_KEY));
+    }*/
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
+        navItemPosition = position;
         Fragment fragment = null;
 
         switch (position) {
             case 0:
-                fragment = new HomeFragment(this);
+                fragment = new HomeFragment();
                 break;
             case 1:
                 Intent intent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);
@@ -61,7 +81,7 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
                 break;
             case 2:
-                fragment = new CookbookFragment(MainActivity.this);
+                fragment = new CookbookFragment();
                 break;
             case 3:
                 startActivity(new Intent(MainActivity.this, RecipeRegisterActivity.class));

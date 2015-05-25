@@ -49,6 +49,10 @@ public class IngredientSelectionActivity extends ActionBarActivity {
 
         allIngredients = Manager.getIngredients(getApplicationContext());
 
+        if (allIngredients == null) {
+            allIngredients = new ArrayList<Ingredient>();
+        }
+
         clicked = new ArrayList<Integer>();
 
         for(int i=0; i<allIngredients.size(); i++){

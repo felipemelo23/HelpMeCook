@@ -22,16 +22,15 @@ public class HomeFragment extends Fragment {
     private GridView gvRecents;
     private GridView gvPop;
 
-
-    public HomeFragment(Context context) {
-        this.context = context;
-    }
+    public HomeFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_home,
                 container, false);
+
+        context = getActivity();
 
         gvRecents = (GridView) fragmentView.findViewById(R.id.gv_recents);
         gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);

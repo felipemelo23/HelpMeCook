@@ -72,8 +72,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         picture = BitmapFactory.decodeResource(ivRecipePicture.getResources(), R.drawable.plate);
         tvIngredients = (TextView) findViewById(R.id.tv_ingredients);
 
-
-
         //Abre a intent para selecionar a foto da receita
         //por enquanto só abre o gerenciador de arquivos, não a camera
         ivRecipePicture.setOnClickListener(new View.OnClickListener() {
