@@ -2,6 +2,7 @@ package br.com.helpmecook.view.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,8 @@ public class RecipesListAdapter extends BaseAdapter{
         TextView name = (TextView) convertView.findViewById(R.id.tv_recipe_name_detail);
         RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_detail);
         RatingBar rbDifficulty = (RatingBar) convertView.findViewById(R.id.rb_difficulty_detail);
+
+        if (recipes != null) Log.i("Debug", recipes.get(position) + "");
 
         icon.setImageBitmap(recipes.get(position).getPicture());
         name.setText(recipes.get(position).getName());

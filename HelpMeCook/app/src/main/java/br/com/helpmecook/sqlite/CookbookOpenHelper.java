@@ -11,7 +11,7 @@ import br.com.helpmecook.model.Cookbook;
  */
 public class CookbookOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String COOKBOOK_TABLE_CREATE =
             "CREATE TABLE " + CookbookDAO.TABLE_NAME + " (" + CookbookDAO.ID + " INTERGER PRIMARY KEY);";

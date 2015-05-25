@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,7 @@ import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
 
-public class RecipeActivity extends Activity {
+public class RecipeActivity extends ActionBarActivity {
     private long recipeId;
     private Recipe recipe;
 

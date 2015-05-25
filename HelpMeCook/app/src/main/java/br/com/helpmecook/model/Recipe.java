@@ -32,6 +32,7 @@ public class Recipe extends AbstractRecipe {
         ingredientList = new ArrayList<Long>();
         numberOfIng = new ArrayList<Integer>();
         units = new ArrayList<String>();
+        this.id = -1;
         this.text = null;
         this.estimatedTime = 0;
         this.portionNum = null;

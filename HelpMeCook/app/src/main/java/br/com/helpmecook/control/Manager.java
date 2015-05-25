@@ -2,6 +2,7 @@ package br.com.helpmecook.control;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -276,8 +277,11 @@ public class Manager {
             recipeDAO.open();
 
             List<Long> ids = cookbookDAO.readAll();
+
             for (long id : ids) {
-                cookbook.addRecipe(recipeDAO.read(id));
+                Recipe recipe = recipeDAO.read(id);
+                Log.i("Debug Cookbook Manager", id + "");
+                cookbook.addRecipe(recipe);
             }
 
             recipeDAO.close();
@@ -312,6 +316,7 @@ public class Manager {
         remoteDBId = accessor.registerRecipe(recipe);
 
         try {
+            Log.i("DebugManager", "Foi inserido no bd local");
             cookbookDAO.open();
             recipeDAO.open();
 
@@ -332,6 +337,7 @@ public class Manager {
                 recipeDAO.close();
                 return 1;
             }else{
+                Log.i("DebugManager", "Foi inserido no servidor");
                 recipe.setId(remoteDBId);
                 recipe.setSync(true);
                 internalDB = cookbookDAO.insert(recipe);

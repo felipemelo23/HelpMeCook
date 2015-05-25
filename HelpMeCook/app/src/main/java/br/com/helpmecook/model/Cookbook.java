@@ -3,6 +3,7 @@ package br.com.helpmecook.model;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,10 @@ import java.util.List;
  */
 public class Cookbook {
     public List<AbstractRecipe> recipes;
+
+    public Cookbook() {
+        recipes = new ArrayList<AbstractRecipe>();
+    }
 
     public List<AbstractRecipe> getRecipeList(){
         return this.recipes;
@@ -19,8 +24,7 @@ public class Cookbook {
     }
 
     public Boolean addRecipe(Recipe recipe){
-        this.recipes.add(recipe);
-        return true;
+        return this.recipes.add(recipe);
     }
     public AbstractRecipe getRecipeAt(int index){
         return this.recipes.get(index);
