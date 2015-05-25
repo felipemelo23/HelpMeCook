@@ -145,9 +145,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 recipe.setPortionNum(etPortionNum.getText().toString());
             }
 
-            System.out.println(Manager.registerRecipe(recipe, getApplicationContext()));
+            Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
             Toast.makeText(getApplicationContext(), getString(R.string.recipe_registered),Toast.LENGTH_LONG).show();
-            //System.out.println(Manager.getRecipeById(Long.MAX_VALUE, this).getName());
             finish();
         }
     }
@@ -188,11 +187,9 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 Log.i("Debug", "nome: " + ing.getName());
             }
             IngredientsAdapter adapter = new IngredientsAdapter(getApplicationContext(),i);
-            System.out.println("oi");
             lvIngredients.setAdapter(adapter);
             setListViewHeightBasedOnChildren(lvIngredients);
             adapter.notifyDataSetChanged();
-            System.out.println("xau");
         }
 
         lvIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
