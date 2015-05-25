@@ -2,6 +2,7 @@ package br.com.helpmecook.view.activity;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.os.PersistableBundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.sql.SQLException;
 
 import br.com.helpmecook.R;
+import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.view.fragment.CookbookFragment;
@@ -28,6 +30,7 @@ public class MainActivity extends ActionBarActivity
 
     public static final int MAIN = 0;
     private static final String NAV_ITEM_KEY = "navItemPosition";
+    private static final String PREFS_NAME = "MyPrefsFile";
     private int navItemPosition = 0;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -39,6 +42,14 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("Ciclo de Vida", "onCreate");
         super.onCreate(savedInstanceState);
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+        if (settings.getBoolean("FirstTime", true)) {
+            Manager.insertAllIngredients(getApplicationContext());
+            settings.edit().putBoolean("FirstTime", false).commit();
+        }
+
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -51,20 +62,6 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
     }
-
-/*    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        Log.i("Ciclo de Vida", "onSaveInstanceState");
-        outState.putInt(NAV_ITEM_KEY,navItemPosition);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.i("Ciclo de Vida", "onRestoreInstanceState");
-        super.onRestoreInstanceState(savedInstanceState);
-        onNavigationDrawerItemSelected(savedInstanceState.getInt(NAV_ITEM_KEY));
-    }*/
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {

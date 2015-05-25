@@ -243,9 +243,12 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                     cursor.moveToFirst();
                     int idx = cursor.getColumnIndex(ImageColumns.DATA);
                     String fileSrc = cursor.getString(idx);
-                    picture = BitmapFactory.decodeFile(fileSrc);
+                    Bitmap tempPic = BitmapFactory.decodeFile(fileSrc);
+                    if (tempPic != null) {
+                        picture = tempPic;
+                        ivRecipePicture.setImageBitmap(picture);
+                    }
                     //Muda a imagem que está sendo exibida
-                    ivRecipePicture.setImageBitmap(picture);
                     break;
                 case SELECT_INGREDIENT:
 

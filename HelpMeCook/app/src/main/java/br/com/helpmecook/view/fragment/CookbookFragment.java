@@ -33,7 +33,7 @@ public class CookbookFragment extends Fragment{
     private Context context;
     private Cookbook cookbook;
 
-    public CookbookFragment() { }
+    public CookbookFragment() {  }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,12 +41,15 @@ public class CookbookFragment extends Fragment{
         View fragmentView = inflater.inflate(R.layout.fragment_cookbook,
                 container, false);
 
+        loadCookbook();
+
         context = getActivity();
 
         lv_recipes_cookbook = (ListView) fragmentView.findViewById(R.id.lv_cookbook);
         tv_alert = (TextView) fragmentView.findViewById(R.id.tv_cookbook_alert);
 
         if(cookbook != null && cookbook.getRecipeList() != null && !cookbook.getRecipeList().isEmpty()) {
+            Log.i("Debug","Lista Não Vazia");
             tv_alert.setVisibility(View.GONE);
             lv_recipes_cookbook.setAdapter(new RecipesListAdapter(context, cookbook.getRecipeList()));
 
@@ -57,7 +60,9 @@ public class CookbookFragment extends Fragment{
                 }
             });
         } else {
+            Log.i("Debug","Lista Vazia");
             lv_recipes_cookbook.setVisibility(View.GONE);
+
         }
 
         return fragmentView;

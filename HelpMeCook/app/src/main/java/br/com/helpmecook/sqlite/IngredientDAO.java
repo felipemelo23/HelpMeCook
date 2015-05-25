@@ -127,14 +127,4 @@ public class IngredientDAO {
             return null;
         }
     }
-
-    //essa funcao sera util para quando o aplicativo for iniciado pela primeira vez os ingredientes do
-    //servidor possam ser adicionados ao banco local
-    public boolean insertListIngredients (List<Ingredient> listOfIngredients){
-        for (Ingredient ingredient : listOfIngredients){
-            if (insert(ingredient) < 0)  return false;
-        }
-        return true;
-    }
-
 }

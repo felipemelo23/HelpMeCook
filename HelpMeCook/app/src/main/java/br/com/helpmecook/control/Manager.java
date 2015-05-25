@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import br.com.helpmecook.R;
 import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Cookbook;
 import br.com.helpmecook.model.Ingredient;
@@ -177,6 +179,27 @@ public class Manager {
         }
 
         return ingredients;
+    }
+
+    public static void insertAllIngredients(Context context) {
+        String names[] = new String[]{"Açucar", "Arroz", "Aveia", "Azeite", "Azeitona", "Biscoitos", "Café", "Catchup", "Chocolate em pó", "Creme de leite", "Ervilha", "Farinha de linhaça", "Farinha de milho", "Farinha de trigo", "Farinha de mandioca", "Farofa", "Feijão carioca", "Feijão preto", "Fermento em pó", "Gelatina", "Geléia", "Leite condensado", "Leite de coco", "Leite em pó", "Macarrão", "Maionese", "Maisena", "Milho (Pipoca)", "Molho de tomate", "Molho inglês", "Mostarda", "Óleo", "Pão", "Torrada", "Tomate", "Catupiry", "Danone", "Iogurte", "Leite", "Manteiga", "Margarina", "Ovo", "Requeijão", "Queijo branco", "Queijo amarelo", "Presunto"};
+        IngredientDAO ingredientDAO = new IngredientDAO(context);
+
+        try {
+            ingredientDAO.open();
+
+            Ingredient ingredient = new Ingredient();
+            for (int i = 0; i < names.length; i++) {
+                ingredient.setName(names[i]);
+                ingredient.setId(i);
+                ingredient.setIconPath(R.drawable.checkbox_blank_circle);
+                ingredientDAO.insert(ingredient);
+            }
+
+            ingredientDAO.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

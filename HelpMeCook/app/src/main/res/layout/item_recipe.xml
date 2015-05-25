@@ -43,9 +43,9 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_recipe_name_detail"
             android:layout_alignLeft="@+id/rb_difficulty_detail"
-            android:layout_alignStart="@+id/rb_difficulty_detail"
-            android:layout_centerVertical="true" />
+            android:layout_alignStart="@+id/rb_difficulty_detail" />
 
         <TextView
             android:id="@+id/tv_difficulty_detail"
@@ -62,8 +62,11 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignBottom="@+id/tv_difficulty_detail"
+            android:layout_toRightOf="@+id/tv_difficulty_detail"
+            android:layout_toEndOf="@+id/tv_difficulty_detail"
+            android:layout_marginLeft="48dp"
+            android:layout_marginStart="48dp" />
 
     </RelativeLayout>
 </RelativeLayout>
