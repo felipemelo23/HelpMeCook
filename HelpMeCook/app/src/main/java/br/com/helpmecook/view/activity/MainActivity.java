@@ -23,19 +23,18 @@ import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.view.fragment.CookbookFragment;
 import br.com.helpmecook.view.fragment.HomeFragment;
+import br.com.helpmecook.view.fragment.MapFragment;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public static final int MAIN = 0;
-    private static final String NAV_ITEM_KEY = "navItemPosition";
     private static final String PREFS_NAME = "MyPrefsFile";
     private int navItemPosition = 0;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
-    private String[] navMenuTitles;
     private int easteregg = 0;
 
     @Override
@@ -65,6 +64,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        //navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
         navItemPosition = position;
         Fragment fragment = null;
 
@@ -78,13 +78,16 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
                 break;
             case 2:
+               // setTitle());
+                (MainActivity.this).setTitle(getResources().getString(R.string.title_activity_cookbook));
                 fragment = new CookbookFragment();
                 break;
             case 3:
                 startActivity(new Intent(MainActivity.this, RecipeRegisterActivity.class));
                 break;
             case 4:
-                //Onde encontrar comida?
+                fragment = new MapFragment();
+                setTitle(getResources().getString(R.string.title_activity_map));
                 break;
             default:
                 break;
@@ -102,27 +105,6 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    public void onSectionAttached(int number) {
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-        switch (number) {
-            case 1:
-                mTitle = navMenuTitles[0];
-                break;
-            case 2:
-                mTitle = navMenuTitles[1];
-                break;
-            case 3:
-                mTitle = navMenuTitles[2];
-                break;
-            case 4:
-                mTitle = navMenuTitles[3];
-                break;
-            case 5:
-                mTitle = navMenuTitles[4];
-                break;
-        }
-    }
-
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -130,13 +112,9 @@ public class MainActivity extends ActionBarActivity
         actionBar.setTitle(mTitle);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
@@ -146,12 +124,8 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             easteregg++;
             if (easteregg > 10) {

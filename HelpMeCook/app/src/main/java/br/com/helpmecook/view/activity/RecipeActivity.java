@@ -39,7 +39,7 @@ public class RecipeActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            recipeId  = extras.getInt(RECIPE_ID);
+            recipeId  = extras.getLong(RECIPE_ID);
         } else {
             //O que fazemos se o id não for enviado/recebido??
         }
@@ -48,7 +48,7 @@ public class RecipeActivity extends ActionBarActivity {
     }
 
     public void loadRecipe(long id) {
-        recipe = Manager.getRecipeById(recipeId, this);
+        recipe = Manager.getRecipeById(id, this);
 
         setTitle(recipe.getName());
 

@@ -10,7 +10,8 @@
         android:id="@+id/tv_cookbook_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:text="@string/cookbook_alert"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text"/>
@@ -19,6 +20,7 @@
         android:id="@+id/lv_cookbook"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="top"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp">

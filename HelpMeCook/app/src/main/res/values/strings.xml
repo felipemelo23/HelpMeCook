@@ -4,6 +4,8 @@
     <string name="title_activity_name_search_results">Results from Name Search</string>
     <string name="title_activity_recipe_register">Criar Receita</string>
     <string name="title_activity_ingredient_selection">Selecionar Ingredientes</string>
+    <string name="title_activity_cookbook">Meu Cookbook</string>
+    <string name="title_activity_map">Onde Encontrar Comida?</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -46,16 +48,6 @@
     <string name="search">BUSCAR</string>
     <string name="name_search">Nome da Receita</string>
     <string name="btOk">Ok</string>
-
-
-    <!--&lt;!&ndash; TODO: Remove or change this placeholder text &ndash;&gt;-->
-    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
-    <!--<string name="register_recipe_hint">Nome da Receita</string>-->
-    <!--<string name="recipe_description_hint">Descrição</string>-->
-    <!--<string name="add_ingredient">Add Ingredient</string>-->
-    <!--<string name="ingrendiets">Ingredientes</string>-->
-    <!--<string name="minutes">minutos</string>-->
-    <!--<string name="portions">porções</string>-->
 
     <!--IngredientSearchResults-->
     <string name="title_activity_ingredient_search_result">IngredientSearchResultActivity</string>
