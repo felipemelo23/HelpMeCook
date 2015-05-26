@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity
 
         switch (position) {
             case 0:
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putInt(POSITION_NAV_DRAWER, 0);
                 editor.commit();
@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 mTitle = getResources().getString(R.string.title_activity_cookbook);
 
-                SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                 SharedPreferences.Editor editor2 = preferences2.edit();
                 editor2.putInt(POSITION_NAV_DRAWER, 2);
                 editor2.commit();
@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity
             case 4:
                 mTitle = getResources().getString(R.string.title_activity_map);
 
-                SharedPreferences preferences3 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences preferences3 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                 SharedPreferences.Editor editor3 = preferences3.edit();
                 editor3.putInt(POSITION_NAV_DRAWER, 4);
                 editor3.commit();
