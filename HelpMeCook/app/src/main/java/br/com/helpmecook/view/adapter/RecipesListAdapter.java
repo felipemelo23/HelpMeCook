@@ -15,6 +15,7 @@ import java.util.List;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.model.AbstractRecipe;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Thais on 15/05/2015.
@@ -51,7 +52,7 @@ public class RecipesListAdapter extends BaseAdapter{
             convertView = mInflater.inflate(R.layout.item_recipe, null);
         }
 
-        ImageView icon = (ImageView) convertView.findViewById(R.id.iv_recipe_detail);
+        CircleImageView icon = (CircleImageView) convertView.findViewById(R.id.iv_recipe_detail);
         TextView name = (TextView) convertView.findViewById(R.id.tv_recipe_name_detail);
         RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_detail);
         RatingBar rbDifficulty = (RatingBar) convertView.findViewById(R.id.rb_difficulty_detail);

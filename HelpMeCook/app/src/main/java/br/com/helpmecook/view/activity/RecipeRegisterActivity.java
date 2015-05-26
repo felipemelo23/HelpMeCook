@@ -1,9 +1,13 @@
 package br.com.helpmecook.view.activity;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -22,6 +26,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -61,7 +67,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_register);
 
-        Log.i("Ciclo de Vida", "OnCreate");
+        Log.i("Register-Ciclo de Vida", "OnCreate");
 
         ivRecipePicture = (ImageView) findViewById(R.id.iv_register_recipe);
         etName = (EditText) findViewById(R.id.et_recipe_register_name);
@@ -96,7 +102,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.i("Ciclo de Vida", "OnSave");
+        Log.i("Register-Ciclo de Vida", "OnSave");
         // Tem que fazer essa funcao(ainda tem que fazer, ou o comentário é que não foi apagado?)
         outState.putString(RECIPE_NAME_KEY, etName.getText().toString());
         outState.putLongArray(INGREDIENTS_KEY, ingredients);
@@ -111,7 +117,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.i("Ciclo de Vida", "OnRestore");
+        Log.i("Register-Ciclo de Vida", "OnRestore");
         // e essa
         super.onRestoreInstanceState(savedInstanceState);
         etName.setText(savedInstanceState.getString(RECIPE_NAME_KEY));
@@ -170,7 +176,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("Ciclo de Vida", "OnResume");
+        Log.i("Register-Ciclo de Vida", "OnResume");
 
         if (ingredients != null){
             Log.i("Debug", "Ingredientes não é nulo");
@@ -225,7 +231,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i("Ciclo de Vida", "OnRestart");
+        Log.i("Register-Ciclo de Vida", "OnRestart");
     }
 
     @Override
@@ -238,22 +244,33 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         } else {
             switch (requestCode) {
                 case SELECT_PICTURE:
-                    Cursor cursor = getContentResolver().query(intent.getData(), null,
-                            null, null, null);
-                    cursor.moveToFirst();
-                    int idx = cursor.getColumnIndex(ImageColumns.DATA);
-                    String fileSrc = cursor.getString(idx);
-                    Bitmap tempPic = BitmapFactory.decodeFile(fileSrc);
+                    Uri selectedImage = intent.getData();
+
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = getContentResolver().openInputStream(
+                                selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    final BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 2; //hard code it to whatever is reasonable
+
+                    Bitmap tempPic = BitmapFactory.decodeStream(inputStream, null, options);
+
                     if (tempPic != null) {
                         picture = tempPic;
                         ivRecipePicture.setImageBitmap(picture);
+                    } else {
+                        // Fazer tratamento aqui
+                       // Toast.makeText(RecipeRegisterActivity.this, "A imagem veio nula", Toast.LENGTH_LONG).show();
                     }
-                    //Muda a imagem que está sendo exibida
                     break;
                 case SELECT_INGREDIENT:
 
                     ingredients = intent.getLongArrayExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
-                    Log.i("Ciclo de Vida","OnActivityResult");
+                    Log.i("Register-Ciclo de Vida","OnActivityResult");
                     break;
                 default:
                     Toast.makeText(getApplicationContext(), "De onde voce veio, meu amigo?", Toast.LENGTH_SHORT).show();

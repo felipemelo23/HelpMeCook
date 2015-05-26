@@ -3,24 +3,19 @@ package br.com.helpmecook.view.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.FragmentManager;
-import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.sql.SQLException;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
-import br.com.helpmecook.model.Ingredient;
-import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.view.fragment.CookbookFragment;
 import br.com.helpmecook.view.fragment.HomeFragment;
 import br.com.helpmecook.view.fragment.MapFragment;
@@ -30,23 +25,22 @@ public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public static final int MAIN = 0;
-    private static final String PREFS_NAME = "MyPrefsFile";
-    private int navItemPosition = 0;
+    private static final String FIRST_TIME = "first_time";
+    private static final String POSITION_NAV_DRAWER = "position";
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
-    private int easteregg = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("Ciclo de Vida", "onCreate");
+        Log.i("Main - Ciclo de Vida", "onCreate");
         super.onCreate(savedInstanceState);
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = getSharedPreferences(FIRST_TIME, 0);
 
-        if (settings.getBoolean("FirstTime", true)) {
-            Manager.insertAllIngredients(getApplicationContext());
-            settings.edit().putBoolean("FirstTime", false).commit();
+        if (settings.getBoolean(FIRST_TIME, true)) {
+            new AsyncTaskLoadIngredients().execute();
+            settings.edit().putBoolean(FIRST_TIME, false).commit();
         }
 
         setContentView(R.layout.activity_main);
@@ -64,12 +58,15 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        //navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-        navItemPosition = position;
         Fragment fragment = null;
 
         switch (position) {
             case 0:
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt(POSITION_NAV_DRAWER, 0);
+                editor.commit();
+
                 fragment = new HomeFragment();
                 break;
             case 1:
@@ -78,16 +75,30 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
                 break;
             case 2:
-               // setTitle());
-                (MainActivity.this).setTitle(getResources().getString(R.string.title_activity_cookbook));
+                mTitle = getResources().getString(R.string.title_activity_cookbook);
+
+                SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor2 = preferences2.edit();
+                editor2.putInt(POSITION_NAV_DRAWER, 2);
+                editor2.commit();
+
+                SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
+                Log.i("Go to Cookbook", "position: " + settings.getInt(POSITION_NAV_DRAWER, 0));
+
                 fragment = new CookbookFragment();
                 break;
             case 3:
                 startActivity(new Intent(MainActivity.this, RecipeRegisterActivity.class));
                 break;
             case 4:
+                mTitle = getResources().getString(R.string.title_activity_map);
+
+                SharedPreferences preferences3 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor3 = preferences3.edit();
+                editor3.putInt(POSITION_NAV_DRAWER, 4);
+                editor3.commit();
+
                 fragment = new MapFragment();
-                setTitle(getResources().getString(R.string.title_activity_map));
                 break;
             default:
                 break;
@@ -119,21 +130,46 @@ public class MainActivity extends ActionBarActivity
             restoreActionBar();
             return true;
         }
-        return super.onCreateOptionsMenu(menu);
+        //return super.onCreateOptionsMenu(menu);
+        return false;
+    }
+
+    class AsyncTaskLoadIngredients extends AsyncTask<Void, Integer, String> {
+
+        protected void onPreExecute(){
+            Log.d("Asyntask","On preExceute...");
+        }
+
+        protected String doInBackground(Void...arg0) {
+            Log.d("Asyntask","On doInBackground...");
+
+            Manager.insertAllIngredients(getApplicationContext());
+
+            return "You are at PostExecute";
+        }
+
+        protected void onProgressUpdate(Integer...a){
+            Log.d("Asyntask","You are in progress update ... " + a[0]);
+        }
+
+        protected void onPostExecute(String result) {
+            Log.d("Asyntask",result);
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    protected void onResume() {
+        SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
+        Log.i("Main - Ciclo de Vida", "onResume" + settings.getInt(POSITION_NAV_DRAWER, 0));
+        super.onResume();
+        //atualizar os fragments
+        onNavigationDrawerItemSelected(settings.getInt(POSITION_NAV_DRAWER, 0));
+    }
 
-        if (id == R.id.action_settings) {
-            easteregg++;
-            if (easteregg > 10) {
-                Toast.makeText(getApplicationContext(),getString(R.string.what_are_you_doing),Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    @Override
+    protected void onStop() {
+        SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
+        Log.i("Main - Ciclo de Vida", "onStop" + " position:" + settings.getInt(POSITION_NAV_DRAWER, 0));
+        super.onStop();
     }
 }
