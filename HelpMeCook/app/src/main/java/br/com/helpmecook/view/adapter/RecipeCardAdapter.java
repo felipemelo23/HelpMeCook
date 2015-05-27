@@ -70,6 +70,6 @@ public class RecipeCardAdapter extends BaseAdapter{
         name.setText(recipes.get(position).getName());
         rbTaste.setRating(recipes.get(position).getTaste());
 
-        return null;
+        return convertView;
     }
 }

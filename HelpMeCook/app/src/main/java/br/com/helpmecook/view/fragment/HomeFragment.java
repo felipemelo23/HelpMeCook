@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import java.util.List;
+
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
+import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipeCardAdapter;
 
@@ -35,11 +38,17 @@ public class HomeFragment extends Fragment {
 
         gvRecents = (GridView) fragmentView.findViewById(R.id.gv_recents);
         gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);
-/*
+
         if (Manager.getRecentRecipes(context) == null) {
             Log.i("HomeFragment", "esta nulo");
         } else {
             Log.i("HomeFragment", "nao esta nulo");
+        }
+
+        List<AbstractRecipe> ar = Manager.getRecentRecipes(context);
+
+        for (AbstractRecipe a : ar) {
+            Log.i("HomeFragment", a.getName());
         }
 
         final RecipeCardAdapter adapterRecents = new RecipeCardAdapter(context, Manager.getRecentRecipes(context));
@@ -59,8 +68,9 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showRecipe(adapterPop.getItem(position).getId());
             }
-        });*/
+        });
 
+        Log.i("HomeFragment", "Retorna FragmentView");
         return fragmentView;
     }
 

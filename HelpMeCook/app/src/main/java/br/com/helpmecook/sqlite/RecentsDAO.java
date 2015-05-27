@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -89,11 +90,14 @@ public class RecentsDAO {
         long id;
         ArrayList<Long> recipes = new ArrayList<Long>();
 
+        Log.i("RecentsDAO", String.valueOf(c.moveToFirst()));
+
         if (c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
 
             do {
                 id = c.getLong(indexId);
+                Log.i("RecentsDAO", String.valueOf(id));
                 recipes.add(id);
             } while(c.moveToNext());
         }

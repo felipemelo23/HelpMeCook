@@ -80,8 +80,12 @@ public class Manager {
 
         try {
             recipeDAO.open();
+            recipes = new ArrayList<AbstractRecipe>();
+
+            Log.i("HomeFrament ids", String.valueOf(ids.size()));
 
             for (long id : ids) {
+                Log.i("Manager", id + "");
                 recipe = recipeDAO.readAbstractRecipe(id);
                 recipes.add(recipe);
             }
@@ -126,9 +130,16 @@ public class Manager {
         try {
             recentsDAO.open();
             List<Long> ids = recentsDAO.readAll(); //Esse metodo esta retornar ordenado por LastAccess.
+            recentsDAO.close();
             List<AbstractRecipe> recents = getAbstractRecipes(ids, context);
+
+            for (AbstractRecipe ar : recents) {
+                Log.i("HomeFragment", ar.getName());
+            }
+
             return  recents;
         } catch (java.sql.SQLException e) {
+            Log.d("HomeFragment", "SQLException");
             e.printStackTrace();
             return null;
         }
