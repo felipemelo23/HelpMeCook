@@ -1,6 +1,8 @@
 package br.com.helpmecook.view.activity;
 
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -13,6 +15,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -136,36 +139,18 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        android.widget.SearchView searchView = (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }
-        //return super.onCreateOptionsMenu(menu);
-        return false;
-    }
-
-    class AsyncTaskLoadIngredients extends AsyncTask<Void, Integer, String> {
-
-        protected void onPreExecute(){
-            Log.d("Asyntask","On preExceute...");
-        }
-
-        protected String doInBackground(Void...arg0) {
-            Log.d("Asyntask","On doInBackground...");
-
-            Manager.insertAllIngredients(getApplicationContext());
-
-            return "You are at PostExecute";
-        }
-
-        protected void onProgressUpdate(Integer...a){
-            Log.d("Asyntask","You are in progress update ... " + a[0]);
-        }
-
-        protected void onPostExecute(String result) {
-            Log.d("Asyntask",result);
-        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -182,5 +167,22 @@ public class MainActivity extends ActionBarActivity
         SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
         Log.i("Main - Ciclo de Vida", "onStop" + " position:" + settings.getInt(POSITION_NAV_DRAWER, 0));
         super.onStop();
+    }
+
+    class AsyncTaskLoadIngredients extends AsyncTask<Void, Integer, String> {
+
+        protected void onPreExecute(){ }
+
+        protected String doInBackground(Void...arg0) {
+            Log.d("Asyntask","On doInBackground...");
+            Manager.insertAllIngredients(getApplicationContext());
+            return "You are at PostExecute";
+        }
+
+        protected void onProgressUpdate(Integer...a){ }
+
+        protected void onPostExecute(String result) {
+            Log.d("Asyntask",result);
+        }
     }
 }
