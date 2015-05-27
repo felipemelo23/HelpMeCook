@@ -69,9 +69,7 @@ public class MainActivity extends ActionBarActivity
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putInt(POSITION_NAV_DRAWER, 0);
                 editor.commit();
-                Log.i("MainActivity", "Before call HomeFragment");
                 fragment = new HomeFragment();
-                Log.i("MainActivity", "After call HomeFragment");
                 break;
             case 1:
                 Intent intent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);

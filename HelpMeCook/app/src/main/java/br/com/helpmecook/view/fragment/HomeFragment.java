@@ -47,10 +47,6 @@ public class HomeFragment extends Fragment {
 
         List<AbstractRecipe> ar = Manager.getRecentRecipes(context);
 
-        for (AbstractRecipe a : ar) {
-            Log.i("HomeFragment", a.getName());
-        }
-
         final RecipeCardAdapter adapterRecents = new RecipeCardAdapter(context, Manager.getRecentRecipes(context));
         gvRecents.setAdapter(adapterRecents);
         Log.i("HomeFragment", adapterRecents.getCount() + "");
@@ -70,7 +66,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Log.i("HomeFragment", "Retorna FragmentView");
         return fragmentView;
     }
 

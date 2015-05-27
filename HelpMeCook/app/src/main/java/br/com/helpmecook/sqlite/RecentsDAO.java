@@ -90,7 +90,7 @@ public class RecentsDAO {
         long id;
         ArrayList<Long> recipes = new ArrayList<Long>();
 
-        Log.i("RecentsDAO", String.valueOf(c.moveToFirst()));
+        Log.i("RecentsDAO", String.valueOf(c.getCount()));
 
         if (c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
