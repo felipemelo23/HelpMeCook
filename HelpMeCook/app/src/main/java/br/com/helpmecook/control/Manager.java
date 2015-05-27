@@ -35,7 +35,6 @@ public class Manager {
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
         try{
-            Log.i("Manager", "try");
             recipeDAO.open();
             recentsDAO.open();
 
@@ -44,27 +43,20 @@ public class Manager {
 
             //Se a receita não estiver no banco de dados local, procura no servidor.
             if (recipe == null) {
-                Log.i("Manager", "if (recipe == null)");
                 recipe = accessor.getRecipeById(id);
             }
 
             //Se a receita foi encontrada, atualiza o último acesso dela e adiciona ela na tabela Recents
             if (recipe != null) {
-                Log.i("Manager","recipe != null");
                 Calendar cal = Calendar.getInstance();
                 recipe.updateLastAcess(cal);
                 recipeDAO.update(recipe);
 
                 if (recentsDAO.read(recipe.getId()) == null){
-                    Log.i("Manager","insert");
                     recentsDAO.insert(recipe);
                 } else {
-                    Log.i("Manager","update");
                     recentsDAO.update(recipe);
-                    Log.i("Maneger", recentsDAO.readAll().size() + "");
                 }
-            } else {
-                Log.i("Manager","recipe == null");
             }
 
         recipeDAO.close();
