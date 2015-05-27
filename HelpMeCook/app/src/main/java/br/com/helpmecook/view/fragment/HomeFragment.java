@@ -20,7 +20,6 @@ import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipeCardAdapter;
 
-@SuppressLint("ValidFragment")
 public class HomeFragment extends Fragment {
     private Context context;
     private GridView gvRecents;
@@ -37,6 +36,7 @@ public class HomeFragment extends Fragment {
         context = getActivity();
 
         gvRecents = (GridView) fragmentView.findViewById(R.id.gv_recents);
+        //gvRecents.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT, 100));
         gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);
 
         if (Manager.getRecentRecipes(context) == null) {

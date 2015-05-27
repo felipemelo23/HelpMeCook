@@ -28,7 +28,6 @@ import br.com.helpmecook.view.adapter.RecipesListAdapter;
 /**
  * Created by Thais on 16/05/2015.
  */
-@SuppressLint("ValidFragment")
 public class CookbookFragment extends Fragment{
     private ListView lv_recipes_cookbook;
     private TextView tv_alert;
