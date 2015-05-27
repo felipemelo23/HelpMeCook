@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,17 +34,15 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
 
-        long wantedId[] = intent.getLongArrayExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
-        long unwantedId[] = intent.getLongArrayExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
+        List<Long> wanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
+        List<Long> unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
 
-        List<Long> wanted = new ArrayList<Long>();
-        List<Long> unwanted = new ArrayList<Long>();
-        for (int i = 0; i < wantedId.length; i++) {
+        /*for (int i = 0; i < wantedId.length; i++) {
             wanted.add(wantedId[i]);
         }
         for (int i = 0; i < unwantedId.length; i++) {
             unwanted.add(unwantedId[i]);
-        }
+        }*/
 
         showResults(Manager.getRecipeIngredients(wanted,getApplicationContext()),
                     Manager.getRecipeIngredients(unwanted,getApplicationContext()));
@@ -76,36 +75,38 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         results = Manager.getResultByIngredientLists(wanted, unwanted);
         plus = Manager.getPlusByIngredientLists(wanted, unwanted);
 
-        RecipesListAdapter resultsAdapter = new RecipesListAdapter(getApplicationContext(), results);
-        RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
+        if (results != null && plus != null) {
+            RecipesListAdapter resultsAdapter = new RecipesListAdapter(getApplicationContext(), results);
+            RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
 
-        resultRecipes = (ListView) findViewById(R.id.lvRecipes);
-        resultRecipes.setAdapter(resultsAdapter);
+            resultRecipes = (ListView) findViewById(R.id.lvRecipes);
+            resultRecipes.setAdapter(resultsAdapter);
 
-        resultRecipesPlus = (ListView) findViewById(R.id.lvRecipesPlus);
-        resultRecipesPlus.setAdapter(plusAdapter);
+            resultRecipesPlus = (ListView) findViewById(R.id.lvRecipesPlus);
+            resultRecipesPlus.setAdapter(plusAdapter);
 
 
-        resultRecipes.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        showRecipe(results.get(position).getId());
+            resultRecipes.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            showRecipe(results.get(position).getId());
+                        }
                     }
-                }
-        );
+            );
 
-        resultRecipesPlus.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        showRecipe(plus.get(position).getId());
+            resultRecipesPlus.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            showRecipe(plus.get(position).getId());
+                        }
                     }
-                }
-        );
-
-
-
+            );
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.cant_search), Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
     public void showRecipe(long id) {
         Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);

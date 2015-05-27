@@ -57,6 +57,7 @@
     <string name="resultsplusone">Receitas com mais ingredientes</string>
     <string name="recipe_registered">Criada com sucesso! (Será que é gostosa?)</string>
     <string name="what_are_you_doing">O que exatamente você está tentando fazer?</string>
+    <string name="cant_search">Não foi possível realizar a busca</string>
 
 
 </resources>

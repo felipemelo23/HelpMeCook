@@ -89,58 +89,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ingredient_icon" />
-
-            <ListView
-                android:id="@+id/lv_ingredient_recipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </ListView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/pan" />
-
-            <TextView
-                android:id="@+id/tv_recipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/text"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
             android:weightSum="2">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -187,6 +140,54 @@
                     android:textColor="@color/text"></TextView>
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ingredient_icon" />
+
+            <ListView
+                android:id="@+id/lv_ingredient_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/pan" />
+
+            <TextView
+                android:id="@+id/tv_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text"></TextView>
+        </LinearLayout>
+
+
 
 
     </LinearLayout>

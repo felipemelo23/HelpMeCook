@@ -86,22 +86,22 @@ public class IngredientSelectionActivity extends ActionBarActivity {
     }
 
     private void executeSearch(){
-        wantedIngredients = new ArrayList<Long>(allIngredients.size());
-        unwantedIngredients = new ArrayList<Long>(allIngredients.size()-wantedIngredients.size());
+        wantedIngredients = new ArrayList<Long>();
+        unwantedIngredients = new ArrayList<Long>();
         Intent intent = new Intent(getApplicationContext(),IngredientSearchResultActivity.class);
 
         for (int i=0; i<clicked.size(); i++){
             if (clicked.get(i)==1){
-                wantedIngredients.set(i,allIngredients.get(i).getId());
+                wantedIngredients.add(allIngredients.get(i).getId());
             }
             if (clicked.get(i)==2){
-                unwantedIngredients.set(i,allIngredients.get(i).getId());
+                unwantedIngredients.add(allIngredients.get(i).getId());
             }
         }
         if(wantedIngredients.isEmpty()) {
             for (int i=0; i<clicked.size(); i++){
                 if (clicked.get(i) != 2){
-                    wantedIngredients.set(i,allIngredients.get(i).getId());
+                    wantedIngredients.add(allIngredients.get(i).getId());
                 }
             }
         }
