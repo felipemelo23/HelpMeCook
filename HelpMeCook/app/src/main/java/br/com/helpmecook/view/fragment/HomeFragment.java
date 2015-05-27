@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +35,16 @@ public class HomeFragment extends Fragment {
 
         gvRecents = (GridView) fragmentView.findViewById(R.id.gv_recents);
         gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);
+/*
+        if (Manager.getRecentRecipes(context) == null) {
+            Log.i("HomeFragment", "esta nulo");
+        } else {
+            Log.i("HomeFragment", "nao esta nulo");
+        }
 
         final RecipeCardAdapter adapterRecents = new RecipeCardAdapter(context, Manager.getRecentRecipes(context));
         gvRecents.setAdapter(adapterRecents);
+        Log.i("HomeFragment", adapterRecents.getCount() + "");
         final RecipeCardAdapter adapterPop = new RecipeCardAdapter(context, Manager.getPopularRecipes());
         gvPop.setAdapter(adapterPop);
 
@@ -51,7 +59,7 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showRecipe(adapterPop.getItem(position).getId());
             }
-        });
+        });*/
 
         return fragmentView;
     }

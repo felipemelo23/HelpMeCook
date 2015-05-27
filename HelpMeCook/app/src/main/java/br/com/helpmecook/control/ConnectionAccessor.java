@@ -19,14 +19,6 @@ public class ConnectionAccessor {
     }
 
     /**
-     * @param ids Lista de Identificadores de Receita.
-     * @return Retorna uma lista de receitas resumidas.
-     */
-    public List<AbstractRecipe> getAbstractRecipes(List<Long> ids) {
-        return null;
-    }
-
-    /**
      * @param wanted Lista de ingredientes desejaveis.
      * @param unwanted Lista de ingredientes indesejaveis.
      * @return Retorna uma lista de identificadores de receitas que satisfazem exatamente a busca

@@ -9,17 +9,19 @@ import android.view.ViewGroup;
 import br.com.helpmecook.R;
 
 /**
- * Created by Thais on 26/05/2015.
+ * Created by Thais on 27/05/2015.
  */
-public class MapFragment extends Fragment {
+public class InfoFragment extends Fragment{
 
-    public MapFragment() { }
+    public InfoFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_map,
+        View fragmentView = inflater.inflate(R.layout.fragment_info,
                 container, false);
         return fragmentView;
     }
+
+
 }

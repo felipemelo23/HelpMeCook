@@ -8,5 +8,6 @@
         <item>@drawable/file_document_box</item>
         <item>@drawable/pencil</item>
         <item>@drawable/map_marker</item>
+        <item>@drawable/information</item>
     </array>
 </resources>

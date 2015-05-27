@@ -18,6 +18,7 @@ import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.view.fragment.CookbookFragment;
 import br.com.helpmecook.view.fragment.HomeFragment;
+import br.com.helpmecook.view.fragment.InfoFragment;
 import br.com.helpmecook.view.fragment.MapFragment;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 
@@ -62,7 +63,7 @@ public class MainActivity extends ActionBarActivity
 
         switch (position) {
             case 0:
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putInt(POSITION_NAV_DRAWER, 0);
                 editor.commit();
@@ -77,7 +78,7 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 mTitle = getResources().getString(R.string.title_activity_cookbook);
 
-                SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                 SharedPreferences.Editor editor2 = preferences2.edit();
                 editor2.putInt(POSITION_NAV_DRAWER, 2);
                 editor2.commit();
@@ -93,12 +94,22 @@ public class MainActivity extends ActionBarActivity
             case 4:
                 mTitle = getResources().getString(R.string.title_activity_map);
 
-                SharedPreferences preferences3 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences preferences3 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                 SharedPreferences.Editor editor3 = preferences3.edit();
                 editor3.putInt(POSITION_NAV_DRAWER, 4);
                 editor3.commit();
 
                 fragment = new MapFragment();
+                break;
+            case 5:
+                mTitle = getResources().getString(R.string.title_activity_info);
+
+                SharedPreferences preferences4 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                SharedPreferences.Editor editor4 = preferences4.edit();
+                editor4.putInt(POSITION_NAV_DRAWER, 5);
+                editor4.commit();
+
+                fragment = new InfoFragment();
                 break;
             default:
                 break;

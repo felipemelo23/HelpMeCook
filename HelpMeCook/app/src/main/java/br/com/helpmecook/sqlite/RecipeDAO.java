@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Recipe;
 
 public class RecipeDAO {
@@ -129,12 +130,7 @@ public class RecipeDAO {
 
     public Recipe read(long id){
         Recipe recipe;
-
-        //String sql = "SELECT * FROM " + TABLE_NAME ;
-
         Cursor c = database.query(TABLE_NAME, allColumns, ID + " ='" + id + "'", null, null, null, null);
-        //Cursor c = dbHelper.getReadableDatabase().rawQuery(sql,null);
-
         Log.i("DebugCookbookManagerDAO", "Tamanho da Tabela " + c.getCount());
 
         if(c.moveToFirst()) {
@@ -178,6 +174,33 @@ public class RecipeDAO {
             return null;
         }
 
+    }
+
+    public AbstractRecipe readAbstractRecipe(long id){
+        AbstractRecipe recipe;
+        Cursor c = database.query(TABLE_NAME, allColumns, ID + " ='" + id + "'", null, null, null, null);
+        Log.i("DebugCookbookManagerDAO", "Tamanho da Tabela " + c.getCount());
+
+        if(c.moveToFirst()) {
+            int indexId = c.getColumnIndex(ID);
+            int indexName = c.getColumnIndex(NOME);
+            int indexTaste = c.getColumnIndex(TASTE);
+            int indexDifficulty = c.getColumnIndex(DIFFICULTY);
+            int indexPicture = c.getColumnIndex(PICTURE);
+
+            recipe = new Recipe();
+            recipe.setId(c.getLong(indexId));
+            recipe.setName(c.getString(indexName));
+            recipe.setTaste(c.getFloat(indexTaste));
+            recipe.setDifficulty(c.getFloat(indexDifficulty));
+            recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+            c.close();
+
+            return recipe;
+        } else {
+            Log.i("DebugCookbookManagerDAO", "Exceção");
+            return null;
+        }
     }
 
     public List<Recipe> readAll() {

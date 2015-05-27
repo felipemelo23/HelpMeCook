@@ -35,6 +35,7 @@ public class Manager {
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
         try{
+            Log.i("Manager", "try");
             recipeDAO.open();
             recentsDAO.open();
 
@@ -43,20 +44,27 @@ public class Manager {
 
             //Se a receita não estiver no banco de dados local, procura no servidor.
             if (recipe == null) {
+                Log.i("Manager", "if (recipe == null)");
                 recipe = accessor.getRecipeById(id);
             }
 
             //Se a receita foi encontrada, atualiza o último acesso dela e adiciona ela na tabela Recents
             if (recipe != null) {
+                Log.i("Manager","recipe != null");
                 Calendar cal = Calendar.getInstance();
                 recipe.updateLastAcess(cal);
                 recipeDAO.update(recipe);
 
                 if (recentsDAO.read(recipe.getId()) == null){
+                    Log.i("Manager","insert");
                     recentsDAO.insert(recipe);
                 } else {
+                    Log.i("Manager","update");
                     recentsDAO.update(recipe);
+                    Log.i("Maneger", recentsDAO.readAll().size() + "");
                 }
+            } else {
+                Log.i("Manager","recipe == null");
             }
 
         recipeDAO.close();
@@ -73,8 +81,25 @@ public class Manager {
      * @param ids Lista de Identificadores de Receita.
      * @return Retorna uma lista de receitas resumidas.
      */
-    public static List<AbstractRecipe> getAbstractRecipes(List<Long> ids) {
-        return accessor.getAbstractRecipes(ids);
+    public static List<AbstractRecipe> getAbstractRecipes(List<Long> ids, Context context) {
+        RecipeDAO recipeDAO = new RecipeDAO(context);
+        AbstractRecipe recipe;
+        List<AbstractRecipe> recipes = null;
+
+        try {
+            recipeDAO.open();
+
+            for (long id : ids) {
+                recipe = recipeDAO.readAbstractRecipe(id);
+                recipes.add(recipe);
+            }
+
+            recipeDAO.close();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+        return recipes;
     }
 
     /**
@@ -105,12 +130,11 @@ public class Manager {
      */
     public static List<AbstractRecipe> getRecentRecipes(Context context) {
         RecentsDAO recentsDAO = new RecentsDAO(context);
-        RecipeDAO recipeDAO = new RecipeDAO(context);
 
         try {
             recentsDAO.open();
             List<Long> ids = recentsDAO.readAll(); //Esse metodo esta retornar ordenado por LastAccess.
-            List<AbstractRecipe> recents = getAbstractRecipes(ids);
+            List<AbstractRecipe> recents = getAbstractRecipes(ids, context);
             return  recents;
         } catch (java.sql.SQLException e) {
             e.printStackTrace();

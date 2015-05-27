@@ -6,6 +6,7 @@
     <string name="title_activity_ingredient_selection">Selecionar Ingredientes</string>
     <string name="title_activity_cookbook">Meu Cookbook</string>
     <string name="title_activity_map">Onde Encontrar Comida?</string>
+    <string name="title_activity_info">Info</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -31,6 +32,7 @@
         <item>Meu CookBook</item>
         <item>Criar Receita</item>
         <item>Onde Encontrar Comida?</item>
+        <item>Info</item>
     </string-array>
 
     <!-- RecipeRegisterActivity -->
