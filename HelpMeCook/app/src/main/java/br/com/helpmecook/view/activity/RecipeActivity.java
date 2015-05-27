@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -33,6 +35,8 @@ public class RecipeActivity extends ActionBarActivity {
     RatingBar rbTaste, rbDifficulty;
     ListView lvIngredient;
     TextView recipeText;
+    TextView recipePrepTime;
+    TextView recipePortionNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,8 @@ public class RecipeActivity extends ActionBarActivity {
         if (extras != null) {
             recipeId  = extras.getLong(RECIPE_ID);
         } else {
-            //O que fazemos se o id não for enviado/recebido??
+            Toast.makeText(getApplicationContext(),"Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         loadRecipe(recipeId);
@@ -95,14 +100,29 @@ public class RecipeActivity extends ActionBarActivity {
         lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
         setListViewHeightBasedOnChildren(lvIngredient);
 
-
         recipeText = (TextView) findViewById(R.id.tv_recipe);
         recipeText.setText(recipe.getText());
+
+        recipePrepTime = (TextView) findViewById(R.id.tv_prep_time);
+        if (recipe.getEstimatedTime() == 1) {
+            recipePrepTime.setText(recipe.getEstimatedTime() + " minuto");
+        } else {
+            recipePrepTime.setText(recipe.getEstimatedTime() + " minutos");
+        }
+
+        recipePortionNumber = (TextView) findViewById(R.id.tv_portion_number);
+        if (Integer.parseInt(recipe.getPortionNum()) == 1) {
+            recipePortionNumber.setText(recipe.getPortionNum() + " porção");
+        } else {
+            recipePortionNumber.setText(recipe.getPortionNum() + " porções");
+        }
     }
 
     public boolean addToCookbook() {
         boolean result = Manager.addToCookbook(recipe, RecipeActivity.this);
+        Log.i("RecipeActivity", "Add Cookbook Pressed");
         if (result) {
+            Log.i("RecipeActivity", "Added to Cookbook");
             addCookBook.setImageDrawable(getResources().getDrawable(R.drawable.cookbook_minus));
         }
         return result;
@@ -110,14 +130,15 @@ public class RecipeActivity extends ActionBarActivity {
 
     public boolean removeFromCookbook() {
         boolean result = Manager.removeFromCookbook(recipe, RecipeActivity.this);
+        Log.i("RecipeActivity", "Remove Cookbook Pressed");
         if (result) {
+            Log.i("RecipeActivity", "Removed from Cookbook");
             addCookBook.setImageDrawable(RecipeActivity.this.getResources().getDrawable(R.drawable.cookbook_plus));
         }
         return result;
     }
 
     public void classifyTaste() {
-        //final boolean result;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
 

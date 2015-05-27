@@ -28,7 +28,7 @@
                 android:layout_below="@id/banner"
                 android:layout_marginBottom="-35dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="-10dp"
+                android:layout_marginTop="-5dp"
                 android:background="@drawable/cookbook_plus"
                 android:clickable="true"
                 android:scaleType="fitCenter" />
@@ -128,8 +128,66 @@
                 android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/text"></TextView>
-
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/timer" />
+
+                <TextView
+                    android:id="@+id/tv_prep_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center"
+                    android:text="12 minutos"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/text"></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/portion_number" />
+
+                <TextView
+                    android:id="@+id/tv_portion_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center"
+                    android:text="12 porções"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/text"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

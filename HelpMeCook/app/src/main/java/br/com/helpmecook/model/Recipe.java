@@ -110,4 +110,13 @@ public class Recipe extends AbstractRecipe {
     public void setUnits(List<String> units) {
         this.units = units;
     }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o instanceof Recipe && this.id == ((Recipe) o).getId()) {
+            return true;
+        }
+        return false;
+    }
 }
