@@ -8,8 +8,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -91,6 +93,8 @@ public class RecipeActivity extends ActionBarActivity {
 
         lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
         lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
+        setListViewHeightBasedOnChildren(lvIngredient);
+
 
         recipeText = (TextView) findViewById(R.id.tv_recipe);
         recipeText.setText(recipe.getText());
@@ -179,6 +183,26 @@ public class RecipeActivity extends ActionBarActivity {
         builder.create();
         //return result;
     }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

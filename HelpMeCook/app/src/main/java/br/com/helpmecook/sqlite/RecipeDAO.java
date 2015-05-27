@@ -274,6 +274,7 @@ public class RecipeDAO {
             int indexPicture = c.getColumnIndex(PICTURE);
             int indexSync = c.getColumnIndex(SYNC);
 
+
             do {
                 if (c.getInt(indexSync) == 1) {
                     recipe = new Recipe();
@@ -302,6 +303,8 @@ public class RecipeDAO {
         String idList = "";
         for (long ingId : recipe.getIngredientList()) {
             idList = idList + " " + ingId;
+            Log.i("Debug Ingredient 1", "" + ingId);
+
         }
         return idList;
     }
@@ -328,6 +331,8 @@ public class RecipeDAO {
         while (st.hasMoreTokens()) {
             ingredientList.add(Long.parseLong(st.nextToken()));
         }
+        Log.i("Debug Ingredient 2", "" );
+
         return ingredientList;
     }
 

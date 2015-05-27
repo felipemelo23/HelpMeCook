@@ -149,6 +149,14 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 recipe.setPortionNum(etPortionNum.getText().toString());
             }
 
+            List<Long> ingId = new ArrayList<Long>();
+            for (int i = 0; i < ingredients.length; i++) {
+                Log.i("DebugIngredient", "id: " + ingredients[i]);
+                ingId.add(ingredients[i]);
+            }
+            recipe.setIngredientList(ingId);
+
+
             Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
             Toast.makeText(getApplicationContext(), getString(R.string.recipe_registered),Toast.LENGTH_LONG).show();
             finish();
