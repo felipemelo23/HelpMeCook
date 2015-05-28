@@ -54,7 +54,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@+id/rb_taste"
                 android:layout_toRightOf="@+id/rb_taste"
-                android:text="Sabor"
+                android:text="@string/taste"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/text" />
 
@@ -77,7 +77,7 @@
                 android:layout_alignLeft="@+id/tv_taste"
                 android:layout_alignStart="@+id/tv_taste"
                 android:layout_alignTop="@+id/rb_difficulty"
-                android:text="Dificuldade"
+                android:text="@string/difficulty"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/text" />
 
