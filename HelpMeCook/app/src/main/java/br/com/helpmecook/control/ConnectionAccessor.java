@@ -1,7 +1,10 @@
 package br.com.helpmecook.control;
 
+import android.os.AsyncTask;
+
 import java.util.List;
 
+import br.com.helpmecook.connection.UploadRecipe;
 import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.model.Recipe;
@@ -62,8 +65,9 @@ public class ConnectionAccessor {
      * se a receita nao for registrada no banco de dados no servidor,
      * mas for registrada no Banco de dados local.
      */
-    public int registerRecipe(Recipe recipe) {
-        return -1;
+    public long registerRecipe(Recipe recipe) {
+        UploadRecipe upload = (UploadRecipe) new UploadRecipe(recipe).execute();
+        return upload.getNewId();
     }
 
     /**
