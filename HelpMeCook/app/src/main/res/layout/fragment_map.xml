@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
+    android:background="@color/background"
     android:orientation="vertical"
     android:padding="30dp"
-    android:background="@color/background"
     android:textAlignment="center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Em fase de implementação"
         android:layout_gravity="center"
-        android:textColor="@color/text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Em fase de implementação"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/text" />
 
     <ImageView
         android:layout_width="wrap_content"

@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,25 +6,27 @@
     tools:context="br.com.helpmecook.view.activity.IngredientSearchResultActivity">
 
     <TextView
-        android:padding="16dp"
         android:id="@+id/tvResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/results" />
+        android:padding="16dp"
+        android:text="@string/results"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
         android:id="@+id/lvRecipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
+
     <TextView
-        android:padding="16dp"
         android:id="@+id/tvResultsPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/resultsplusone" />
+        android:padding="16dp"
+        android:text="@string/resultsplusone"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <ListView
         android:id="@+id/lvRecipesPlus"
         android:layout_width="match_parent"

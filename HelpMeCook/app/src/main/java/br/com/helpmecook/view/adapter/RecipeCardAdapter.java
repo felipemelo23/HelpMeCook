@@ -2,6 +2,7 @@ package br.com.helpmecook.view.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public class RecipeCardAdapter extends BaseAdapter{
 
             ImageView icon = (ImageView) convertView.findViewById(R.id.iv_recipe_card);
             TextView name = (TextView) convertView.findViewById(R.id.tv_nome_recipe_card);
+            name.setShadowLayer(2, 2, 2, Color.BLACK);
             RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_card);
 
             icon.setImageBitmap(recipes.get(position).getPicture());

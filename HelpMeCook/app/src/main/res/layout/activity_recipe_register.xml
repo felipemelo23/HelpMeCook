@@ -76,7 +76,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="25"
-                android:inputType="number"/>
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="0dp"
@@ -113,7 +113,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="25"
-                android:inputType="number"/>
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="0dp"

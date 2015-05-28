@@ -2,26 +2,27 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="4dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="4dp">
 
     <ImageView
         android:id="@+id/iv_recipe_card"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/receita"
-        android:scaleType="centerCrop" />
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/receita" />
 
     <TextView
         android:id="@+id/tv_nome_recipe_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/background"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="6dp"
-        android:textStyle="bold"
+        android:text="nome da receita"
+        android:textColor="@color/background"
         android:textSize="20dp"
-        android:text="nome da receita"/>
+        android:textStyle="bold" />
 
     <RatingBar
         android:id="@+id/rb_taste_card"
@@ -30,6 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="6dp"
-        android:layout_marginLeft="4dp"/>
+        android:layout_marginLeft="4dp" />
 
 </FrameLayout>
