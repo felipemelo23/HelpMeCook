@@ -121,7 +121,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         outState.putString(PREPARE_TIME_KEY, etPrepTime.getText().toString());
         outState.putString(PORTION_KEY, etPortionNum.getText().toString());
         outState.putString(DESCRIPTION_KEY, etDescription.getText().toString());
-
         outState.putParcelable(PICTURE_KEY,picture);
 
         super.onSaveInstanceState(outState);
@@ -137,7 +136,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         etPrepTime.setText(savedInstanceState.getString(PREPARE_TIME_KEY));
         etPortionNum.setText(savedInstanceState.getString(PORTION_KEY));
         etDescription.setText(savedInstanceState.getString(DESCRIPTION_KEY));
-
         picture = savedInstanceState.getParcelable(PICTURE_KEY);
     }
 
@@ -198,6 +196,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         super.onResume();
         Log.i("Register-Ciclo de Vida", "OnResume");
 
+        ivRecipePicture.setImageBitmap(picture);
+
         if (ingredients != null){
             Log.i("Debug", "Ingredientes não é nulo");
             Log.i("Debug", "O tamanho de ingredientes é: " + ingredients.length);
@@ -225,8 +225,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 startActivityForResult(selectIngredientsIntent, SELECT_INGREDIENT);
             }
         });
-
-        ivRecipePicture.setImageBitmap(picture);
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -257,7 +255,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-
+        Log.i("Register-Ciclo de Vida", "OnActivityResult");
         if (resultCode != RESULT_OK) {
             picture = null;
             // o que faz se a foto escolhida nao for recebida?? Só um Toast avisando?
@@ -290,7 +288,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 case SELECT_INGREDIENT:
 
                     ingredients = intent.getLongArrayExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
-                    Log.i("Register-Ciclo de Vida","OnActivityResult");
+
                     break;
                 default:
                     Toast.makeText(getApplicationContext(), "De onde voce veio, meu amigo?", Toast.LENGTH_SHORT).show();

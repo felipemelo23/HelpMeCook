@@ -54,17 +54,40 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/tv_ingredients"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:layout_gravity="start"
-            android:text="@string/tv_ingredients"
-            android:textSize="16sp"/>
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/tv_ingredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="7dp"
+                android:text="@string/tv_ingredients"
+                android:textSize="16sp"
+                android:layout_weight="3"/>
+
+            <Button
+                android:id="@+id/bt_add_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@color/contrast"
+                android:text="@string/add_ingredient"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -78,15 +101,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/add_ingredient" />
 
-        <Button
-            android:id="@+id/bt_add_ingredient"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="4dp"
-            android:textSize="12dp"
-            android:background="@color/contrast"
-            android:text="Adicionar"/>
+
 
         <TextView
             android:id="@+id/tv_extra"

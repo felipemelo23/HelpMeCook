@@ -66,8 +66,9 @@ public class ConnectionAccessor {
      * mas for registrada no Banco de dados local.
      */
     public long registerRecipe(Recipe recipe) {
-        UploadRecipe upload = (UploadRecipe) new UploadRecipe(recipe).execute();
-        return upload.getNewId();
+        return -1;
+        /*UploadRecipe upload = (UploadRecipe) new UploadRecipe(recipe).execute();
+        return upload.getNewId();*/
     }
 
     /**

@@ -80,7 +80,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         lvList.setAdapter(ingredientSelectionAdapter);
 
         lvList.setFastScrollEnabled(true);
-        //lvList.setFastScrollStyle(R.style.fastScrollStyle);
 
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,6 +99,13 @@ public class IngredientSelectionActivity extends ActionBarActivity {
                 ingredientSelectionAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK, getIntent());
+        finish();
+        super.onBackPressed();
     }
 
     private void executeSearch(){
