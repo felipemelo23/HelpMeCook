@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,6 +60,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     private EditText etPortionNum;
     private EditText etDescription;
     private TextView tvIngredients;
+    private Button btAddIngredient;
     private Bitmap picture;
     private long ingredients[];
 
@@ -77,6 +79,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         etDescription = (EditText) findViewById(R.id.et_recipe_register_description);
         picture = BitmapFactory.decodeResource(ivRecipePicture.getResources(), R.drawable.plate);
         tvIngredients = (TextView) findViewById(R.id.tv_ingredients);
+        btAddIngredient = (Button) findViewById(R.id.bt_add_ingredient);
 
         //Abre a intent para selecionar a foto da receita
         //por enquanto só abre o gerenciador de arquivos, não a camera
@@ -89,7 +92,16 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             }
         });
 
-        tvIngredients.setOnClickListener(new View.OnClickListener() {
+        /*tvIngredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent selectIngredientsIntent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);
+                selectIngredientsIntent.putExtra(CURRENT_INGREDIENTS, ingredients);
+                selectIngredientsIntent.putExtra(IngredientSelectionActivity.REQUEST_CODE, REGISTER_RECIPE);
+                startActivityForResult(selectIngredientsIntent, SELECT_INGREDIENT);
+            }
+        });*/
+        btAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent selectIngredientsIntent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);

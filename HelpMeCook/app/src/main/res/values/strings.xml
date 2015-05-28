@@ -14,7 +14,7 @@
 
     <string name="taste">Sabor</string>
     <string name="difficulty">Dificuldade</string>
-    <string name="recents">Recentes</string>
+    <string name="recents">RECENTES</string>
     <string name="pop">Mais vistas</string>
     <string name="classify_taste">Classifique o sabor dessa receita</string>
     <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
@@ -58,6 +58,9 @@
     <string name="recipe_registered">Criada com sucesso! (Será que é gostosa?)</string>
     <string name="what_are_you_doing">O que exatamente você está tentando fazer?</string>
     <string name="cant_search">Não foi possível realizar a busca</string>
+    <string name="tv_ingredients">INGREDIENTES</string>
+    <string name="tv_complementary_info">INFORMAÇÕES COMPLEMENTARES</string>
+    <string name="tv_preparation_mode">MODO DE PREPARO</string>
 
 
 </resources>
