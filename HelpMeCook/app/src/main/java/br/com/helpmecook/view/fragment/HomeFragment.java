@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
 
         gvRecents = (GridView) fragmentView.findViewById(R.id.gv_recents);
         //gvRecents.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT, 100));
-        gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);
+        //gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);
 
         if (Manager.getRecentRecipes(context) == null) {
             Log.i("HomeFragment", "esta nulo");
@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
         gvRecents.setAdapter(adapterRecents);
         Log.i("HomeFragment", adapterRecents.getCount() + "");
         final RecipeCardAdapter adapterPop = new RecipeCardAdapter(context, Manager.getPopularRecipes());
-        gvPop.setAdapter(adapterPop);
+        //gvPop.setAdapter(adapterPop);
 
         gvRecents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -62,12 +62,12 @@ public class HomeFragment extends Fragment {
                 showRecipe(adapterRecents.getItem(position).getId());
             }
         });
-        gvPop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showRecipe(adapterPop.getItem(position).getId());
-            }
-        });
+        //gvPop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //    @Override
+        //   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //       showRecipe(adapterPop.getItem(position).getId());
+        //    }
+        //});
 
         return fragmentView;
     }

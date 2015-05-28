@@ -60,76 +60,81 @@ public class RecipeActivity extends ActionBarActivity {
     public void loadRecipe(long id) {
         recipe = Manager.getRecipeById(id, this);
 
-        setTitle(recipe.getName());
+        if (recipe != null) {
+            setTitle(recipe.getName());
 
-        banner = (ImageView) findViewById(R.id.banner);
-        banner.setImageBitmap(recipe.getPicture());
+            banner = (ImageView) findViewById(R.id.banner);
+            banner.setImageBitmap(recipe.getPicture());
 
-        addCookBook = (ImageButton) findViewById(R.id.add_cookbook);
-        // Se a receita já estiver no cookbook, o botão de adicionar vira de remover
-        if (Manager.isOnCookbook(recipe, RecipeActivity.this)) {
-            addCookBook.setImageDrawable(getResources().getDrawable(R.drawable.cookbook_minus));
-        }
-        addCookBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Manager.isOnCookbook(recipe, RecipeActivity.this)) {
-                    removeFromCookbook();
-                } else {
-                    addToCookbook();
+            addCookBook = (ImageButton) findViewById(R.id.add_cookbook);
+            // Se a receita já estiver no cookbook, o botão de adicionar vira de remover
+            if (Manager.isOnCookbook(recipe, RecipeActivity.this)) {
+                addCookBook.setImageDrawable(getResources().getDrawable(R.drawable.cookbook_minus));
+            }
+            addCookBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Manager.isOnCookbook(recipe, RecipeActivity.this)) {
+                        removeFromCookbook();
+                    } else {
+                        addToCookbook();
+                    }
                 }
+            });
+
+            rbTaste = (RatingBar) findViewById(R.id.rb_taste);
+            rbTaste.setRating(recipe.getTaste());
+            rbTaste.setClickable(true);
+            rbTaste.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("RecipeActivity", "Classify Taste Pressed");
+                    classifyTaste();
+                }
+            });
+
+            rbDifficulty = (RatingBar) findViewById(R.id.rb_difficulty);
+            rbDifficulty.setRating(recipe.getDifficulty());
+            rbDifficulty.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("RecipeActivity", "Classify Difficulty Pressed");
+                    classifyDifficulty();
+                }
+            });
+
+            lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
+            lvIngredient.setEnabled(false);
+            lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
+            setListViewHeightBasedOnChildren(lvIngredient);
+
+            recipeText = (TextView) findViewById(R.id.tv_recipe);
+            recipeText.setText(recipe.getText());
+
+            recipePrepTime = (TextView) findViewById(R.id.tv_prep_time);
+            if (recipe.getEstimatedTime() == 1) {
+                recipePrepTime.setText(recipe.getEstimatedTime() + " minuto");
+            } else if (recipe.getEstimatedTime() > 0) {
+                recipePrepTime.setText(recipe.getEstimatedTime() + " minutos");
+            } else {
+                ((ImageView) findViewById(R.id.iv_prep_time)).setVisibility(View.GONE);
+                recipePrepTime.setVisibility(View.GONE);
+                ((LinearLayout) findViewById(R.id.ll_prep_time)).setVisibility(View.GONE);
             }
-        });
 
-        rbTaste = (RatingBar) findViewById(R.id.rb_taste);
-        rbTaste.setRating(recipe.getTaste());
-        rbTaste.setClickable(true);
-        rbTaste.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("RecipeActivity", "Classify Taste Pressed");
-                classifyTaste();
+            recipePortionNumber = (TextView) findViewById(R.id.tv_portion_number);
+            if (recipe.getPortionNum() != null && Integer.parseInt(recipe.getPortionNum()) == 1) {
+                recipePortionNumber.setText(recipe.getPortionNum() + " porção");
+            } else if (recipe.getPortionNum() != null){
+                recipePortionNumber.setText(recipe.getPortionNum() + " porções");
+            } else {
+                ((ImageView) findViewById(R.id.iv_portion_num)).setVisibility(View.GONE);
+                recipePortionNumber.setVisibility(View.GONE);
+                ((LinearLayout) findViewById(R.id.ll_portion_num)).setVisibility(View.GONE);
             }
-        });
-
-        rbDifficulty = (RatingBar) findViewById(R.id.rb_difficulty);
-        rbDifficulty.setRating(recipe.getDifficulty());
-        rbDifficulty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("RecipeActivity", "Classify Difficulty Pressed");
-                classifyDifficulty();
-            }
-        });
-
-        lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
-        lvIngredient.setEnabled(false);
-        lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
-        setListViewHeightBasedOnChildren(lvIngredient);
-
-        recipeText = (TextView) findViewById(R.id.tv_recipe);
-        recipeText.setText(recipe.getText());
-
-        recipePrepTime = (TextView) findViewById(R.id.tv_prep_time);
-        if (recipe.getEstimatedTime() == 1) {
-            recipePrepTime.setText(recipe.getEstimatedTime() + " minuto");
-        } else if (recipe.getEstimatedTime() > 0) {
-            recipePrepTime.setText(recipe.getEstimatedTime() + " minutos");
         } else {
-            ((ImageView) findViewById(R.id.iv_prep_time)).setVisibility(View.GONE);
-            recipePrepTime.setVisibility(View.GONE);
-            ((LinearLayout) findViewById(R.id.ll_prep_time)).setVisibility(View.GONE);
-        }
-
-        recipePortionNumber = (TextView) findViewById(R.id.tv_portion_number);
-        if (recipe.getPortionNum() != null && Integer.parseInt(recipe.getPortionNum()) == 1) {
-            recipePortionNumber.setText(recipe.getPortionNum() + " porção");
-        } else if (recipe.getPortionNum() != null){
-            recipePortionNumber.setText(recipe.getPortionNum() + " porções");
-        } else {
-            ((ImageView) findViewById(R.id.iv_portion_num)).setVisibility(View.GONE);
-            recipePortionNumber.setVisibility(View.GONE);
-            ((LinearLayout) findViewById(R.id.ll_portion_num)).setVisibility(View.GONE);
+            Toast.makeText(getApplicationContext(),"Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
+            finish();
         }
     }
 
@@ -138,6 +143,7 @@ public class RecipeActivity extends ActionBarActivity {
         Log.i("RecipeActivity", "Add Cookbook Pressed");
         if (result) {
             Log.i("RecipeActivity", "Added to Cookbook");
+            Toast.makeText(getApplicationContext(), "Receita adicionada no Cookbook", Toast.LENGTH_SHORT).show();
             addCookBook.setImageDrawable(getResources().getDrawable(R.drawable.cookbook_minus));
         }
         return result;
@@ -148,6 +154,7 @@ public class RecipeActivity extends ActionBarActivity {
         Log.i("RecipeActivity", "Remove Cookbook Pressed");
         if (result) {
             Log.i("RecipeActivity", "Removed from Cookbook");
+            Toast.makeText(getApplicationContext(), "Receita removida do Cookbook", Toast.LENGTH_SHORT).show();
             addCookBook.setImageDrawable(RecipeActivity.this.getResources().getDrawable(R.drawable.cookbook_plus));
         }
         return result;

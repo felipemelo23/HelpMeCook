@@ -29,8 +29,7 @@
             android:layout_marginTop="8dp"
             android:gravity="start"
             android:hint="@string/recipe_name"
-            android:padding="16dp"
-            android:textStyle="italic" />
+            android:padding="16dp" />
 
         <TextView
             android:id="@+id/tv_ingredients"
@@ -77,8 +76,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="25"
-                android:inputType="number"
-                android:textAlignment="center" />
+                android:inputType="number"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -86,7 +84,7 @@
                 android:layout_gravity="center|end"
                 android:layout_weight="25"
                 android:text="@string/minutes"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,8 +113,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="25"
-                android:inputType="number"
-                android:textAlignment="center" />
+                android:inputType="number"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -138,8 +135,6 @@
             android:gravity="start"
             android:hint="@string/recipe_details"
             android:inputType="textMultiLine"
-            android:lines="4"
-            android:textSize="16sp"
-            android:textStyle="italic" />
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>
