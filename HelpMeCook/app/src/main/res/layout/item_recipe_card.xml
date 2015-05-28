@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
-    android:layout_height="100dp">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/iv_recipe_card"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:src="@drawable/receita"
         android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_nome_recipe_card"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/background"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="nome da receita"/>
 
     <RatingBar
         android:id="@+id/rb_taste_card"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="4dp"/>
 
-</RelativeLayout>
+</FrameLayout>

@@ -41,10 +41,10 @@ import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
 public class RecipeRegisterActivity extends ActionBarActivity {
 
-    private static final int REGISTER_RECIPE = 1;
+    public static final int REGISTER_RECIPE = 1;
     private static final int SELECT_INGREDIENT = 2;
     private static final int SELECT_PICTURE = 1;
-    private static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
+    public static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
     private static final String RECIPE_NAME_KEY = "NAME";
     private static final String INGREDIENTS_KEY = "INGREDIENTS";
     private static final String PREPARE_TIME_KEY = "PREPARE_TIME";

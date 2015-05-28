@@ -59,11 +59,28 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             clicked.add(0);
         }
 
+        if (origin == RecipeRegisterActivity.REGISTER_RECIPE) {
+            long ingredients[] = intent.getLongArrayExtra(RecipeRegisterActivity.CURRENT_INGREDIENTS);
+            if (ingredients != null && ingredients.length > 0) {
+                for (int i = 0; i < allIngredients.size(); i++) {
+                    for (int j = 0; j < ingredients.length; j++) {
+                        if (allIngredients.get(i).getId() == ingredients[j]){
+                            clicked.set(i,1);
+                            allIngredients.get(i).setIconPath(R.drawable.checkbox_yellow);
+                        }
+                    }
+                }
+            }
+        }
+
         final IngredientSelectionAdapter ingredientSelectionAdapter = new IngredientSelectionAdapter(this, R.layout.item_ingredient, allIngredients);
 
         lvList = (ListView)findViewById(R.id.lvListIngredient);
 
         lvList.setAdapter(ingredientSelectionAdapter);
+
+        lvList.setFastScrollEnabled(true);
+        //lvList.setFastScrollStyle(R.style.fastScrollStyle);
 
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

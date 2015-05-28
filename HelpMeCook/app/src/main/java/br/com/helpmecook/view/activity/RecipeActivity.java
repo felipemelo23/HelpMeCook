@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -102,6 +103,7 @@ public class RecipeActivity extends ActionBarActivity {
         });
 
         lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
+        lvIngredient.setEnabled(false);
         lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
         setListViewHeightBasedOnChildren(lvIngredient);
 
@@ -111,15 +113,23 @@ public class RecipeActivity extends ActionBarActivity {
         recipePrepTime = (TextView) findViewById(R.id.tv_prep_time);
         if (recipe.getEstimatedTime() == 1) {
             recipePrepTime.setText(recipe.getEstimatedTime() + " minuto");
-        } else {
+        } else if (recipe.getEstimatedTime() > 0) {
             recipePrepTime.setText(recipe.getEstimatedTime() + " minutos");
+        } else {
+            ((ImageView) findViewById(R.id.iv_prep_time)).setVisibility(View.GONE);
+            recipePrepTime.setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.ll_prep_time)).setVisibility(View.GONE);
         }
 
         recipePortionNumber = (TextView) findViewById(R.id.tv_portion_number);
-        if (Integer.parseInt(recipe.getPortionNum()) == 1) {
+        if (recipe.getPortionNum() != null && Integer.parseInt(recipe.getPortionNum()) == 1) {
             recipePortionNumber.setText(recipe.getPortionNum() + " porção");
-        } else {
+        } else if (recipe.getPortionNum() != null){
             recipePortionNumber.setText(recipe.getPortionNum() + " porções");
+        } else {
+            ((ImageView) findViewById(R.id.iv_portion_num)).setVisibility(View.GONE);
+            recipePortionNumber.setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.ll_portion_num)).setVisibility(View.GONE);
         }
     }
 

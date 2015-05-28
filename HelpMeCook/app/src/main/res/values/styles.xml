@@ -20,4 +20,8 @@
         <item name="android:shadowRadius">1</item>
     </style>
 
+    <style name="fastScrollStyle" parent="AppTheme">
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb</item>
+    </style>
+
 </resources>

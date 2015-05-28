@@ -69,7 +69,7 @@ public class RecentsDAO {
     }
 
     public Calendar read(long id) {
-        Cursor c = database.query(TABLE_NAME, allColumns, null, null, null, null, null);
+        Cursor c = database.query(TABLE_NAME, allColumns, ID + " = '" + id + "'", null, null, null, null);
         Calendar calendar;
 
         if (c.moveToFirst()) {

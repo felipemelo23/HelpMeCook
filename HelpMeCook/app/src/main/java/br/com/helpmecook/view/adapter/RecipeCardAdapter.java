@@ -60,15 +60,15 @@ public class RecipeCardAdapter extends BaseAdapter{
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.item_recipe_card, null);
+
+            ImageView icon = (ImageView) convertView.findViewById(R.id.iv_recipe_card);
+            TextView name = (TextView) convertView.findViewById(R.id.tv_nome_recipe_card);
+            RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_card);
+
+            icon.setImageBitmap(recipes.get(position).getPicture());
+            name.setText(recipes.get(position).getName().toUpperCase());
+            rbTaste.setRating(recipes.get(position).getTaste());
         }
-
-        ImageView icon = (ImageView) convertView.findViewById(R.id.iv_recipe_card);
-        TextView name = (TextView) convertView.findViewById(R.id.tv_nome_recipe_card);
-        RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_card);
-
-        icon.setImageBitmap(recipes.get(position).getPicture());
-        name.setText(recipes.get(position).getName());
-        rbTaste.setRating(recipes.get(position).getTaste());
 
         return convertView;
     }

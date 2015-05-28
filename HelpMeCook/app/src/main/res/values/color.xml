@@ -5,4 +5,5 @@
     <color name="contrast">#ffc107</color>
     <color name="background">#eeeeee</color>
     <color name="text">#262626</color>
+    <color name="white">#ffffff</color>
 </resources>

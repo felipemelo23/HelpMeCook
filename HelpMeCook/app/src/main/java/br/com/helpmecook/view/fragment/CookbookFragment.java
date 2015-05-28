@@ -62,7 +62,6 @@ public class CookbookFragment extends Fragment{
         } else {
             Log.i("CookbookFragment Debug","Lista Vazia");
             lv_recipes_cookbook.setVisibility(View.GONE);
-
         }
 
         return fragmentView;

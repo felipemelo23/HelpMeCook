@@ -91,6 +91,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <LinearLayout
+                android:id="@+id/ll_prep_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -100,6 +101,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/iv_prep_time"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/timer" />
@@ -115,6 +117,7 @@
                     android:textColor="@color/text"></TextView>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_portion_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -125,6 +128,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/iv_portion_num"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/portion_number" />
