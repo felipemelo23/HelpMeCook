@@ -12,4 +12,5 @@
         android:text="Informações sobre o app"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+
 </LinearLayout>
