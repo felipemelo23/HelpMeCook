@@ -169,7 +169,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
             Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
             Toast.makeText(getApplicationContext(), getString(R.string.recipe_registered),Toast.LENGTH_LONG).show();
-            finish();
+            showRecipe(recipe.getId());
         }
     }
 
@@ -295,5 +295,12 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                     break;
             }
         }
+    }
+
+    public void showRecipe(long id) {
+        Intent intent = new Intent(RecipeRegisterActivity.this, RecipeActivity.class);
+        intent.putExtra(RecipeActivity.RECIPE_ID, id);
+
+        startActivity(intent);
     }
 }
