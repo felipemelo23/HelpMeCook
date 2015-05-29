@@ -1,17 +1,24 @@
 package br.com.helpmecook.view.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
@@ -31,6 +38,7 @@ import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
 public class IngredientSelectionActivity extends ActionBarActivity {
 
     private ListView lvList;
+    IngredientSelectionAdapter ingredientSelectionAdapter;
     private ArrayList<Long> wantedIngredients;
     private ArrayList<Long> unwantedIngredients;
     private List<Ingredient> allIngredients;
@@ -40,10 +48,23 @@ public class IngredientSelectionActivity extends ActionBarActivity {
     public static final String WANTED_INGREDIENTS = "Wanted_ingredients";
     public static final String UNWANTED_INGREDIENTS = "Unwanted_ingredients";
 
+    EditText search;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ingredient_selection_activity);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+
+        Log.i("IngredientSelection", actionBar.toString());
+
+        //actionBar.setCustomView(R.layout.actionbar_view);
+
+        //search = (EditText) actionBar.getCustomView().findViewById(R.id.searchfield);
+
+        //actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+
         Intent intent = getIntent();
         origin = intent.getExtras().getInt(REQUEST_CODE);
 
@@ -73,7 +94,7 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             }
         }
 
-        final IngredientSelectionAdapter ingredientSelectionAdapter = new IngredientSelectionAdapter(this, R.layout.item_ingredient, allIngredients);
+        ingredientSelectionAdapter = new IngredientSelectionAdapter(this, R.layout.item_ingredient, allIngredients);
 
         lvList = (ListView)findViewById(R.id.lvListIngredient);
 
@@ -84,21 +105,36 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(clicked.get(position)== 0){
+                if (clicked.get(position) == 0) {
                     allIngredients.get(position).setIconPath(R.drawable.checkbox_yellow);
                     clicked.set(position, 1);
-                }
-                else if((clicked.get(position)==1)&&(origin == MainActivity.MAIN)){
+                } else if ((clicked.get(position) == 1) && (origin == MainActivity.MAIN)) {
                     allIngredients.get(position).setIconPath(R.drawable.close_circle);
                     clicked.set(position, 2);
-                }
-                else{
+                } else {
                     allIngredients.get(position).setIconPath(R.drawable.checkbox_blank_circle);
                     clicked.set(position, 0);
                 }
                 ingredientSelectionAdapter.notifyDataSetChanged();
             }
         });
+
+        /*search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                IngredientSelectionActivity.this.ingredientSelectionAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
     }
 
     @Override

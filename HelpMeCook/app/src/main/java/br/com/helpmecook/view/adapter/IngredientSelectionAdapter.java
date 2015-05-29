@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,13 +18,13 @@ import br.com.helpmecook.model.Ingredient;
 /**
  * Created by mariana on 16/05/15.
  */
-public class IngredientSelectionAdapter extends BaseAdapter {
+public class IngredientSelectionAdapter extends ArrayAdapter {
     Context context;
     int layoutResourceId;
     List<Ingredient> data = null;
 
     public IngredientSelectionAdapter(Context context, int layoutResourceId, List<Ingredient> data) {
-        super();
+        super(context,layoutResourceId,data.toArray());
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;

@@ -44,7 +44,8 @@
         </activity>
         <activity
             android:name=".view.activity.IngredientSelectionActivity"
-            android:label="@string/title_activity_ingredient_selection" >
+            android:label="@string/title_activity_ingredient_selection"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".view.activity.IngredientSearchResultActivity"
