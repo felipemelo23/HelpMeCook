@@ -257,8 +257,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         Log.i("Register-Ciclo de Vida", "OnActivityResult");
         if (resultCode != RESULT_OK) {
-            picture = null;
-            // o que faz se a foto escolhida nao for recebida?? Só um Toast avisando?
+            Log.i("Imagem", "picture = null");
         } else {
             switch (requestCode) {
                 case SELECT_PICTURE:
@@ -283,6 +282,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                     } else {
                         // Fazer tratamento aqui
                        // Toast.makeText(RecipeRegisterActivity.this, "A imagem veio nula", Toast.LENGTH_LONG).show();
+                        Log.i("Imagem","tempPic == null");
                     }
                     break;
                 case SELECT_INGREDIENT:
