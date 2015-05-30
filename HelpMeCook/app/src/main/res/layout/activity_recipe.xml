@@ -160,14 +160,22 @@
                 android:layout_height="30dp"
                 android:src="@drawable/ingredient_icon" />
 
-            <ListView
-                android:id="@+id/lv_ingredient_recipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </ListView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/ingredients"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text" />
 
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/lv_ingredient_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -184,15 +192,24 @@
                 android:src="@drawable/pan" />
 
             <TextView
-                android:id="@+id/tv_recipe"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/preparation_mode"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/text"></TextView>
+                android:textColor="@color/text" />
+
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/text"/>
 
     </LinearLayout>
 </ScrollView>
