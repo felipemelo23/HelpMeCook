@@ -1,13 +1,20 @@
 package br.com.helpmecook.view.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -24,6 +31,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +47,8 @@ import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.view.adapter.IngredientsAdapter;
+import br.com.helpmecook.view.adapter.RecipeIngredientAdapter;
+import br.com.helpmecook.view.dialog.QuantityIngredientDialog;
 
 public class RecipeRegisterActivity extends ActionBarActivity {
 
@@ -63,6 +73,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     private Button btAddIngredient;
     private Bitmap picture;
     private long ingredients[];
+    private List<String> ingredientsQntd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +132,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         outState.putString(PREPARE_TIME_KEY, etPrepTime.getText().toString());
         outState.putString(PORTION_KEY, etPortionNum.getText().toString());
         outState.putString(DESCRIPTION_KEY, etDescription.getText().toString());
-        outState.putParcelable(PICTURE_KEY,picture);
+        outState.putParcelable(PICTURE_KEY, picture);
 
         super.onSaveInstanceState(outState);
     }
@@ -187,6 +198,10 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             registerRecipe();
             return true;
         }
+        if (id == android.R.id.home) {
+            showAlertDialog();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -198,7 +213,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
         ivRecipePicture.setImageBitmap(picture);
 
-        if (ingredients != null){
+        if ((ingredients != null)&&(ingredients.length > 0)){
             Log.i("Debug", "Ingredientes não é nulo");
             Log.i("Debug", "O tamanho de ingredientes é: " + ingredients.length);
             List<Long> ingId = new ArrayList<Long>();
@@ -210,7 +225,13 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             for (Ingredient ing : i) {
                 Log.i("Debug", "nome: " + ing.getName());
             }
-            IngredientsAdapter adapter = new IngredientsAdapter(getApplicationContext(),i);
+
+            ingredientsQntd = new ArrayList<String>();
+            for (Ingredient ingredient : i) {
+                ingredientsQntd.add("0 " + getString(R.string.units));
+            }
+
+            RecipeIngredientAdapter adapter = new RecipeIngredientAdapter(getApplicationContext(),i,ingredientsQntd);
             lvIngredients.setAdapter(adapter);
             setListViewHeightBasedOnChildren(lvIngredients);
             adapter.notifyDataSetChanged();
@@ -219,10 +240,25 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         lvIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent selectIngredientsIntent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);
-                selectIngredientsIntent.putExtra(CURRENT_INGREDIENTS, ingredients);
-                selectIngredientsIntent.putExtra(IngredientSelectionActivity.REQUEST_CODE, REGISTER_RECIPE);
-                startActivityForResult(selectIngredientsIntent, SELECT_INGREDIENT);
+                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
+
+                final View dialogContent = getLayoutInflater().inflate(R.layout.dialog_quantity_ingredient,null);
+
+                builder.setTitle("Quanto desse ingrediente?");
+
+                builder.setView(dialogContent);
+
+                builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int qntd = Integer.parseInt(((EditText) dialogContent.findViewById(R.id.et_quantity_ingredient_dialog)).getText().toString());
+                        String unit = ((Spinner) dialogContent.findViewById(R.id.spn_quantity_ingredient_dialog)).toString();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
     }
@@ -302,5 +338,42 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigateUp() {
+
+        Log.i("Ciclo de Vida", "onNavigateUp");
+
+        return super.onNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        showAlertDialog();
+    }
+
+    private void showAlertDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
+        builder.setMessage(getString(R.string.warning_recipe_alert));
+        builder.setTitle(getString(R.string.title_recipe_alert));
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                RecipeRegisterActivity.super.onBackPressed();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

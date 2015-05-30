@@ -19,7 +19,7 @@
     <string name="classify_taste">Classifique o sabor dessa receita</string>
     <string name="classify_difficulty">Classifique a dificuldade dessa receita</string>
     <string name="cancel">Cancelar</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="recipe_register">Criar Receita</string>
     <string name="no_ingredients">Selecione os ingredientes da receita</string>
     <string name="blank_fields">Há campos obrigatórios em branco</string>
@@ -61,6 +61,17 @@
     <string name="tv_ingredients">INGREDIENTES</string>
     <string name="tv_complementary_info">INFORMAÇÕES COMPLEMENTARES</string>
     <string name="tv_preparation_mode">MODO DE PREPARO</string>
+    <string name="title_recipe_alert">Deseja mesmo sair?</string>
+    <string name="warning_recipe_alert">Suas alterações serão perdidas</string>
+    <string name="cancel_recipe">Cancelar receita</string>
+    <string name="units">unid.</string>
+
+    <string name="unitless">-</string>
+    <string name="pinch">pitada</string>
+    <string name="teaspoon">colher de chá</string>
+    <string name="tablespoon">colher de sopa</string>
+    <string name="cup">xícara de chá</string>
+    <string name="milliliter">ml</string>
 
 
 </resources>
