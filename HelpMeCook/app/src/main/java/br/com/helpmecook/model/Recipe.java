@@ -19,7 +19,6 @@ import br.com.helpmecook.view.activity.MainActivity;
  */
 public class Recipe extends AbstractRecipe {
     private List<Long> ingredientList;
-    private List<Integer> numberOfIng;
     private List<String> units;
     private String text;
     private int estimatedTime;
@@ -30,7 +29,6 @@ public class Recipe extends AbstractRecipe {
     public Recipe() {
         super();
         ingredientList = new ArrayList<Long>();
-        numberOfIng = new ArrayList<Integer>();
         units = new ArrayList<String>();
         this.id = -1;
         this.text = null;
@@ -85,8 +83,7 @@ public class Recipe extends AbstractRecipe {
         return ingredientList.size();
     }
 
-    public void addIngredient (int quantity, String unit, long idIngredient){
-        numberOfIng.add(quantity);
+    public void addIngredient (String unit, long idIngredient){
         units.add(unit);
         ingredientList.add(idIngredient);
     }
@@ -94,14 +91,6 @@ public class Recipe extends AbstractRecipe {
     public boolean isSync(){ return sync; }
 
     public void setSync(boolean isSync) { sync = isSync;  }
-
-    public List<Integer> getNumberOfIng() {
-        return numberOfIng;
-    }
-
-    public void setNumberOfIng(List<Integer> numberOfIng) {
-        this.numberOfIng = numberOfIng;
-    }
 
     public List<String> getUnits() {
         return units;

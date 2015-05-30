@@ -40,7 +40,7 @@ public class UploadRecipe extends UrlConnection {
             }
         }
         this.UrlStringWS.append("&ingredients=" + ingredientsBuffer);*/
-        this.UrlStringWS.append("&numberofing=" + recipe.getNumberOfIng());
+        this.UrlStringWS.append("&numberofing=" + recipe.getUnits());
         //Nao sei para que isso serve
         //this.UrlStringWS.append("&units=" + recipe.getUnits());
         this.UrlStringWS.append("&text=" + recipe.getText());

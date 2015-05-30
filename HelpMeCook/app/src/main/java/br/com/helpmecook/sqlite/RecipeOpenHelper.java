@@ -20,7 +20,6 @@ public class RecipeOpenHelper extends SQLiteOpenHelper{
                     RecipeDAO.TASTE + " REAL, " +
                     RecipeDAO.DIFFICULTY + " REAL, " +
                     RecipeDAO.INGREDIENT_LIST + " TEXT, " +
-                    RecipeDAO.INGREDIENT_QUANT + " TEXT," +
                     RecipeDAO.INGREDIENT_UNITS + " TEXT," +
                     RecipeDAO.TEXT + " TEXT, " +
                     RecipeDAO.ESTIMATED_TIME + " INTEGER, " +
