@@ -103,7 +103,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             }
         });
 
-        /*tvIngredients.setOnClickListener(new View.OnClickListener() {
+        tvIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent selectIngredientsIntent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);
@@ -111,7 +111,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 selectIngredientsIntent.putExtra(IngredientSelectionActivity.REQUEST_CODE, REGISTER_RECIPE);
                 startActivityForResult(selectIngredientsIntent, SELECT_INGREDIENT);
             }
-        });*/
+        });
         btAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
