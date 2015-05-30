@@ -50,6 +50,8 @@
     <string name="search">BUSCAR</string>
     <string name="name_search">Nome da Receita</string>
     <string name="btOk">Ok</string>
+    <string name="sugestion">Sugerir ingrediente</string>
+
 
     <!--IngredientSearchResults-->
     <string name="title_activity_ingredient_search_result">IngredientSearchResultActivity</string>

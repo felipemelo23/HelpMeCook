@@ -6,4 +6,10 @@
         android:icon="@drawable/check"
         app:showAsAction="always"
         android:title="@string/ok"/>
+
+    <item
+        android:id="@+id/menu_sugestion"
+        app:showAsAction="never"
+        android:title="@string/sugestion"/>
+
 </menu>

@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -202,6 +204,29 @@ public class IngredientSelectionActivity extends ActionBarActivity {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
+                return false;
+            case R.id.menu_sugestion:
+                AlertDialog.Builder alert = new AlertDialog.Builder(IngredientSelectionActivity.this);
+                alert.setTitle("Sugira um ingrediente");
+
+                final EditText input = new EditText(IngredientSelectionActivity.this);
+                alert.setView(input);
+
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        String srt = input.getEditableText().toString();
+                        //!!!!tem que armazenar essa string no banco de dados!! !!
+                        Toast.makeText(IngredientSelectionActivity.this,srt,Toast.LENGTH_LONG).show();
+                    }
+                });
+                alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
                 return false;
             default:
                 return super.onOptionsItemSelected(item);
