@@ -47,6 +47,12 @@ public class RecentsDAO {
         values.put(ID, recipe.getId());
         values.put(LAST_ACCESS, recipe.getLastAcess().getTimeInMillis());
 
+
+        List<Long> ids = readAll();
+        if (ids.size()>6){
+            delete(ids.get(ids.size()-1));
+        }
+
         return database.insert(RecentsDAO.TABLE_NAME, null, values);
     }
 
@@ -58,7 +64,7 @@ public class RecentsDAO {
         return database.update(RecentsDAO.TABLE_NAME, values, ID + " = " + recipe.getId(), null);
     }
 
-    public boolean delete(long id, Calendar lastAccess) {
+    public boolean delete(long id) {
         long wReturn = database.delete(TABLE_NAME, ID + " = " + id, null);
 
         if (wReturn == 0) {
