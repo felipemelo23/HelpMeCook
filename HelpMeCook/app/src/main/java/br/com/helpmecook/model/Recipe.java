@@ -1,7 +1,11 @@
 package br.com.helpmecook.model;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -98,6 +102,25 @@ public class Recipe extends AbstractRecipe {
 
     public void setUnits(List<String> units) {
         this.units = units;
+    }
+
+    public String getPictureToString() {
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        picture.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte[] b=baos.toByteArray();
+        String stringPicture = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return stringPicture;
+    }
+
+    public void setPictureToString(String stringPicture) {
+
+        try{
+            byte [] encodeByte=Base64.decode(stringPicture,Base64.DEFAULT);
+            picture = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        }catch(Exception e){
+            e.getMessage();
+        }
     }
 
     @Override
