@@ -85,21 +85,28 @@ public class RecipeActivity extends ActionBarActivity {
             rbTaste = (RatingBar) findViewById(R.id.rb_taste);
             rbTaste.setRating(recipe.getTaste());
             rbTaste.setClickable(true);
-            rbTaste.setOnClickListener(new View.OnClickListener() {
+            rbTaste.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    Log.i("RecipeActivity", "Classify Taste Pressed");
-                    classifyTaste();
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        classifyTaste();
+                        return true;
+                    }
+                    return false;
                 }
             });
 
             rbDifficulty = (RatingBar) findViewById(R.id.rb_difficulty);
             rbDifficulty.setRating(recipe.getDifficulty());
-            rbDifficulty.setOnClickListener(new View.OnClickListener() {
+            rbDifficulty.setClickable(true);
+            rbDifficulty.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    Log.i("RecipeActivity", "Classify Difficulty Pressed");
-                    classifyDifficulty();
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        classifyDifficulty();
+                        return true;
+                    }
+                    return false;
                 }
             });
 
@@ -168,33 +175,27 @@ public class RecipeActivity extends ActionBarActivity {
         builder.setView(view);
         final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rb_classify);
 
-
-        builder.setTitle(RecipeActivity.this.getResources().getString(R.string.classify_taste));
+        builder.setMessage(RecipeActivity.this.getResources().getString(R.string.classify_taste));
         builder.setNegativeButton(RecipeActivity.this.getResources().getString(R.string.cancel),
                 new android.content.DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-                //result = false;
                 dialog.cancel();
             }
         });
         builder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-                //result = Manager.classifyTaste(recipeId, ratingBar.getRating());
                 Manager.classifyTaste(recipeId, ratingBar.getRating());
                 dialog.dismiss();
             }
         });
 
-       builder.create();
-        //return result;
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void classifyDifficulty() {
-        //final boolean result;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
 
@@ -202,29 +203,24 @@ public class RecipeActivity extends ActionBarActivity {
         builder.setView(view);
         final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rb_classify);
 
-
-        builder.setTitle(RecipeActivity.this.getResources().getString(R.string.classify_difficulty));
+        builder.setMessage(RecipeActivity.this.getResources().getString(R.string.classify_difficulty));
         builder.setNegativeButton(RecipeActivity.this.getResources().getString(R.string.cancel),
                 new android.content.DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int arg1) {
-                        //result = false;
                         dialog.cancel();
                     }
                 });
         builder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-               // result = Manager.classifyDifficulty(recipeId, ratingBar.getRating());
-                Manager.classifyDifficulty(recipeId, ratingBar.getRating());
+                Manager.classifyTaste(recipeId, ratingBar.getRating());
                 dialog.dismiss();
             }
         });
 
-        builder.create();
-        //return result;
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -245,7 +241,6 @@ public class RecipeActivity extends ActionBarActivity {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
