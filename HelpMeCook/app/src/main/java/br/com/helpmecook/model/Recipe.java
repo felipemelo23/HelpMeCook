@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Base64InputStream;
+import android.util.Base64OutputStream;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -11,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -49,6 +55,10 @@ public class Recipe extends AbstractRecipe {
 
     public void setIngredientList(List<Long> ingredientList) {
         this.ingredientList = ingredientList;
+        this.units = new ArrayList<String>();
+        for (long l : ingredientList) {
+            units.add("0 unid.");
+        }
     }
 
     public String getText() {
@@ -106,9 +116,17 @@ public class Recipe extends AbstractRecipe {
 
     public String getPictureToString() {
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        picture.compress(Bitmap.CompressFormat.PNG,100, baos);
+        picture.compress(Bitmap.CompressFormat.PNG,0, baos);
         byte[] b=baos.toByteArray();
-        String stringPicture = Base64.encodeToString(b, Base64.DEFAULT);
+
+        String stringPicture = Base64.encodeToString(b, Base64.URL_SAFE);
+        //try {
+        //    stringPicture = URLEncoder.encode(stringPicture,"UTF-8");
+        //} catch (UnsupportedEncodingException e) {
+        //    e.printStackTrace();
+        //}
+        Log.i("String Picture", stringPicture);
+        Log.i("String Picture Size", stringPicture.length() + "");
 
         return stringPicture;
     }
@@ -116,7 +134,8 @@ public class Recipe extends AbstractRecipe {
     public void setPictureToString(String stringPicture) {
 
         try{
-            byte [] encodeByte=Base64.decode(stringPicture,Base64.DEFAULT);
+            //String temp = URLDecoder.decode(stringPicture,"UTF-8");
+            byte [] encodeByte=Base64.decode(stringPicture,Base64.URL_SAFE);
             picture = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         }catch(Exception e){
             e.getMessage();
