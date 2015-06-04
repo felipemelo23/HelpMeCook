@@ -57,12 +57,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ingredient_selection_activity);
 
-        //android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //Log.i("IngredientSelection", actionBar.toString());
-        //actionBar.setCustomView(R.layout.actionbar_view);
-        //search = (EditText) actionBar.getCustomView().findViewById(R.id.searchfield);
-        //actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-
         Intent intent = getIntent();
         origin = intent.getExtras().getInt(REQUEST_CODE);
 
@@ -123,7 +117,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 (IngredientSelectionActivity.this).ingredientSelectionAdapter.getFilter().filter(cs);
-                //(IngredientSelectionActivity.this).ingredientSelectionAdapter.notifyDataSetChanged();
             }
 
             @Override

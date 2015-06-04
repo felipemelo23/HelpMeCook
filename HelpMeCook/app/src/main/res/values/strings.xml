@@ -25,6 +25,7 @@
     <string name="blank_fields">Há campos obrigatórios em branco</string>
     <string name="cookbook_alert">Seu cookbook está vazio</string>
     <string name="preparation_mode">Modo de preparo</string>
+    <string name="search_ingredients">Procure pelo ingrediente</string>
 
     <!-- Nomes dos itens da nav drawer -->
     <string-array name="nav_drawer_items">
