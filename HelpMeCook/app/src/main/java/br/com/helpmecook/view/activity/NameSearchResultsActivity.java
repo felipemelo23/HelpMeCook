@@ -1,6 +1,8 @@
 package br.com.helpmecook.view.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
@@ -26,20 +28,23 @@ public class NameSearchResultsActivity extends ActionBarActivity {
     private String searchName;
     private ListView resultRecipes;
     private List<AbstractRecipe> results;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name_search_results);
 
+        EditText etSearchName = (EditText) findViewById(R.id.et_name_search);
+
         Intent intent = getIntent();
 
-        searchName = intent.getExtras().getString(SEARCH_NAME);
+        if (intent.hasExtra(SEARCH_NAME)) {
+            searchName = intent.getExtras().getString(SEARCH_NAME);
+            etSearchName.setText(searchName);
+            executeNameSearch();
+        }
 
-        EditText etSearchName = (EditText) findViewById(R.id.et_name_search);
-        etSearchName.setText(searchName);
-
-        executeNameSearch();
         //lvRecipes = (ListView) findViewById(R.id.lvRecipes);
     }
 
@@ -69,12 +74,12 @@ public class NameSearchResultsActivity extends ActionBarActivity {
     public void actionExecuteSearch(View view) {
         EditText etSearchName = (EditText) findViewById(R.id.et_name_search);
         searchName = etSearchName.getText().toString();
-        executeNameSearch();
+        if (searchName != null && searchName != "") {
+            new NameSearchTask().execute();
+        }
     }
 
     private void executeNameSearch() {
-        results = Manager.getResultByRecipeName(searchName);
-
         RecipesListAdapter adapter = new RecipesListAdapter(getApplicationContext(), results);
 
         resultRecipes = (ListView) findViewById(R.id.lv_name_search_result);
@@ -116,4 +121,31 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         super.onResume();
 //        this.loadList();
     }
+
+    private class NameSearchTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(NameSearchResultsActivity.this);
+            pDialog.setMessage(getString(R.string.searching));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            results = Manager.getResultByRecipeName(searchName);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            pDialog.dismiss();
+            executeNameSearch();
+        }
+    }
+
 }

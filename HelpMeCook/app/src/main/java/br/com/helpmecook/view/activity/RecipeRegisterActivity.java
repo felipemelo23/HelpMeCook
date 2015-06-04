@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -74,6 +77,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     private Bitmap picture;
     private long ingredients[];
     private List<String> ingredientsQntd;
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,32 +160,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         if ((etName.getText().toString().equals("")) || (etDescription.getText().toString().equals("")) || (ingredients == null)){ // + lista de ingredientes
             Toast.makeText(RecipeRegisterActivity.this, getResources().getString(R.string.blank_fields), Toast.LENGTH_LONG).show();
         } else {
-            recipe.setName(etName.getText().toString());
-            recipe.setText(etDescription.getText().toString());
-
-            if (picture.equals(null)){
-                recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(),R.drawable.plate));
-            } else {
-                recipe.setPicture(picture);
-            }
-            if (!(etPrepTime.getText().toString().equals(""))) {
-                recipe.setEstimatedTime(Integer.parseInt(etPrepTime.getText().toString()));
-            }
-            if (!(etPortionNum.getText().toString().equals(""))) {
-                recipe.setPortionNum(etPortionNum.getText().toString());
-            }
-
-            List<Long> ingId = new ArrayList<Long>();
-            for (int i = 0; i < ingredients.length; i++) {
-                Log.i("DebugIngredient", "id: " + ingredients[i]);
-                ingId.add(ingredients[i]);
-            }
-            recipe.setIngredientList(ingId);
-
-
-            Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
-            Toast.makeText(getApplicationContext(), getString(R.string.recipe_registered),Toast.LENGTH_LONG).show();
-            showRecipe(recipe.getId());
+            new RegisterRecipeTask().execute();
         }
     }
 
@@ -375,5 +355,55 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private class RegisterRecipeTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(RecipeRegisterActivity.this);
+            pDialog.setMessage(getString(R.string.saving_recipe));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            recipe.setName(etName.getText().toString());
+            recipe.setText(etDescription.getText().toString());
+
+            if (picture.equals(null)){
+                recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(),R.drawable.plate));
+            } else {
+
+                recipe.setPicture(picture);
+            }
+            if (!(etPrepTime.getText().toString().equals(""))) {
+                recipe.setEstimatedTime(Integer.parseInt(etPrepTime.getText().toString()));
+            }
+            if (!(etPortionNum.getText().toString().equals(""))) {
+                recipe.setPortionNum(etPortionNum.getText().toString());
+            }
+
+            List<Long> ingId = new ArrayList<Long>();
+            for (int i = 0; i < ingredients.length; i++) {
+                Log.i("DebugIngredient", "id: " + ingredients[i]);
+                ingId.add(ingredients[i]);
+            }
+            recipe.setIngredientList(ingId);
+
+            Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            pDialog.dismiss();
+            Toast.makeText(getApplicationContext(), getString(R.string.recipe_registered),Toast.LENGTH_LONG).show();
+            showRecipe(recipe.getId());
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -144,6 +145,18 @@ public class MainActivity extends ActionBarActivity
         }
         //return super.onCreateOptionsMenu(menu);
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.name_search) {
+            Intent intent = new Intent(getApplicationContext(), NameSearchResultsActivity.class);
+
+            startActivity(intent);
+            return false;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     class AsyncTaskLoadIngredients extends AsyncTask<Void, Integer, String> {

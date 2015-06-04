@@ -56,10 +56,10 @@ public class UrlConnection extends AsyncTask<String, String, String> {
             JsonParser jParser = new JsonParser();
 
             // get json string from url
-            JSONObject json = jParser.getJSONFromUrl(UrlStringWS);
+            //JSONObject json = jParser.getJSONFromUrl(UrlStringWS);
 
             // get the array of users
-            dataJsonArr = json.getJSONArray("searchresult");
+            //dataJsonArr = json.getJSONArray("searchresult");
             Log.i("LOADING", dataJsonArr.toString());
 
             // loop through all users

@@ -4,6 +4,7 @@
 
     <user-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -50,9 +51,7 @@
         <activity
             android:name=".view.activity.IngredientSearchResultActivity"
             android:label="@string/title_activity_ingredient_search_result" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.helpmecook.view.activity.IngredientSelectionActivity" />
+            />
         </activity>
     </application>
 

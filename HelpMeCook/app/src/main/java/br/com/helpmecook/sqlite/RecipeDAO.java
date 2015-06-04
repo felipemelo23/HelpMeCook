@@ -67,10 +67,15 @@ public class RecipeDAO {
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
         // transformando a foto de bitmap para byte[]
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        recipe.getPicture().compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] picture = baos.toByteArray();
-        values.put(PICTURE, picture);
+        if (recipe.getPicture() != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            recipe.getPicture().compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] picture = baos.toByteArray();
+            values.put(PICTURE, picture);
+        } else {
+            values.put(PICTURE, (byte[]) null);
+        }
+
         // checando se já foi sincronizada com o servidor
         if (recipe.isSync()) {
             values.put(SYNC, 1);
@@ -101,10 +106,14 @@ public class RecipeDAO {
         values.put(ESTIMATED_TIME, recipe.getEstimatedTime());
         values.put(PORTION_NUM, recipe.getPortionNum());
         // transformando a foto de bitmap para byte[]
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        recipe.getPicture().compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] picture = baos.toByteArray();
-        values.put(PICTURE, picture);
+        if (recipe.getPicture() != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            recipe.getPicture().compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] picture = baos.toByteArray();
+            values.put(PICTURE, picture);
+        } else {
+            values.put(PICTURE, (byte[]) null);
+        }
         // checando se já foi sincronizada com o servidor
         if (recipe.isSync()) {
             values.put(SYNC, 1);
@@ -155,7 +164,11 @@ public class RecipeDAO {
             recipe.setText(c.getString(indexText));
             recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
             recipe.setPortionNum(c.getString(indexPortionNum));
-            recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+            if (c.getBlob(indexPicture) != null) {
+                recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+            } else {
+                recipe.setPicture(null);
+            }
             if (c.getInt(indexSync) == 0) {
                 recipe.setSync(true);
             }
@@ -190,7 +203,11 @@ public class RecipeDAO {
             recipe.setName(c.getString(indexName));
             recipe.setTaste(c.getFloat(indexTaste));
             recipe.setDifficulty(c.getFloat(indexDifficulty));
-            recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+            if (c.getBlob(indexPicture) != null) {
+                recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+            } else {
+                recipe.setPicture(null);
+            }
             c.close();
 
             return recipe;
@@ -232,7 +249,11 @@ public class RecipeDAO {
                 recipe.setUnits(stringToUnitsList(c.getString(indexUnitsList)));
                 recipe.setText(c.getString(indexText));
                 recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
-                recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+                if (c.getBlob(indexPicture) != null) {
+                    recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+                } else {
+                    recipe.setPicture(null);
+                }
                 recipe.setPortionNum(c.getString(indexPortionNum));
                 if (c.getInt(indexSync) == 0) {
                     recipe.setSync(true);
@@ -283,7 +304,11 @@ public class RecipeDAO {
                     recipe.setText(c.getString(indexText));
                     recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
                     recipe.setPortionNum(c.getString(indexPortionNum));
-                    recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+                    if (c.getBlob(indexPicture) != null) {
+                        recipe.setPicture(BitmapFactory.decodeStream(new ByteArrayInputStream(c.getBlob(indexPicture))));
+                    } else {
+                        recipe.setPicture(null);
+                    }
                     recipe.setSync(false);
 
                     recipes.add(recipe);
@@ -333,5 +358,4 @@ public class RecipeDAO {
 
         return unitsList;
     }
-
 }
