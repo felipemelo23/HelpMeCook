@@ -11,6 +11,32 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/popular"
+        android:layout_marginBottom="4dp"
+        android:textColor="@color/text" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/background_floating_material_dark"/>
+
+    <GridView
+        android:id="@+id/gv_pop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:choiceMode="singleChoice"
+        android:clickable="true"
+        android:columnWidth="150dp"
+        android:gravity="center_horizontal"
+        android:horizontalSpacing="8dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/recents"
         android:layout_marginBottom="4dp"
         android:textColor="@color/text" />
@@ -32,5 +58,5 @@
         android:horizontalSpacing="8dp"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="8dp" />
+        android:verticalSpacing="8dp"/>
 </LinearLayout>

@@ -55,10 +55,10 @@ public class UploadRecipe extends UrlConnection {
             JsonParser jParser = new JsonParser();
 
             // get json string from url
-            JSONObject json = jParser.getJSONFromUrl(UrlStringWS);
+            //JSONObject json = jParser.getJSONFromUrl(UrlStringWS);
 
             // get the array of users
-            dataJsonArr = json.getJSONArray("searchresult");
+            //dataJsonArr = json.getJSONArray("searchresult");
             Log.i("LOADING", dataJsonArr.toString());
 
             for (int i = 0; i < dataJsonArr.length(); i++) {

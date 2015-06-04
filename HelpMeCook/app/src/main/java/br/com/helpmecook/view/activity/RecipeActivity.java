@@ -2,7 +2,9 @@ package br.com.helpmecook.view.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -41,6 +43,8 @@ public class RecipeActivity extends ActionBarActivity {
     TextView recipePrepTime;
     TextView recipePortionNumber;
 
+    ProgressDialog pDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,18 +52,16 @@ public class RecipeActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            recipeId  = extras.getLong(RECIPE_ID);
+            recipeId = extras.getLong(RECIPE_ID);
         } else {
-            Toast.makeText(getApplicationContext(),"Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
             finish();
         }
 
-        loadRecipe(recipeId);
+        new GetRecipeTask().execute();
     }
 
-    public void loadRecipe(long id) {
-        recipe = Manager.getRecipeById(id, this);
-
+    public void loadRecipe() {
         if (recipe != null) {
             setTitle(recipe.getName());
 
@@ -132,7 +134,7 @@ public class RecipeActivity extends ActionBarActivity {
             recipePortionNumber = (TextView) findViewById(R.id.tv_portion_number);
             if (recipe.getPortionNum() != null && Integer.parseInt(recipe.getPortionNum()) == 1) {
                 recipePortionNumber.setText(recipe.getPortionNum() + " porção");
-            } else if (recipe.getPortionNum() != null){
+            } else if (recipe.getPortionNum() != null) {
                 recipePortionNumber.setText(recipe.getPortionNum() + " porções");
             } else {
                 ((ImageView) findViewById(R.id.iv_portion_num)).setVisibility(View.GONE);
@@ -140,7 +142,7 @@ public class RecipeActivity extends ActionBarActivity {
                 ((LinearLayout) findViewById(R.id.ll_portion_num)).setVisibility(View.GONE);
             }
         } else {
-            Toast.makeText(getApplicationContext(),"Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -178,16 +180,17 @@ public class RecipeActivity extends ActionBarActivity {
         builder.setMessage(RecipeActivity.this.getResources().getString(R.string.classify_taste));
         builder.setNegativeButton(RecipeActivity.this.getResources().getString(R.string.cancel),
                 new android.content.DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int arg1) {
-                dialog.cancel();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        dialog.cancel();
+                    }
+                });
         builder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-                Manager.classifyTaste(recipeId, ratingBar.getRating());
+                recipe.setTaste(ratingBar.getRating());
                 dialog.dismiss();
+                new ClassifyRecipeTaste().execute();
             }
         });
 
@@ -214,8 +217,9 @@ public class RecipeActivity extends ActionBarActivity {
         builder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int arg1) {
-                Manager.classifyTaste(recipeId, ratingBar.getRating());
+                recipe.setDifficulty(ratingBar.getRating());
                 dialog.dismiss();
+                new ClassifyRecipeDifficulty().execute();
             }
         });
 
@@ -250,5 +254,78 @@ public class RecipeActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    private class GetRecipeTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(RecipeActivity.this);
+            pDialog.setMessage(getString(R.string.loading_recipe));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            recipe = Manager.getRecipeById(recipeId, getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            pDialog.dismiss();
+            loadRecipe();
+        }
+    }
+
+    private class ClassifyRecipeTaste extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(RecipeActivity.this);
+            pDialog.setMessage(getString(R.string.classifing_recipe));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Manager.classifyTaste(recipeId, recipe.getTaste());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            pDialog.dismiss();
+        }
+    }
+
+    private class ClassifyRecipeDifficulty extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(RecipeActivity.this);
+            pDialog.setMessage(getString(R.string.classifing_recipe));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Manager.classifyDifficulty(recipeId, recipe.getDifficulty());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            pDialog.dismiss();
+        }
     }
 }

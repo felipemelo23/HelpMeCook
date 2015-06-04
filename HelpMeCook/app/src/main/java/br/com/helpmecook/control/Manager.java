@@ -3,6 +3,9 @@ package br.com.helpmecook.control;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.util.Pair;
+
+import org.apache.http.conn.HttpHostConnectException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,6 +47,7 @@ public class Manager {
             //Se a receita não estiver no banco de dados local, procura no servidor.
             if (recipe == null) {
                 recipe = accessor.getRecipeById(id);
+                recipeDAO.insert(recipe);
             }
 
             //Se a receita foi encontrada, atualiza o último acesso dela e adiciona ela na tabela Recents
@@ -103,19 +107,8 @@ public class Manager {
      * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
      * dadas as duas listas de ingredientes passadas como parametro.
      */
-    public static List<AbstractRecipe> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
+    public static Pair<List<AbstractRecipe>,List<AbstractRecipe>> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
         return accessor.getResultByIngredientLists(wanted, unwanted);
-    }
-
-    /**
-     * @param wanted Lista de ingredientes desejaveis.
-     * @param unwanted Lista de ingredientes indesejaveis.
-     * @return Retorna uma lista de identificadores de receitas que satisfazem a busca
-     * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
-     * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
-     */
-    public static List<AbstractRecipe> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
-        return accessor.getPlusByIngredientLists(wanted, unwanted);
     }
 
     /**
@@ -303,7 +296,7 @@ public class Manager {
     /**
      * @return Uma lista de AbstractRecipe com as receitas populares
      */
-    public static List<AbstractRecipe> getPopularRecipes (){
+    public static List<AbstractRecipe> getPopularRecipes () throws HttpHostConnectException {
         return accessor.getPopularRecipes();
     }
 

@@ -48,6 +48,7 @@
     <string name="ingrendiets">Ingredientes</string>
 
 
+    <string name="search_by_name">Pesquisar por Nome</string>
     <string name="search">BUSCAR</string>
     <string name="name_search">Nome da Receita</string>
     <string name="btOk">Ok</string>
@@ -58,7 +59,7 @@
     <string name="title_activity_ingredient_search_result">IngredientSearchResultActivity</string>
     <string name="results">Resultados</string>
     <string name="resultsplusone">Receitas com mais ingredientes</string>
-    <string name="recipe_registered">Criada com sucesso! (Será que é gostosa?)</string>
+    <string name="recipe_registered">Criada com sucesso!</string>
     <string name="what_are_you_doing">O que exatamente você está tentando fazer?</string>
     <string name="cant_search">Não foi possível realizar a busca</string>
     <string name="tv_ingredients">INGREDIENTES</string>
@@ -75,6 +76,14 @@
     <string name="tablespoon">colher de sopa</string>
     <string name="cup">xícara de chá</string>
     <string name="milliliter">ml</string>
+    <string name="waiting_popular_recipes">Carregando Receitas Populares...</string>
+    <string name="cant_connect">Não foi possível conectar à internet.</string>
+    <string name="waiting_recents_popular_recipes">Carregando receitas...</string>
+    <string name="popular">POPULARES</string>
+    <string name="loading_recipe">Carregando receita...</string>
+    <string name="saving_recipe">Salvando receita...</string>
+    <string name="searching">Buscando...</string>
+    <string name="classifing_recipe">Estamos validando sua opinião...</string>
 
 
 </resources>

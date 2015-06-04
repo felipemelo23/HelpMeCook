@@ -116,17 +116,11 @@ public class Recipe extends AbstractRecipe {
 
     public String getPictureToString() {
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        picture.compress(Bitmap.CompressFormat.PNG,0, baos);
+        picture.compress(Bitmap.CompressFormat.PNG,100, baos);
         byte[] b=baos.toByteArray();
 
         String stringPicture = Base64.encodeToString(b, Base64.URL_SAFE);
-        //try {
-        //    stringPicture = URLEncoder.encode(stringPicture,"UTF-8");
-        //} catch (UnsupportedEncodingException e) {
-        //    e.printStackTrace();
-        //}
-        Log.i("String Picture", stringPicture);
-        Log.i("String Picture Size", stringPicture.length() + "");
+        Log.i("StringPictureRecipe", stringPicture);
 
         return stringPicture;
     }
@@ -134,9 +128,8 @@ public class Recipe extends AbstractRecipe {
     public void setPictureToString(String stringPicture) {
 
         try{
-            //String temp = URLDecoder.decode(stringPicture,"UTF-8");
-            byte [] encodeByte=Base64.decode(stringPicture,Base64.URL_SAFE);
-            picture = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(stringPicture, Base64.URL_SAFE);
+            setPicture(BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length));
         }catch(Exception e){
             e.getMessage();
         }

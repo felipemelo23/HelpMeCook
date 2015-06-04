@@ -1,22 +1,42 @@
 package br.com.helpmecook.control;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
+import android.util.Pair;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
+import br.com.helpmecook.connection.JsonParser;
 import br.com.helpmecook.connection.UploadRecipe;
 import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Ingredient;
@@ -26,20 +46,56 @@ import br.com.helpmecook.model.Recipe;
  * Created by Felipe on 30/04/2015.
  */
 public class ConnectionAccessor {
-    Recipe recipe;
-    long result;
+    JsonParser jsonParser = new JsonParser();
 
     /**
      * @param id Numero inteiro que identifica uma receita.
      * @return Retorna a receita relativa ao id passado como parametro.
      */
     public Recipe getRecipeById(long id) {
-        GetRecipeTask task = new GetRecipeTask(id);
-        recipe = null;
+        Recipe tempRecipe = new Recipe();
 
-        task.execute();
+        Log.i("RecipeID",id+"");
 
-        return recipe;
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            //params.add(new BasicNameValuePair("param", id+""));
+            JSONArray jsonArray = jsonParser.makeHttpRequest("http://helpmecook.com.br/ws/FullRecipe.php?param=" + id, params, "GET");
+            Log.i("RespostaFullRecipe", jsonArray.toString());
+
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            if (jsonObject.has("id")) {
+                tempRecipe.setId(jsonObject.optLong("id"));
+                tempRecipe.setName(jsonObject.optString("name"));
+                tempRecipe.setTaste((float) jsonObject.optDouble("taste"));
+                tempRecipe.setDifficulty((float) jsonObject.optDouble("difficulty"));
+                tempRecipe.setPictureToString(jsonObject.optString("picture"));
+
+                JSONArray ingJSONArray = jsonObject.getJSONArray("ingredientList");
+                List<Long> ingredientList = new ArrayList<Long>();
+                for (int j = 0; j < ingJSONArray.length(); j++){
+                    ingredientList.add(ingJSONArray.getLong(j));
+                }
+                tempRecipe.setIngredientList(ingredientList);
+
+                JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
+                List<String> units = new ArrayList<String>();
+                for (int j = 0; j < unitsJSONArray.length(); j++) {
+                    units.add(unitsJSONArray.getString(j));
+                }
+                tempRecipe.setUnits(units);
+
+                tempRecipe.setText(jsonObject.getString("text"));
+                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (HttpHostConnectException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return tempRecipe;
     }
 
     /**
@@ -49,19 +105,77 @@ public class ConnectionAccessor {
      * por ingredientes, ou seja, contem receitas com exatamente os ingredientes desejados,
      * dadas as duas listas de ingredientes passadas como parametro.
      */
-    public List<AbstractRecipe> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
-        return null;
-    }
 
-    /**
-     * @param wanted Lista de ingredientes desejaveis.
-     * @param unwanted Lista de ingredientes indesejaveis.
-     * @return Retorna uma lista de identificadores de receitas que satisfazem a busca
-     * por ingredientes, mas tem 1 ingrediente a mais, ou seja, contem receitas com exatamente os ingredientes
-     * desejados mais 1 ingrediente, dadas as duas listas de ingredientes passadas como parametro.
-     */
-    public List<AbstractRecipe> getPlusByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
-        return null;
+    public Pair<List<AbstractRecipe>,List<AbstractRecipe>> getResultByIngredientLists(
+            List<Ingredient> wanted, List<Ingredient> unwanted) {
+
+        List<AbstractRecipe> result = new ArrayList<AbstractRecipe>();
+        List<AbstractRecipe> plus = new ArrayList<AbstractRecipe>();
+
+        try {
+            String url = "http://helpmecook.com.br/ws/IngredientSearch.php";
+
+            String in = "[";
+            for (int i = 0; i < wanted.size(); i++) {
+                in += "\"" + wanted.get(i).getId() + "\"";
+                if (i != wanted.size() - 1) in += ",";
+            }
+            in += "]";
+
+            String out = "[";
+            for (int i = 0; i < unwanted.size(); i++) {
+                out += "\"" + unwanted.get(i).getId() + "\"";
+                if (i != unwanted.size() - 1) out += ",";
+            }
+            out += "]";
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("in", in));
+            if (unwanted.size() > 0) params.add(new BasicNameValuePair("out", out));
+
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "GET");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Recipe tempRecipe = new Recipe();
+                tempRecipe.setId(jsonObject.optLong("id"));
+                tempRecipe.setName(jsonObject.optString("name"));
+                tempRecipe.setTaste((float) jsonObject.optDouble("taste"));
+                tempRecipe.setDifficulty((float) jsonObject.optDouble("difficulty"));
+                tempRecipe.setPictureToString(jsonObject.optString("picture"));
+
+                JSONArray ingJSONArray = jsonObject.getJSONArray("ingredientList");
+                List<Long> ingredientList = new ArrayList<Long>();
+                for (int j = 0; j < ingJSONArray.length(); j++){
+                    ingredientList.add(ingJSONArray.getLong(j));
+                }
+                tempRecipe.setIngredientList(ingredientList);
+
+                JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
+                List<String> units = new ArrayList<String>();
+                for (int j = 0; j < unitsJSONArray.length(); j++) {
+                    units.add(unitsJSONArray.getString(i));
+                }
+                tempRecipe.setUnits(units);
+
+                tempRecipe.setText(jsonObject.getString("text"));
+                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+
+                if (tempRecipe.getIngredientNum() <= wanted.size()) {
+                    result.add(tempRecipe);
+                } else {
+                    plus.add(tempRecipe);
+                }
+                Log.i("HomeFragment", tempRecipe.getId() + " " + tempRecipe.getName());
+            }
+        } catch (HttpHostConnectException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new Pair<List<AbstractRecipe>,List<AbstractRecipe>>(result,plus);
     }
 
     /**
@@ -70,14 +184,103 @@ public class ConnectionAccessor {
      * no seu nome.
      */
     public List<AbstractRecipe> getResultByRecipeName(String name) {
-        return null;
+        List<AbstractRecipe> results = new ArrayList<AbstractRecipe>();
+
+        try {
+            String url = "http://helpmecook.com.br/ws/NameSearch.php";
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("param", name));
+
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "GET");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Recipe tempRecipe = new Recipe();
+                tempRecipe.setId(jsonObject.optLong("id"));
+                tempRecipe.setName(jsonObject.optString("name"));
+                tempRecipe.setTaste((float) jsonObject.optDouble("taste"));
+                tempRecipe.setDifficulty((float) jsonObject.optDouble("difficulty"));
+                tempRecipe.setPictureToString(jsonObject.optString("picture"));
+
+                JSONArray ingJSONArray = jsonObject.getJSONArray("ingredientList");
+                List<Long> ingredientList = new ArrayList<Long>();
+                for (int j = 0; j < ingJSONArray.length(); j++){
+                    ingredientList.add(ingJSONArray.getLong(j));
+                }
+                tempRecipe.setIngredientList(ingredientList);
+
+                JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
+                List<String> units = new ArrayList<String>();
+                for (int j = 0; j < unitsJSONArray.length(); j++) {
+                    units.add(unitsJSONArray.getString(i));
+                }
+                tempRecipe.setUnits(units);
+
+                tempRecipe.setText(jsonObject.getString("text"));
+                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+
+                results.add(tempRecipe);
+
+                Log.i("HomeFragment", tempRecipe.getId() + " " + tempRecipe.getName());
+            }
+        } catch (HttpHostConnectException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return results;
     }
 
     /**
      * @return Retorna as receitas mais populares, ou seja, mais visualizadas pelo usuarios.
      */
-    public List<AbstractRecipe> getPopularRecipes() {
-        return null;
+    public List<AbstractRecipe> getPopularRecipes() throws HttpHostConnectException {
+        List<AbstractRecipe> temp = new ArrayList<AbstractRecipe>();
+        try {
+            JSONArray jsonArray = jsonParser.makeHttpRequest("http://helpmecook.com.br/ws/MostVisualised.php",
+                    new ArrayList<NameValuePair>(), "POST");
+
+            Log.i("JSONArrayPopularSize", jsonArray.length()+"");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Recipe tempRecipe = new Recipe();
+                tempRecipe.setId(jsonObject.optLong("id"));
+                tempRecipe.setName(jsonObject.optString("name"));
+                tempRecipe.setTaste((float) jsonObject.optDouble("taste"));
+                tempRecipe.setDifficulty((float) jsonObject.optDouble("difficulty"));
+                tempRecipe.setPictureToString(jsonObject.optString("picture"));
+
+                JSONArray ingJSONArray = jsonObject.getJSONArray("ingredientList");
+                List<Long> ingredientList = new ArrayList<Long>();
+                for (int j = 0; j < ingJSONArray.length(); j++){
+                    ingredientList.add(ingJSONArray.getLong(j));
+                }
+                tempRecipe.setIngredientList(ingredientList);
+
+                JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
+                List<String> units = new ArrayList<String>();
+                for (int j = 0; j < unitsJSONArray.length(); j++) {
+                    units.add(unitsJSONArray.getString(j));
+                }
+                tempRecipe.setUnits(units);
+
+                tempRecipe.setText(jsonObject.getString("text"));
+                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+
+                temp.add(tempRecipe);
+                Log.i("HomeFragment", tempRecipe.getId() + " " + tempRecipe.getName());
+            }
+
+        } catch (HttpHostConnectException e) {
+            throw e;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return temp;
     }
 
     /**
@@ -87,12 +290,53 @@ public class ConnectionAccessor {
      * mas for registrada no Banco de dados local.
      */
     public long registerRecipe(Recipe recipe) {
-        RegisterRecipeTask task = new RegisterRecipeTask(recipe);
-        result = -1;
+        Recipe temp = new Recipe();
 
-        task.execute();
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            List<NameValuePair> paramsImage = new ArrayList<NameValuePair>();
 
-        return result;
+            String ingrendientList = "[";
+            for (int i = 0; i < recipe.getIngredientNum(); i++) {
+                ingrendientList += "\"" + recipe.getIngredientList().get(i) + "\"";
+                if (i != recipe.getIngredientNum() - 1) ingrendientList += ",";
+            }
+            ingrendientList += "]";
+
+            String units = "[";
+            for (int i = 0; i < recipe.getUnits().size(); i++) {
+                units += "\"" + recipe.getUnits().get(i) + "\"";
+                if (i != recipe.getUnits().size() - 1) units += ",";
+            }
+            units += "]";
+
+            params.add(new BasicNameValuePair("name", recipe.getName()));
+            params.add(new BasicNameValuePair("text",recipe.getText()));
+            params.add(new BasicNameValuePair("portion",recipe.getPortionNum()));
+            params.add(new BasicNameValuePair("time",recipe.getEstimatedTime()+""));
+            params.add(new BasicNameValuePair("ingredientList", ingrendientList));
+            params.add(new BasicNameValuePair("units", units));
+
+            Log.i("URL", "http://helpmecook.com.br/ws/UploadRecipe.php");
+
+            JSONArray jsonArray = jsonParser.makeHttpRequest("http://helpmecook.com.br/ws/UploadRecipe.php",params,"GET");
+
+            temp.setId(jsonArray.getLong(0));
+
+            paramsImage.add(new BasicNameValuePair("image", recipe.getPictureToString()));
+            Log.i("StringPicture", recipe.getPictureToString());
+            paramsImage.add(new BasicNameValuePair("id", temp.getId() + ""));
+            jsonParser.makeHttpRequest("http://helpmecook.com.br/ws/upload_image.php", paramsImage, "POST");
+
+        } catch (HttpHostConnectException e) {
+
+            return -1;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("RegisterRecipeID", temp.getId()+"");
+        return temp.getId();
     }
 
     /**
@@ -102,7 +346,23 @@ public class ConnectionAccessor {
      * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
      */
     public boolean classifyTaste(long id, float taste) {
-        return false;
+        try {
+            String url = "http://helpmecook.com.br/ws/Classify.php";
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("id",id+""));
+            params.add(new BasicNameValuePair("rate", taste+""));
+            params.add(new BasicNameValuePair("flag", 0 + ""));
+
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "POST");
+            Log.i("ClassifyTaste", taste + " " + jsonArray.getDouble(0));
+
+        } catch (HttpHostConnectException e) {
+            e.printStackTrace();
+            return false;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**
@@ -112,7 +372,24 @@ public class ConnectionAccessor {
      * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
      */
     public boolean classifyDifficulty(long id, float difficulty) {
-        return false;
+        try {
+            String url = "http://helpmecook.com.br/ws/Classify.php";
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("id",id+""));
+            params.add(new BasicNameValuePair("rate", difficulty+""));
+            params.add(new BasicNameValuePair("flag", 1 + ""));
+
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "POST");
+
+            Log.i("ClassifyDifficult",difficulty + " " + jsonArray.getDouble(0));
+
+        } catch (HttpHostConnectException e) {
+            e.printStackTrace();
+            return false;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**
@@ -122,132 +399,4 @@ public class ConnectionAccessor {
     public List<Recipe> syncRecipes(List<Recipe> recipes) {
         return null;
     }
-
-    public String callUrl(String url) {
-        StringBuffer buffer_string = new StringBuffer(url);
-        String replyString = "";
-
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpget = new HttpGet(buffer_string.toString());
-        try {
-            HttpResponse response = httpclient.execute(httpget);
-            InputStream is = response.getEntity().getContent();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            ByteArrayBuffer baf = new ByteArrayBuffer(20);
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                baf.append((byte) current);
-            }
-            // Resultado: string do JSON!
-            replyString = new String(baf.toByteArray());
-            System.out.println("JSON " + replyString.trim());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(replyString);
-        return replyString.trim();
-    }
-
-    private class GetRecipeTask extends AsyncTask {
-        private long id;
-        String temp;
-
-        public GetRecipeTask(long id) {
-            this.id = id;
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            temp = callUrl("http://helpmecook.com.br/ws/FullRecipe.php?param=" + id);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            if (temp == null) {
-                //Lançar alguma exceção
-            }
-            recipe = parseRecipe(temp);
-        }
-
-        private Recipe parseRecipe(final String response) {
-            Recipe temp = new Recipe();
-
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                if (jsonObject.has("id")) {
-                    temp.setId(jsonObject.optLong("id"));
-                    temp.setName(jsonObject.optString("name"));
-                    temp.setTaste((float) jsonObject.optDouble("taste"));
-                    temp.setDifficulty((float) jsonObject.optDouble("difficulty"));
-                    temp.setPictureToString(jsonObject.optString("picture"));
-
-                    JSONArray ingJSONArray = jsonObject.getJSONArray("ingredientList");
-                    List<Long> ingredientList = new ArrayList<Long>();
-                    for (int i = 0; i < ingJSONArray.length(); i++){
-                        ingredientList.add(ingJSONArray.getLong(i));
-                    }
-                    temp.setIngredientList(ingredientList);
-
-                    JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
-                    List<String> units = new ArrayList<String>();
-                    for (int i = 0; i < unitsJSONArray.length(); i++) {
-                        units.add(unitsJSONArray.getString(i));
-                    }
-                    temp.setUnits(units);
-
-                    temp.setText(jsonObject.getString("text"));
-                    temp.setEstimatedTime(jsonObject.getInt("estimatedTime"));
-                    temp.setPortionNum(jsonObject.getString("portionNum"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return temp;
-        }
-    }
-
-    private class RegisterRecipeTask extends AsyncTask {
-        Recipe recipeReg;
-        String temp;
-
-        public RegisterRecipeTask(Recipe recipeReg) {
-            this.recipeReg = recipeReg;
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            String url = "http://helpmecook.com.br/ws/UploadRecipe.php?param={\"recipe\":{" +
-                    "\"id\":\"" + recipeReg.getId() +
-                    "\",\"name\":\"" + recipeReg.getName() +
-                    "\",\"taste\":\"" + recipeReg.getTaste() +
-                    "\",\"difficulty\":\"" + recipeReg.getDifficulty() +
-                    "\",\"picture\":\"" + recipeReg.getPictureToString() +
-                    "\",\"ingredientList\":[";
-            for (int i = 0; i < recipeReg.getIngredientNum(); i++) {
-                url += "\"" + recipeReg.getIngredientList().get(i) + "\"";
-                if (i != recipeReg.getIngredientNum()-1) url += ",";
-            }
-            url += "],\"units\":[";
-            for (int i = 0; i < recipeReg.getIngredientNum(); i++) {
-                url += "\"" + recipeReg.getUnits().get(i) + "\"";
-                if (i != recipeReg.getIngredientNum()-1) url += ",";
-            }
-            url += "],\"text\":" + recipeReg.getText() +
-                    "\",\"estimatedTime\":\"" + recipeReg.getEstimatedTime() +
-                    "\",\"portionNum\":\"" + recipeReg.getPortionNum() + "\"}}";
-
-            Log.i("URL", url);
-            Log.i("URL", url.length() + "");
-
-            temp = callUrl(url);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            result = Long.parseLong(temp);
-        }
-    }
-
 }

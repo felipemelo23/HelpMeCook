@@ -3,6 +3,7 @@ package br.com.helpmecook.view.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class RecipeCardAdapter extends BaseAdapter{
             }
         }
         this.recipes = recipes_aux;
+        Log.i("RecipeCard", getCount()+"");
     }
 
     @Override
@@ -66,6 +68,8 @@ public class RecipeCardAdapter extends BaseAdapter{
             TextView name = (TextView) convertView.findViewById(R.id.tv_nome_recipe_card);
             name.setShadowLayer(2, 2, 2, Color.BLACK);
             RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_card);
+
+            Log.i("RecipeCardPos", position+"");
 
             icon.setImageBitmap(recipes.get(position).getPicture());
             name.setText(recipes.get(position).getName().toUpperCase());

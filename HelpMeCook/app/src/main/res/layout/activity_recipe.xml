@@ -17,8 +17,7 @@
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/receita" />
+                android:scaleType="centerCrop" />
 
             <ImageButton
                 android:id="@+id/add_cookbook"
@@ -113,7 +112,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="12 minutos"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/text"></TextView>
             </LinearLayout>
@@ -141,7 +139,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="12 porções"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/text"></TextView>
             </LinearLayout>
@@ -207,7 +204,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="Descrição Receita iuhb ubiubiub uhbu hbuhb uhbuhbiuhb uhbiuhbui hbuhb uhbhub uhbuhb uhbuhb uhbuh biuhb buhb iuhbu hbuhb uhbuh buhb "
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/text"/>
 

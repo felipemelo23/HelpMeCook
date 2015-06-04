@@ -29,6 +29,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="8dp"
+            android:textColor="@color/text"
             android:text="Receita"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -39,6 +40,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/tv_recipe_name_detail"
             android:text="@string/taste"
+            android:textColor="@color/text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <RatingBar
@@ -58,6 +60,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_taste_detail"
             android:text="@string/difficulty"
+            android:textColor="@color/text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <RatingBar

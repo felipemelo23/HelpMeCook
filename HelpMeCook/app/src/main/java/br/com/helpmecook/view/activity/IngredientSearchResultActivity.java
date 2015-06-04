@@ -1,8 +1,11 @@
 package br.com.helpmecook.view.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +29,10 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     private ListView resultRecipesPlus;
     private List<AbstractRecipe> results;
     private List<AbstractRecipe> plus;
+    private List<Long> wanted;
+    private List<Long> unwanted;
+
+    ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,8 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
 
-        List<Long> wanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
-        List<Long> unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
+        wanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
+        unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
 
         /*for (int i = 0; i < wantedId.length; i++) {
             wanted.add(wantedId[i]);
@@ -44,8 +51,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             unwanted.add(unwantedId[i]);
         }*/
 
-        showResults(Manager.getRecipeIngredients(wanted,getApplicationContext()),
-                    Manager.getRecipeIngredients(unwanted,getApplicationContext()));
+        new IngredientSearchTask().execute();
     }
 
 
@@ -71,10 +77,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showResults(List<Ingredient> wanted, List<Ingredient> unwanted){
-        results = Manager.getResultByIngredientLists(wanted, unwanted);
-        plus = Manager.getPlusByIngredientLists(wanted, unwanted);
-
+    public void showResults(){
         if (results != null && plus != null) {
             RecipesListAdapter resultsAdapter = new RecipesListAdapter(getApplicationContext(), results);
             RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
@@ -113,5 +116,36 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
         startActivity(intent);
+    }
+
+    private class IngredientSearchTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(IngredientSearchResultActivity.this);
+            pDialog.setMessage(getString(R.string.searching));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            List<Ingredient> wantedIng = Manager.getRecipeIngredients(wanted,getApplicationContext());
+            List<Ingredient> unwantedIng = Manager.getRecipeIngredients(unwanted,getApplicationContext());
+            Pair<List<AbstractRecipe>,List<AbstractRecipe>> lists = Manager.getResultByIngredientLists(wantedIng, unwantedIng);
+            results = lists.first;
+            plus = lists.second;
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            pDialog.dismiss();
+            showResults();
+        }
     }
 }
