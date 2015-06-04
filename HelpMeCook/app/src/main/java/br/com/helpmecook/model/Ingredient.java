@@ -24,6 +24,7 @@ public class Ingredient {
     public void setName(String name){
         this.name = name;
     }
+
     public int getIconPath(){
         return this.iconPath;
     }
@@ -32,4 +33,8 @@ public class Ingredient {
         this.iconPath = iconPath;
     };
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

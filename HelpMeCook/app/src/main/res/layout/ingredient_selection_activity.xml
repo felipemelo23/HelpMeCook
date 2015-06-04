@@ -4,11 +4,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- Editext for Search -->
+    <EditText android:id="@+id/inputSearch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:hint="Search ingredients..."
+        android:inputType="textVisiblePassword"/>
+
     <ListView
         android:id="@+id/lvListIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 
 </LinearLayout>
 
