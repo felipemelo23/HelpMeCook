@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         }
 
         final RecipeCardAdapter adapterRecents = new RecipeCardAdapter(context, Manager.getRecentRecipes(context));
-        //gvRecents.setAdapter(adapterRecents);
+        gvRecents.setAdapter(adapterRecents);
 
         Log.i("HomeFragment", "Receitas recentes " + adapterRecents.getCount() + "");
 
@@ -94,6 +94,8 @@ public class HomeFragment extends Fragment {
                 showRecipe(adapterRecents.getItem(position).getId());
             }
         });
+
+        setListViewHeightBasedOnChildren(gvRecents);
 
         if (popularRecipes != null) {
             GridView gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);
@@ -107,9 +109,31 @@ public class HomeFragment extends Fragment {
                     showRecipe(adapterPop.getItem(position).getId());
                 }
             });
+
+            setListViewHeightBasedOnChildren(gvPop);
         } else {
             Toast.makeText(context,context.getString(R.string.cant_connect), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static void setListViewHeightBasedOnChildren(GridView gridView) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, gridView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        totalHeight = totalHeight/gridView.getNumColumns();
+        params.height = totalHeight + (gridView.getHorizontalSpacing() * (listAdapter.getCount()/gridView.getNumColumns() - 1));
+        gridView.setLayoutParams(params);
     }
 
     private class MostPopularTask extends AsyncTask {

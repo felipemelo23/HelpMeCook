@@ -86,8 +86,12 @@ public class ConnectionAccessor {
                 tempRecipe.setUnits(units);
 
                 tempRecipe.setText(jsonObject.getString("text"));
-                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
-                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+                if (jsonObject.has("estimatedTime")) {
+                    tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                }
+                if (jsonObject.has("portionNum")) {
+                    tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -159,8 +163,13 @@ public class ConnectionAccessor {
                 tempRecipe.setUnits(units);
 
                 tempRecipe.setText(jsonObject.getString("text"));
-                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
-                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+
+                if (jsonObject.has("estimatedTime")) {
+                    tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                }
+                if (jsonObject.has("portionNum")) {
+                    tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+                }
 
                 if (tempRecipe.getIngredientNum() <= wanted.size()) {
                     result.add(tempRecipe);
@@ -217,8 +226,12 @@ public class ConnectionAccessor {
                 tempRecipe.setUnits(units);
 
                 tempRecipe.setText(jsonObject.getString("text"));
-                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
-                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+                if (jsonObject.has("estimatedTime")) {
+                    tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                }
+                if (jsonObject.has("portionNum")) {
+                    tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+                }
 
                 results.add(tempRecipe);
 
@@ -267,8 +280,13 @@ public class ConnectionAccessor {
                 tempRecipe.setUnits(units);
 
                 tempRecipe.setText(jsonObject.getString("text"));
-                tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
-                tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+
+                if (jsonObject.has("estimatedTime")) {
+                    tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                }
+                if (jsonObject.has("portionNum")) {
+                    tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+                }
 
                 temp.add(tempRecipe);
                 Log.i("HomeFragment", tempRecipe.getId() + " " + tempRecipe.getName());
@@ -312,8 +330,12 @@ public class ConnectionAccessor {
 
             params.add(new BasicNameValuePair("name", recipe.getName()));
             params.add(new BasicNameValuePair("text",recipe.getText()));
-            params.add(new BasicNameValuePair("portion",recipe.getPortionNum()));
-            params.add(new BasicNameValuePair("time",recipe.getEstimatedTime()+""));
+            if (recipe.getPortionNum() != null && recipe.getPortionNum() != "") {
+                params.add(new BasicNameValuePair("portion",recipe.getPortionNum()));
+            }
+            if (recipe.getEstimatedTime() > 0) {
+                params.add(new BasicNameValuePair("time",recipe.getEstimatedTime()+""));
+            }
             params.add(new BasicNameValuePair("ingredientList", ingrendientList));
             params.add(new BasicNameValuePair("units", units));
 
