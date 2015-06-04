@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
 
         context = getActivity();
 
+        loadRecents();
         new MostPopularTask().execute();
 
         return fragmentView;
@@ -74,7 +75,11 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void loadLists() {
+    private void loadRecents() {
+
+    }
+
+    private void loadPopular() {
         GridView gvRecents = (GridView) fragmentView.findViewById(R.id.gv_recents);
 
         if (Manager.getRecentRecipes(context) == null) {
@@ -163,7 +168,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(Object o) {
             pDialog.dismiss();
-            loadLists();
+            loadPopular();
         }
     }
 }

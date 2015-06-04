@@ -158,7 +158,7 @@ public class ConnectionAccessor {
                 JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
                 List<String> units = new ArrayList<String>();
                 for (int j = 0; j < unitsJSONArray.length(); j++) {
-                    units.add(unitsJSONArray.getString(i));
+                    units.add(unitsJSONArray.getString(j));
                 }
                 tempRecipe.setUnits(units);
 
@@ -221,7 +221,7 @@ public class ConnectionAccessor {
                 JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
                 List<String> units = new ArrayList<String>();
                 for (int j = 0; j < unitsJSONArray.length(); j++) {
-                    units.add(unitsJSONArray.getString(i));
+                    units.add(unitsJSONArray.getString(j));
                 }
                 tempRecipe.setUnits(units);
 
