@@ -57,14 +57,10 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ingredient_selection_activity);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-
-        Log.i("IngredientSelection", actionBar.toString());
-
+        //android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        //Log.i("IngredientSelection", actionBar.toString());
         //actionBar.setCustomView(R.layout.actionbar_view);
-
         //search = (EditText) actionBar.getCustomView().findViewById(R.id.searchfield);
-
         //actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
         Intent intent = getIntent();
@@ -121,22 +117,21 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             }
         });
 
-        /*search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        search = (EditText) findViewById(R.id.inputSearch);
+        search.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                (IngredientSelectionActivity.this).ingredientSelectionAdapter.getFilter().filter(cs);
+                //(IngredientSelectionActivity.this).ingredientSelectionAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                IngredientSelectionActivity.this.ingredientSelectionAdapter.getFilter().filter(s);
-            }
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
+            public void afterTextChanged(Editable arg0) { }
+        });
     }
 
     @Override
