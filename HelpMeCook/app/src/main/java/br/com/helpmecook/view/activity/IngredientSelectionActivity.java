@@ -112,6 +112,7 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         });
 
         search = (EditText) findViewById(R.id.inputSearch);
+        search.setVisibility(View.GONE);
         search.addTextChangedListener(new TextWatcher() {
 
             @Override
