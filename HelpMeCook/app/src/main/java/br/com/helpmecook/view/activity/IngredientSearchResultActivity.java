@@ -1,5 +1,6 @@
 package br.com.helpmecook.view.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -53,29 +54,26 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             unwanted.add(unwantedId[i]);
         }*/
 
-        new IngredientSearchTask().execute();
+        if (Manager.isOnline(IngredientSearchResultActivity.this)) {
+            new IngredientSearchTask().execute();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
+            builder.setMessage("Sem conexão com internet");
+            builder.setNeutralButton("Ok", null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            finish();
+        }
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ingredient_search_result, menu);
-        return true;
+        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

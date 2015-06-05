@@ -34,8 +34,6 @@
                 android:layout_toLeftOf="@+id/iv_register_recipe"
                 android:layout_toStartOf="@+id/iv_register_recipe" />
 
-
-
             <ImageView
                 android:id="@+id/iv_register_recipe"
                 android:layout_width="60dp"
@@ -52,7 +50,6 @@
                 android:contentDescription="Imagem da receita" />
 
         </RelativeLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,8 +98,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/add_ingredient" />
 
-
-
         <TextView
             android:id="@+id/tv_extra"
             android:layout_width="match_parent"
@@ -122,7 +117,6 @@
             android:layout_marginRight="16dp"
             android:background="@color/background_floating_material_dark"/>
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,10 +129,10 @@
                 android:layout_gravity="center"
                 android:text="@string/estimated_time"
                 android:textSize="16sp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:id="@+id/cook_time"
-                android:layout_alignBaseline="@+id/et_recipe_register_preparation_time"/>
+                android:layout_alignBottom="@+id/et_recipe_register_preparation_time"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <EditText
                 android:id="@+id/et_recipe_register_preparation_time"
@@ -162,44 +156,37 @@
                 android:layout_gravity="center|end"
                 android:text="@string/minutes"
                 android:textSize="16sp"
-                android:layout_alignBaseline="@+id/et_recipe_register_preparation_time"
-                android:layout_alignBottom="@+id/et_recipe_register_preparation_time"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_above="@+id/portion_num"
+                android:layout_alignRight="@+id/portion"
+                android:layout_alignEnd="@+id/portion" />
 
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:text="@string/portion_num"
                 android:textSize="16sp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:id="@+id/portion_num"
-                android:layout_alignBaseline="@+id/et_recipe_register_portions_number"/>
+                android:layout_below="@+id/cook_time"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <EditText
                 android:id="@+id/et_recipe_register_portions_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_gravity="center"
                 android:inputType="number"
                 android:textAlignment="center"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/portion_num"
                 android:layout_toEndOf="@+id/portion_num"
                 android:layout_toLeftOf="@+id/portion"
-                android:layout_toStartOf="@+id/portion" />
+                android:layout_below="@+id/cook_time"
+                android:layout_alignLeft="@+id/et_recipe_register_preparation_time"
+                android:layout_alignStart="@+id/et_recipe_register_preparation_time" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -208,13 +195,11 @@
                 android:layout_gravity="center|end"
                 android:text="@string/portions"
                 android:textSize="16sp"
-                android:layout_alignBaseline="@+id/et_recipe_register_portions_number"
                 android:layout_alignBottom="@+id/et_recipe_register_portions_number"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
-
 
         <TextView
             android:id="@+id/preparation"

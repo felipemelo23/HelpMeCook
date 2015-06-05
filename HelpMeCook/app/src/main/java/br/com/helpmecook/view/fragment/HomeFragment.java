@@ -1,6 +1,7 @@
 package br.com.helpmecook.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.sqlite.RecipeDAO;
+import br.com.helpmecook.view.activity.IngredientSearchResultActivity;
 import br.com.helpmecook.view.activity.MainActivity;
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipeCardAdapter;
@@ -63,7 +65,16 @@ public class HomeFragment extends Fragment {
         context = getActivity();
 
         loadRecents();
-        new MostPopularTask().execute();
+
+        if (Manager.isOnline(getActivity())) {
+            new MostPopularTask().execute();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Sem conexão com internet");
+            builder.setNeutralButton("Ok", null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
 
         return fragmentView;
     }

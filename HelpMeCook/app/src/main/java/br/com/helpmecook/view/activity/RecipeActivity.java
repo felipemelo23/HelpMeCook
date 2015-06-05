@@ -58,7 +58,16 @@ public class RecipeActivity extends ActionBarActivity {
             finish();
         }
 
-        new GetRecipeTask().execute();
+        if (Manager.isOnline(RecipeActivity.this)) {
+            new GetRecipeTask().execute();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
+            builder.setMessage("Sem conexão com internet");
+            builder.setNeutralButton("Ok", null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
     }
 
     public void loadRecipe() {
@@ -190,7 +199,17 @@ public class RecipeActivity extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int arg1) {
                 recipe.setTaste(ratingBar.getRating());
                 dialog.dismiss();
-                new ClassifyRecipeTaste().execute();
+
+                if (Manager.isOnline(RecipeActivity.this)) {
+                    new ClassifyRecipeTaste().execute();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
+                    builder.setMessage("Sem conexão com internet");
+                    builder.setNeutralButton("Ok", null);
+                    AlertDialog dialog2 = builder.create();
+                    dialog2.show();
+                }
+
             }
         });
 
@@ -219,7 +238,16 @@ public class RecipeActivity extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int arg1) {
                 recipe.setDifficulty(ratingBar.getRating());
                 dialog.dismiss();
-                new ClassifyRecipeDifficulty().execute();
+
+                if (Manager.isOnline(RecipeActivity.this)) {
+                    new ClassifyRecipeDifficulty().execute();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
+                    builder.setMessage("Sem conexão com internet");
+                    builder.setNeutralButton("Ok", null);
+                    AlertDialog dialog2 = builder.create();
+                    dialog2.show();
+                }
             }
         });
 

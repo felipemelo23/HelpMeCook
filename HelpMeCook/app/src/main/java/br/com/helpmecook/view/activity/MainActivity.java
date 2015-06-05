@@ -1,6 +1,7 @@
 package br.com.helpmecook.view.activity;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ public class MainActivity extends ActionBarActivity
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +164,11 @@ public class MainActivity extends ActionBarActivity
     class AsyncTaskLoadIngredients extends AsyncTask<Void, Integer, String> {
 
         protected void onPreExecute(){
-            Log.d("Asyntask","On preExceute...");
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage(getString(R.string.searching));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
         }
 
         protected String doInBackground(Void...arg0) {
@@ -179,6 +185,7 @@ public class MainActivity extends ActionBarActivity
 
         protected void onPostExecute(String result) {
             Log.d("Asyntask",result);
+            pDialog.dismiss();
         }
     }
 

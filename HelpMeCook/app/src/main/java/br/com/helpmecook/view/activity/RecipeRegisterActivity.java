@@ -93,7 +93,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         etPrepTime = (EditText) findViewById(R.id.et_recipe_register_preparation_time);
         etPortionNum = (EditText) findViewById(R.id.et_recipe_register_portions_number);
         etDescription = (EditText) findViewById(R.id.et_recipe_register_description);
-        picture = BitmapFactory.decodeResource(ivRecipePicture.getResources(), R.drawable.plate);
+        picture = BitmapFactory.decodeResource(ivRecipePicture.getResources(), R.drawable.photo);
         tvIngredients = (TextView) findViewById(R.id.tv_ingredients);
         btAddIngredient = (Button) findViewById(R.id.bt_add_ingredient);
 
@@ -160,7 +160,15 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         if ((etName.getText().toString().equals("")) || (etDescription.getText().toString().equals("")) || (ingredients == null)){ // + lista de ingredientes
             Toast.makeText(RecipeRegisterActivity.this, getResources().getString(R.string.blank_fields), Toast.LENGTH_LONG).show();
         } else {
-            new RegisterRecipeTask().execute();
+            if (Manager.isOnline(RecipeRegisterActivity.this)) {
+                new RegisterRecipeTask().execute();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
+                builder.setMessage("Sem conexão com internet");
+                builder.setNeutralButton("Ok", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         }
     }
 
