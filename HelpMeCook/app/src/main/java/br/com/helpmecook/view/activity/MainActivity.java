@@ -14,12 +14,15 @@ import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 
+import com.google.android.gms.maps.MapFragment;
+
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.view.fragment.CookbookFragment;
 import br.com.helpmecook.view.fragment.HomeFragment;
 import br.com.helpmecook.view.fragment.InfoFragment;
-import br.com.helpmecook.view.fragment.MapFragment;
+
+import br.com.helpmecook.view.fragment.MapFragment2;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 
 public class MainActivity extends ActionBarActivity
@@ -100,7 +103,7 @@ public class MainActivity extends ActionBarActivity
                 editor3.putInt(POSITION_NAV_DRAWER, 4);
                 editor3.commit();
 
-                fragment = new MapFragment();
+                fragment = new MapFragment2();
                 break;
             case 5:
                 mTitle = getResources().getString(R.string.title_activity_info);

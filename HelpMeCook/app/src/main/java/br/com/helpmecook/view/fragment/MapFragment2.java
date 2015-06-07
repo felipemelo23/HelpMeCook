@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -40,7 +42,7 @@ import br.com.helpmecook.view.activity.MainActivity;
 /**
  * Created by Thais on 26/05/2015.
  */
-public class MapFragment extends Fragment {
+public class MapFragment2 extends Fragment{
     private GoogleMap googleMap;
 
     ArrayList<GooglePlace> places;
@@ -49,31 +51,39 @@ public class MapFragment extends Fragment {
     final String LAT = "40.7463956";
     final String LON = "-73.9852992";
 
-    public MapFragment() { }
+//    public MapFragment2() {
+//    }
 
-    @Override
+//    public void onCreate(Bundle savedInstanceState){
+//        super.onCreate(savedInstanceState);
+//
+//    }
+
+    //@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View fragmentView = inflater.inflate(R.layout.fragment_map,
                 container, false);
 
-//        setUpMapIfNeeded();
 
-        new GooglePlaceTask().execute();
+
+        //setUpMapIfNeeded();
+        //new GooglePlaceTask().execute();
 
         return fragmentView;
     }
-//    private void setUpMapIfNeeded() {
-//        // Do a null check to confirm that we have not already instantiated the map.
-//        if (googleMap == null) {
-//            // Try to obtain the map from the SupportMapFragment.
-//            googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-//            // Check if we were successful in obtaining the map.
-//            if (googleMap != null) {
-//                setUpMap();
-//            }
-//        }
-//    }
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (googleMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            //Check if we were successful in obtaining the map.
+            if (googleMap != null) {
+                setUpMap();
+            }
+        }
+    }
 
     private void setUpMap(){
         googleMap.setMyLocationEnabled(true);
@@ -84,18 +94,29 @@ public class MapFragment extends Fragment {
         Criteria criteria = new Criteria();
 
         String provider = locationManager.getBestProvider(criteria, true);
+        double latitude;
+        double longitude;
 
         Location myLocation = locationManager.getLastKnownLocation(provider);
 
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-        double latitude = myLocation.getLatitude();
-        double longitude = myLocation.getLongitude();
+
+        if(myLocation != null){
+            latitude = myLocation.getLatitude();
+            longitude = myLocation.getLongitude();
+        }else{
+            Location   getLastLocation = locationManager.getLastKnownLocation
+                    (LocationManager.PASSIVE_PROVIDER);
+            longitude = getLastLocation.getLongitude();
+            latitude = getLastLocation.getLatitude();
+        }
+
         LatLng latLng = new LatLng(latitude, longitude);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(18));
         googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("tu"));
-
     }
 
     public class GooglePlaceTask extends AsyncTask {
@@ -103,9 +124,9 @@ public class MapFragment extends Fragment {
 
         @Override
         protected Object doInBackground(Object[] params) {
-            temp = fazerChamada("https://maps.googleapis.com/maps/api/place/search/json?location=" + LAT + "," + LON + "&radius=100&sensor=true&key=" + GOOGLE_KEY +
+            temp = fazerChamada("https://maps.googleapis.com/maps/api/place/search/json?location=" + LAT + "," + LON + "&radius=500&sensor=true&key=" + GOOGLE_KEY +
                     "&types=restaurant&types=grocery_or_supermarket");
-            System.out.println("Acessando: " + "https://maps.googleapis.com/maps/api/place/search/json?location=" + LAT + "," + LON + "&radius=100&sensor=true&key=" + GOOGLE_KEY);
+            //System.out.println("Acessando: " + "https://maps.googleapis.com/maps/api/place/search/json?location=" + LAT + "," + LON + "&radius=100&sensor=true&key=" + GOOGLE_KEY);
             return null;
         }
 
