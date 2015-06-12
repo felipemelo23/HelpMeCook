@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -74,8 +76,10 @@ public class NameSearchResultsActivity extends ActionBarActivity {
     public void actionExecuteSearch(View view) {
         EditText etSearchName = (EditText) findViewById(R.id.et_name_search);
         searchName = etSearchName.getText().toString();
-        if (searchName != null && searchName != "") {
+        if (searchName != null && !searchName.trim().equals("")) {
             new NameSearchTask().execute();
+        }else{
+            Toast.makeText(getApplicationContext(),"Insira um valor para pesquisar", Toast.LENGTH_LONG).show();
         }
     }
 

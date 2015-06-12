@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -140,14 +141,20 @@ public class HomeFragment extends Fragment {
         }
 
         int totalHeight = 0;
+
         for (int i = 0; i < listAdapter.getCount(); i++) {
             View listItem = listAdapter.getView(i, null, gridView);
             listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
+            if (i%gridView.getNumColumns()==0){
+                totalHeight += listItem.getMeasuredHeight();
+            }
+            //totalHeight += listItem.getMeasuredHeight();
         }
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        totalHeight = totalHeight/gridView.getNumColumns();
+
+        //totalHeight = totalHeight/gridView.getNumColumns();
+
         params.height = totalHeight + (gridView.getHorizontalSpacing() * (listAdapter.getCount()/gridView.getNumColumns() - 1));
         gridView.setLayoutParams(params);
     }

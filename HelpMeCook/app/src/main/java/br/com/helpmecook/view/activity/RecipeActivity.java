@@ -63,7 +63,12 @@ public class RecipeActivity extends ActionBarActivity {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
             builder.setMessage("Sem conexão com internet");
-            builder.setNeutralButton("Ok", null);
+            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
             AlertDialog dialog = builder.create();
             dialog.show();
         }
