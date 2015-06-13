@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -63,6 +64,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         Fragment fragment = null;
+        FragmentActivity fragmentActivity = null;
 
         switch (position) {
             case 0:
@@ -129,6 +131,16 @@ public class MainActivity extends ActionBarActivity
             // Erro na criação do fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
+//        if (fragmentActivity != null) {
+//            FragmentManager fragmentManager = getFragmentManager();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.container, fragment).commit();
+//
+//            // Atualiza o titulo e fecha a navigation drawer
+//        } else {
+//            // Erro na criação do fragment
+//            Log.e("MainActivity", "Error in creating fragment");
+//        }
     }
 
     public void restoreActionBar() {

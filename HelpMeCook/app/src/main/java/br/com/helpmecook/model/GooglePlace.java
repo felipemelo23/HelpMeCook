@@ -10,8 +10,8 @@ public class GooglePlace {
     private String category;
     private String rating;
     private String open;
-    private String lat;
-    private String lon;
+    private double lat;
+    private double lon;
 
     public String getName() {
         return name;
@@ -45,19 +45,19 @@ public class GooglePlace {
         this.open = open;
     }
 
-    public String getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public String getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(String lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
@@ -65,9 +65,8 @@ public class GooglePlace {
         this.name = "";
         this.rating = "";
         this.open = "";
+        this.lat = 0;
+        this.lon = 0;
         this.setCategory("");
     }
 }
-
-
-
