@@ -31,6 +31,7 @@
         </activity>
         <activity
             android:name=".view.activity.NameSearchResultsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_name_search_results" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -46,11 +47,13 @@
         </activity>
         <activity
             android:name=".view.activity.IngredientSelectionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_ingredient_selection"
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".view.activity.IngredientSearchResultActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_ingredient_search_result" >
             />
         </activity>
