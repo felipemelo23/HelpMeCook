@@ -90,6 +90,10 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             RecipesListAdapter resultsAdapter = new RecipesListAdapter(getApplicationContext(), results);
             RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
 
+            if (results.size() == 0 && plus.size() == 0){
+                Toast.makeText(getApplicationContext(),"Não foram encontradas receitas", Toast.LENGTH_LONG).show();
+            }
+
             resultRecipes = (ListView) findViewById(R.id.lvRecipes);
             resultRecipes.setAdapter(resultsAdapter);
 
