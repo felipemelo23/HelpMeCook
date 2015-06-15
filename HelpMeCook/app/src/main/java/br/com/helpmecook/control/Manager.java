@@ -110,7 +110,7 @@ public class Manager {
      * dadas as duas listas de ingredientes passadas como parametro.
      */
     public static Pair<List<AbstractRecipe>,List<AbstractRecipe>> getResultByIngredientLists(List<Ingredient> wanted, List<Ingredient> unwanted) {
-        return accessor.getResultByIngredientLists(wanted, unwanted);
+        return (new ConnectionAccessor()).getResultByIngredientLists(wanted, unwanted);
     }
 
     /**

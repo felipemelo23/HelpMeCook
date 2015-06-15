@@ -28,9 +28,9 @@ import java.util.List;
  */
 public class JsonParser {
 
-    static InputStream is = null;
-    static JSONArray jsonArray = null;
-    static String json = "";
+    InputStream is = null;
+    JSONArray jsonArray = null;
+    String json = "";
 
     // constructor
     public JsonParser() {

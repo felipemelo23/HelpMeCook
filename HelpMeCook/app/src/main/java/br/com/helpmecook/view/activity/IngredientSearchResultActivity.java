@@ -44,6 +44,9 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
 
+        results = new ArrayList<>();
+        plus = new ArrayList<>();
+
         wanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
         unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
 
@@ -66,6 +69,11 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
