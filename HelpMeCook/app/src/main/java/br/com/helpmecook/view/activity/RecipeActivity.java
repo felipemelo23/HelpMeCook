@@ -146,9 +146,9 @@ public class RecipeActivity extends ActionBarActivity {
             }
 
             recipePortionNumber = (TextView) findViewById(R.id.tv_portion_number);
-            if (recipe.getPortionNum() != null && Integer.parseInt(recipe.getPortionNum()) == 1) {
+            if (recipe.getPortionNum() != null && !recipe.getPortionNum().isEmpty() && Integer.parseInt(recipe.getPortionNum()) == 1) {
                 recipePortionNumber.setText(recipe.getPortionNum() + " porção");
-            } else if (recipe.getPortionNum() != null) {
+            } else if (recipe.getPortionNum() != null && !recipe.getPortionNum().isEmpty()) {
                 recipePortionNumber.setText(recipe.getPortionNum() + " porções");
             } else {
                 ((ImageView) findViewById(R.id.iv_portion_num)).setVisibility(View.GONE);
