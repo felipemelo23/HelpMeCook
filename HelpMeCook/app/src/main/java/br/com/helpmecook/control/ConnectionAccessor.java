@@ -370,14 +370,19 @@ public class ConnectionAccessor {
      * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
      */
     public boolean classifyTaste(long id, float taste) {
+        Log.i("CLASSIFY taste", "id= "+id+" taste= "+taste);
         try {
-            String url = "http://helpmecook.com.br/ws/Classify.php";
+            /*String url = "http://helpmecook.com.br/ws/Classify.php";
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("id",id+""));
             params.add(new BasicNameValuePair("rate", taste+""));
             params.add(new BasicNameValuePair("flag", 0 + ""));
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "POST");*/
 
-            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "POST");
+            String url = "http://helpmecook.com.br/ws/Classify.php?id="+id+"&rate="+taste+"&flag=0";
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url,
+                    new ArrayList<NameValuePair>(), "POST");
+
             Log.i("ClassifyTaste", taste + " " + jsonArray.getDouble(0));
 
         } catch (HttpHostConnectException e) {
@@ -396,14 +401,19 @@ public class ConnectionAccessor {
      * e retorna false se a classificação da receita não for atualizada no banco de dados do servidor.
      */
     public boolean classifyDifficulty(long id, float difficulty) {
+        Log.i("CLASSIFY taste", "id= "+id+" difficulty= "+difficulty);
         try {
-            String url = "http://helpmecook.com.br/ws/Classify.php";
+            /*String url = "http://helpmecook.com.br/ws/Classify.php";
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("id",id+""));
             params.add(new BasicNameValuePair("rate", difficulty+""));
             params.add(new BasicNameValuePair("flag", 1 + ""));
 
-            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "POST");
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "POST");*/
+
+            String url = "http://helpmecook.com.br/ws/Classify.php?id="+id+"&rate="+difficulty+"&flag=1";
+            JSONArray jsonArray = jsonParser.makeHttpRequest(url,
+                    new ArrayList<NameValuePair>(), "POST");
 
             Log.i("ClassifyDifficult",difficulty + " " + jsonArray.getDouble(0));
 
