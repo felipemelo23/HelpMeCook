@@ -39,12 +39,14 @@ import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
  */
 public class IngredientSelectionActivity extends ActionBarActivity {
 
+    private static final int MAX_INGREDIENTS = 300;
     private ListView lvList;
     IngredientSelectionAdapter ingredientSelectionAdapter;
     private ArrayList<Long> wantedIngredients;
     private ArrayList<Long> unwantedIngredients;
     private List<Ingredient> allIngredients;
-    public List<Integer> clicked;
+    //public List<Integer> clicked;
+    public int[] clicked;
     public static final String REQUEST_CODE = "Request_code";
     int origin;
     public static final String WANTED_INGREDIENTS = "Wanted_ingredients";
@@ -66,20 +68,21 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             allIngredients = new ArrayList<Ingredient>();
         }
 
-        clicked = new ArrayList<Integer>();
+        //clicked = new ArrayList<Integer>();
 
+        clicked = new int[MAX_INGREDIENTS];
         for(int i=0; i<allIngredients.size(); i++){
-            clicked.add(0);
+            clicked[(int)allIngredients.get(i).getId()] = 0;
         }
 
         if (origin == RecipeRegisterActivity.REGISTER_RECIPE) {
             long ingredients[] = intent.getLongArrayExtra(RecipeRegisterActivity.CURRENT_INGREDIENTS);
             if (ingredients != null && ingredients.length > 0) {
-                for (int i = 0; i < allIngredients.size(); i++) {
-                    for (int j = 0; j < ingredients.length; j++) {
-                        if (allIngredients.get(i).getId() == ingredients[j]){
-                            clicked.set(i,1);
-                            allIngredients.get(i).setIconPath(R.drawable.checkbox_yellow);
+                for (int i = 0; i<ingredients.length; i++){
+                    clicked[(int) ingredients[i]] = 1;
+                    for (int j = 0; j <  allIngredients.size(); j++) {
+                        if (allIngredients.get(j).getId() == ingredients[i]){
+                            allIngredients.get(j).setIconPath(R.drawable.checkbox_yellow);
                         }
                     }
                 }
@@ -97,22 +100,35 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (clicked.get(position) == 0) {
-                    allIngredients.get(position).setIconPath(R.drawable.checkbox_yellow);
-                    clicked.set(position, 1);
-                } else if ((clicked.get(position) == 1) && (origin == MainActivity.MAIN)) {
-                    allIngredients.get(position).setIconPath(R.drawable.close_circle);
-                    clicked.set(position, 2);
+                Ingredient ing = (Ingredient) lvList.getItemAtPosition(position);
+                if (clicked[(int)ing.getId()] == 0) {
+                    for (int j = 0; j <  allIngredients.size(); j++) {
+                        if (allIngredients.get(j).getId() == ing.getId()){
+                            allIngredients.get(j).setIconPath(R.drawable.checkbox_yellow);
+                        }
+                    }
+                    clicked[(int) ing.getId()] = 1;
+                } else if ((clicked[(int)ing.getId()] == 1) && (origin == MainActivity.MAIN)) {
+                    for (int j = 0; j <  allIngredients.size(); j++) {
+                        if (allIngredients.get(j).getId() == ing.getId()){
+                            allIngredients.get(j).setIconPath(R.drawable.close_circle);
+                        }
+                    }
+                    clicked[(int) ing.getId()] = 2;
                 } else {
-                    allIngredients.get(position).setIconPath(R.drawable.checkbox_blank_circle);
-                    clicked.set(position, 0);
+                    for (int j = 0; j <  allIngredients.size(); j++) {
+                        if (allIngredients.get(j).getId() == ing.getId()){
+                            allIngredients.get(j).setIconPath(R.drawable.checkbox_blank_circle);
+                        }
+                    }
+                    clicked[(int) ing.getId()] = 0;
                 }
                 ingredientSelectionAdapter.notifyDataSetChanged();
             }
         });
 
         search = (EditText) findViewById(R.id.inputSearch);
-        search.setVisibility(View.GONE);
+        //search.setVisibility(View.GONE);
         search.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -140,21 +156,21 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         unwantedIngredients = new ArrayList<Long>();
         Intent intent = new Intent(getApplicationContext(),IngredientSearchResultActivity.class);
 
-        for (int i=0; i<clicked.size(); i++){
-            if (clicked.get(i)==1){
-                wantedIngredients.add(allIngredients.get(i).getId());
+        for (int i=0; i<clicked.length; i++){
+            if (clicked[i]==1){
+                wantedIngredients.add((long)i);
             }
-            if (clicked.get(i)==2){
-                unwantedIngredients.add(allIngredients.get(i).getId());
+            if (clicked[i]==2){
+                unwantedIngredients.add((long)i);
             }
         }
-        if(wantedIngredients.isEmpty()) {
+        /*if(wantedIngredients.isEmpty()) {
             for (int i=0; i<clicked.size(); i++){
                 if (clicked.get(i) != 2){
                     wantedIngredients.add(allIngredients.get(i).getId());
                 }
             }
-        }
+        }*/
 
         intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
         intent.putExtra(UNWANTED_INGREDIENTS, unwantedIngredients);
@@ -179,9 +195,9 @@ public class IngredientSelectionActivity extends ActionBarActivity {
                     wantedIngredients = new ArrayList<Long>(allIngredients.size());
                     Intent intent = getIntent();
 
-                    for (int i=0; i<clicked.size(); i++) {
-                        if (clicked.get(i) == 1) {
-                            wantedIngredients.add(allIngredients.get(i).getId());
+                    for (int i=0; i<clicked.length; i++) {
+                        if (clicked[i] == 1) {
+                            wantedIngredients.add((long) i);
                         }
                     }
 
