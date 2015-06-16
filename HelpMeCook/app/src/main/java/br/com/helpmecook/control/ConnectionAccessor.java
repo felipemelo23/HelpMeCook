@@ -204,40 +204,42 @@ public class ConnectionAccessor {
 
             JSONArray jsonArray = jsonParser.makeHttpRequest(url, params, "GET");
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Recipe tempRecipe = new Recipe();
-                tempRecipe.setId(jsonObject.optLong("id"));
-                tempRecipe.setName(jsonObject.optString("name"));
-                tempRecipe.setTaste((float) jsonObject.optDouble("taste"));
-                tempRecipe.setDifficulty((float) jsonObject.optDouble("difficulty"));
-                tempRecipe.setPictureToString(jsonObject.optString("picture"));
+            if (jsonArray != null) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Recipe tempRecipe = new Recipe();
+                    tempRecipe.setId(jsonObject.optLong("id"));
+                    tempRecipe.setName(jsonObject.optString("name"));
+                    tempRecipe.setTaste((float) jsonObject.optDouble("taste"));
+                    tempRecipe.setDifficulty((float) jsonObject.optDouble("difficulty"));
+                    tempRecipe.setPictureToString(jsonObject.optString("picture"));
 
-                JSONArray ingJSONArray = jsonObject.getJSONArray("ingredientList");
-                List<Long> ingredientList = new ArrayList<Long>();
-                for (int j = 0; j < ingJSONArray.length(); j++){
-                    ingredientList.add(ingJSONArray.getLong(j));
+                    JSONArray ingJSONArray = jsonObject.getJSONArray("ingredientList");
+                    List<Long> ingredientList = new ArrayList<Long>();
+                    for (int j = 0; j < ingJSONArray.length(); j++){
+                        ingredientList.add(ingJSONArray.getLong(j));
+                    }
+                    tempRecipe.setIngredientList(ingredientList);
+
+                    JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
+                    List<String> units = new ArrayList<String>();
+                    for (int j = 0; j < unitsJSONArray.length(); j++) {
+                        units.add(unitsJSONArray.getString(j));
+                    }
+                    tempRecipe.setUnits(units);
+
+                    tempRecipe.setText(jsonObject.getString("text"));
+                    if (jsonObject.has("estimatedTime")) {
+                        tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
+                    }
+                    if (jsonObject.has("portionNum")) {
+                        tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
+                    }
+
+                    results.add(tempRecipe);
+
+                    Log.i("HomeFragment", tempRecipe.getId() + " " + tempRecipe.getName());
                 }
-                tempRecipe.setIngredientList(ingredientList);
-
-                JSONArray unitsJSONArray = jsonObject.getJSONArray("units");
-                List<String> units = new ArrayList<String>();
-                for (int j = 0; j < unitsJSONArray.length(); j++) {
-                    units.add(unitsJSONArray.getString(j));
-                }
-                tempRecipe.setUnits(units);
-
-                tempRecipe.setText(jsonObject.getString("text"));
-                if (jsonObject.has("estimatedTime")) {
-                    tempRecipe.setEstimatedTime(jsonObject.getInt("estimatedTime"));
-                }
-                if (jsonObject.has("portionNum")) {
-                    tempRecipe.setPortionNum(jsonObject.getString("portionNum"));
-                }
-
-                results.add(tempRecipe);
-
-                Log.i("HomeFragment", tempRecipe.getId() + " " + tempRecipe.getName());
             }
         } catch (HttpHostConnectException e) {
             e.printStackTrace();

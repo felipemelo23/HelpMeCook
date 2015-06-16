@@ -2,6 +2,8 @@ package br.com.helpmecook.control;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -23,12 +25,17 @@ import br.com.helpmecook.sqlite.CookbookDAO;
 import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.sqlite.RecentsDAO;
 import br.com.helpmecook.sqlite.RecipeDAO;
+import br.com.helpmecook.view.fragment.HomeFragment;
 
 /**
  * Created by Felipe on 30/04/2015.
  */
 public class Manager {
+    private static final String POPULARS = "populars";
     private static ConnectionAccessor accessor = new ConnectionAccessor();
+    public static final int LOCAL_POPULAR = 0;
+    public static final int SERVER_POPULAR = 1;
+
 
     /**
      * @param id Número inteiro que identifica uma receita.
@@ -126,6 +133,10 @@ public class Manager {
             Log.i("Manager", "Number of recents recipe: " + ids.size());
             recentsDAO.close();
             List<AbstractRecipe> recents = getAbstractRecipes(ids, context);
+
+            for (AbstractRecipe ar : recents) {
+                Log.i("Recents", ar.getName());
+            }
 
             return  recents;
         } catch (java.sql.SQLException e) {
@@ -292,14 +303,57 @@ public class Manager {
      * @return Uma lista de AbstractRecipe que contem o nome procurado
      */
     public static List<AbstractRecipe> getResultByRecipeName(String name){
-        return accessor.getResultByRecipeName(name);
+        return (new ConnectionAccessor()).getResultByRecipeName(name);
     }
 
     /**
      * @return Uma lista de AbstractRecipe com as receitas populares
      */
-    public static List<AbstractRecipe> getPopularRecipes () throws HttpHostConnectException {
-        return accessor.getPopularRecipes();
+    public static List<AbstractRecipe> getPopularRecipes(int param, Context context) throws HttpHostConnectException {
+        List<AbstractRecipe> populars;
+
+        if (param == SERVER_POPULAR) {
+            populars = (new ConnectionAccessor()).getPopularRecipes();
+            if (populars != null) {
+                List<Long> ids = new ArrayList<>();
+                populars.size();
+                for (AbstractRecipe ar : populars) {
+                    ids.add(ar.getId());
+                }
+                SharedPreferences settings = context.getSharedPreferences(POPULARS,0);
+                SharedPreferences.Editor editor = settings.edit();
+                for (int i = 0; i < ids.size(); i++) {
+                    editor.putLong(""+i, ids.get(i));
+                    Log.i("GetPopular", ids.get(i)+"");
+                }
+
+                RecipeDAO recipeDAO = new RecipeDAO(context);
+                try {
+                    recipeDAO.open();
+                    for (long l : ids) recipeDAO.insert(accessor.getRecipeById(l));
+                    recipeDAO.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                editor.commit();
+                HomeFragment.POPULAR_PARAM = LOCAL_POPULAR;
+                Log.i("GetPopular", "Server");
+            }
+        } else {
+            SharedPreferences settings = context.getSharedPreferences(POPULARS,0);
+            List<Long> ids = new ArrayList<>();
+            for (int i = 0; i < 6; i++) {
+                ids.add(settings.getLong("" + i, 0));
+            }
+            populars = getAbstractRecipes(ids, context);
+            for (AbstractRecipe ar : populars) {
+                Log.i("GetPopular", ar.getId() + "");
+            }
+            Log.i("GetPopular", "Local");
+        }
+
+        return populars;
     }
 
     /**

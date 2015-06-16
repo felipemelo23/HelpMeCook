@@ -51,6 +51,8 @@ public class HomeFragment extends Fragment {
     private JsonParser jsonParser = new JsonParser();
     private ProgressDialog pDialog;
 
+    public static int POPULAR_PARAM;
+
     View fragmentView;
 
     public HomeFragment(){}
@@ -174,7 +176,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected Object doInBackground(Object[] params) {
             try {
-                popularRecipes = Manager.getPopularRecipes();
+                popularRecipes = Manager.getPopularRecipes(POPULAR_PARAM,context);
             } catch (HttpHostConnectException e) {
                 e.printStackTrace();
                 popularRecipes = null;
