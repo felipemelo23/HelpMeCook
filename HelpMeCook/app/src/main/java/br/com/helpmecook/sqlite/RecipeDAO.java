@@ -331,8 +331,14 @@ public class RecipeDAO {
 
     private String unitsListToString(Recipe recipe) {
         String idUnits = "";
+        int count = 0;
         for (String unit : recipe.getUnits()) {
-            idUnits += "/$/" + unit;
+            if (count < recipe.getUnits().size()-1) {
+                idUnits += unit + "/$/";
+            } else {
+                idUnits += unit;
+            }
+            count++;
         }
         return idUnits;
     }

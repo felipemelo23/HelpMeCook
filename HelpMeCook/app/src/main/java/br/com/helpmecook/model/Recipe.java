@@ -55,10 +55,6 @@ public class Recipe extends AbstractRecipe {
 
     public void setIngredientList(List<Long> ingredientList) {
         this.ingredientList = ingredientList;
-        this.units = new ArrayList<String>();
-        for (long l : ingredientList) {
-            units.add("0 unid.");
-        }
     }
 
     public String getText() {

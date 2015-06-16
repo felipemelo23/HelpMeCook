@@ -20,10 +20,12 @@ import br.com.helpmecook.model.Ingredient;
 public class IngredientsAdapter extends BaseAdapter {
     private Context context;
     private List<Ingredient> ingredients;
+    private List<String> units;
 
-    public IngredientsAdapter(Context context, List<Ingredient> ingredients) {
+    public IngredientsAdapter(Context context, List<Ingredient> ingredients, List<String> units) {
         this.context = context;
         this.ingredients = ingredients;
+        this.units = units;
     }
 
     @Override
@@ -33,7 +35,15 @@ public class IngredientsAdapter extends BaseAdapter {
 
     @Override
     public Ingredient getItem(int position) {
-        return ingredients.get(position);
+        Ingredient ingredient = ingredients.get(position);
+
+        if (units.size() == ingredients.size()) {
+            ingredient.setQuantity(units.get(position));
+        } else {
+            ingredient.setQuantity("0 unid.");
+        }
+
+        return ingredient;
     }
 
     @Override
@@ -46,14 +56,16 @@ public class IngredientsAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.item_ingredient, null);
+            convertView = mInflater.inflate(R.layout.item_recipe_ingredient, null);
         }
 
         ImageView icon = (ImageView) convertView.findViewById(R.id.imgIcon);
         TextView name = (TextView) convertView.findViewById(R.id.txtTitle);
+        TextView qnt = (TextView) convertView.findViewById(R.id.txtQuant);
 
-        icon.setImageDrawable(context.getResources().getDrawable(ingredients.get(position).getIconPath()));
-        name.setText(ingredients.get(position).getName());
+        icon.setImageDrawable(context.getResources().getDrawable(getItem(position).getIconPath()));
+        name.setText(getItem(position).getName());
+        qnt.setText(getItem(position).getQuantity());
 
         return convertView;
     }
