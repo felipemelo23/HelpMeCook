@@ -68,11 +68,11 @@ public class MainActivity extends ActionBarActivity
             case 0:
                 mTitle = getResources().getString(R.string.app_name);
 
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(POSITION_NAV_DRAWER, 0);
-                editor.commit();
+                SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
+                editor.putInt(POSITION_NAV_DRAWER, 0).commit();
+
                 fragment = new HomeFragment();
+
                 break;
             case 1:
                 Intent intent = new Intent(getApplicationContext(), IngredientSelectionActivity.class);
@@ -82,10 +82,8 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 mTitle = getResources().getString(R.string.title_activity_cookbook);
 
-                SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                SharedPreferences.Editor editor2 = preferences2.edit();
-                editor2.putInt(POSITION_NAV_DRAWER, 2);
-                editor2.commit();
+                SharedPreferences.Editor editor2 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
+                editor2.putInt(POSITION_NAV_DRAWER, 2).commit();
 
                 SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
                 Log.i("Go to Cookbook", "position: " + settings.getInt(POSITION_NAV_DRAWER, 0));
@@ -98,20 +96,16 @@ public class MainActivity extends ActionBarActivity
             case 4:
                 mTitle = getResources().getString(R.string.title_activity_map);
 
-                SharedPreferences preferences3 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                SharedPreferences.Editor editor3 = preferences3.edit();
-                editor3.putInt(POSITION_NAV_DRAWER, 4);
-                editor3.commit();
+                SharedPreferences.Editor editor3 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
+                editor3.putInt(POSITION_NAV_DRAWER, 4).commit();
 
                 fragment = new MapFragment();
                 break;
             case 5:
                 mTitle = getResources().getString(R.string.title_activity_info);
 
-                SharedPreferences preferences4 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                SharedPreferences.Editor editor4 = preferences4.edit();
-                editor4.putInt(POSITION_NAV_DRAWER, 5);
-                editor4.commit();
+                SharedPreferences.Editor editor4 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
+                editor4.putInt(POSITION_NAV_DRAWER, 5).commit();
 
                 fragment = new InfoFragment();
                 break;
@@ -192,7 +186,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
-        Log.i("Main - Ciclo de Vida", "onResume" + settings.getInt(POSITION_NAV_DRAWER, 0));
+        Log.i("Main - Ciclo de Vida", "onResume " + settings.getInt(POSITION_NAV_DRAWER, 0));
         super.onResume();
         //atualizar os fragments
         onNavigationDrawerItemSelected(settings.getInt(POSITION_NAV_DRAWER, 0));
@@ -200,8 +194,23 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     protected void onStop() {
-        SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
-        Log.i("Main - Ciclo de Vida", "onStop" + " position:" + settings.getInt(POSITION_NAV_DRAWER, 0));
+        Log.i("Main - Ciclo de Vida", "onStop");
+        //SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
+        //editor.putInt(POSITION_NAV_DRAWER, 0).commit();
         super.onStop();
     }
+
+    @Override
+    public void finish() {
+        Log.i("Main - Ciclo de Vida", "finish");
+        super.finish();
+    }
+
+    @Override
+    public boolean isFinishing() {
+        Log.i("Main - Ciclo de Vida", "isFinishing");
+        return super.isFinishing();
+    }
+
+
 }
