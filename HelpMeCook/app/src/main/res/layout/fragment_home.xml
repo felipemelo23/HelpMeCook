@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background"
-        android:gravity="left"
+        android:gravity="start"
         android:orientation="vertical"
         android:padding="16dp"
         tools:context="br.com.helpmecook.view.fragment.HomeFragment">
@@ -16,8 +16,10 @@
             android:layout_height="wrap_content"
             android:text="@string/popular"
             android:layout_marginBottom="4dp"
-            android:textSize="22dp"
-            android:textColor="@color/text" />
+            android:textSize="22sp"
+            android:textColor="@color/text"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -42,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/recents"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="12dp"
             android:textColor="@color/text" />

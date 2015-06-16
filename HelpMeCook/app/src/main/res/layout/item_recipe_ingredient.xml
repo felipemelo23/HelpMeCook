@@ -3,22 +3,10 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:paddingRight="10dp"
-    android:paddingLeft="10dp"
+    android:paddingLeft="5dp"
     android:paddingBottom="1dp"
     android:paddingTop="1dp"
     android:weightSum="100">
-
-    <TextView
-        android:id="@+id/txtQuant"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="1dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="1dp"
-        android:layout_weight="20"
-        android:gravity="center_vertical"
-        android:textColor="@color/text"
-        android:textSize="18dp" />
 
 
     <TextView
@@ -26,12 +14,24 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="1dp"
-        android:layout_marginLeft="16dp"
+        android:layout_weight="53"
         android:layout_marginTop="1dp"
-        android:layout_weight="60"
+
         android:gravity="center_vertical"
         android:textColor="@color/text"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtQuant"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="1dp"
+        android:layout_weight="35"
+        android:gravity="center_vertical"
+        android:textColor="@color/text"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imgIcon"
@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="1dp"
         android:layout_marginTop="1dp"
-        android:layout_weight="20"
+        android:layout_weight="12"
         android:gravity="center" />
 
 

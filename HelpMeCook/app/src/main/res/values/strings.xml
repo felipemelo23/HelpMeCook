@@ -85,6 +85,7 @@
     <string name="saving_recipe">Salvando receita...</string>
     <string name="searching">Buscando...</string>
     <string name="classifing_recipe">Estamos validando sua opinião...</string>
+    <string name="accessibilityPictureDescription">Foto da Receita</string>
 
 
 </resources>

@@ -248,46 +248,47 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int qntd = Integer.parseInt(((EditText) dialogContent.findViewById(R.id.et_quantity_ingredient_dialog)).getText().toString());
                         Spinner spinner = (Spinner) dialogContent.findViewById(R.id.spn_quantity_ingredient_dialog);
 
-                        String unit = spinner.getSelectedItem().toString();
 
-                        String quantity = new String(qntd + " " + unit);
-                        ingredientsQntd[(int) ing.getId()] = quantity;
-                        Log.i("UNIT", "Qntd " + ing.getName() + " : " + ingredientsQntd[(int) ing.getId()]);
-                        //((BaseAdapter) lvIngredients.getAdapter()).notifyDataSetChanged();
+                        if (((EditText) dialogContent.findViewById(R.id.et_quantity_ingredient_dialog)).getText().toString().trim().equals("")) {
+                            Toast.makeText(getApplicationContext(), "Operação não efetivada, valor inválido", Toast.LENGTH_LONG).show();
+                        } else {
+                            int qntd = Integer.parseInt(((EditText) dialogContent.findViewById(R.id.et_quantity_ingredient_dialog)).getText().toString());
+                            String unit = spinner.getSelectedItem().toString();
 
+                            String quantity = new String(qntd + " " + unit);
+                            ingredientsQntd[(int) ing.getId()] = quantity;
+                            Log.i("UNIT", "Qntd " + ing.getName() + " : " + ingredientsQntd[(int) ing.getId()]);
 
-                        //-----------------------------------------------------------
-                        if ((ingredients != null) && (ingredients.length > 0)) {
-                            Log.i("Debug", "Ingredientes não é nulo");
-                            Log.i("Debug", "O tamanho de ingredientes é: " + ingredients.length);
-                            List<Long> ingId = new ArrayList<Long>();
-                            for (int i = 0; i < ingredients.length; i++) {
-                                Log.i("Debug", "id: " + ingredients[i]);
-                                ingId.add(ingredients[i]);
-                            }
-                            List<Ingredient> i = Manager.getRecipeIngredients(ingId, getApplicationContext());
-                            for (Ingredient ing : i) {
-                                Log.i("Debug", "nome: " + ing.getName());
-                            }
-
-                            ArrayList<String> subStrinIngredientsQntd = new ArrayList<String>();
-                            for (Ingredient ingredient : i) {
-                                if (ingredientsQntd[(int) ingredient.getId()] == null) {
-                                    subStrinIngredientsQntd.add("0 " + getString(R.string.units));
-                                } else {
-                                    subStrinIngredientsQntd.add(ingredientsQntd[(int) ingredient.getId()]);
+                            if ((ingredients != null) && (ingredients.length > 0)) {
+                                Log.i("Debug", "Ingredientes não é nulo");
+                                Log.i("Debug", "O tamanho de ingredientes é: " + ingredients.length);
+                                List<Long> ingId = new ArrayList<Long>();
+                                for (int i = 0; i < ingredients.length; i++) {
+                                    Log.i("Debug", "id: " + ingredients[i]);
+                                    ingId.add(ingredients[i]);
                                 }
-                            }
+                                List<Ingredient> i = Manager.getRecipeIngredients(ingId, getApplicationContext());
+                                for (Ingredient ing : i) {
+                                    Log.i("Debug", "nome: " + ing.getName());
+                                }
 
-                            RecipeIngredientAdapter adapter = new RecipeIngredientAdapter(getApplicationContext(), i, subStrinIngredientsQntd);
-                            lvIngredients.setAdapter(adapter);
-                            setListViewHeightBasedOnChildren(lvIngredients);
-                            adapter.notifyDataSetChanged();
+                                ArrayList<String> subStrinIngredientsQntd = new ArrayList<String>();
+                                for (Ingredient ingredient : i) {
+                                    if (ingredientsQntd[(int) ingredient.getId()] == null) {
+                                        subStrinIngredientsQntd.add("0 " + getString(R.string.units));
+                                    } else {
+                                        subStrinIngredientsQntd.add(ingredientsQntd[(int) ingredient.getId()]);
+                                    }
+                                }
+
+                                RecipeIngredientAdapter adapter = new RecipeIngredientAdapter(getApplicationContext(), i, subStrinIngredientsQntd);
+                                lvIngredients.setAdapter(adapter);
+                                setListViewHeightBasedOnChildren(lvIngredients);
+                                adapter.notifyDataSetChanged();
+                            }
                         }
-                        //-----------------------------------------------------------
                     }
                 });
 
