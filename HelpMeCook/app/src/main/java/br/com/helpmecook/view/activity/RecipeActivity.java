@@ -128,7 +128,7 @@ public class RecipeActivity extends ActionBarActivity {
 
             lvIngredient = (ListView) findViewById(R.id.lv_ingredient_recipe);
             lvIngredient.setEnabled(false);
-            lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this)));
+            lvIngredient.setAdapter(new IngredientsAdapter(this, Manager.getRecipeIngredients(recipe.getIngredientList(), this), recipe.getUnits()));
             setListViewHeightBasedOnChildren(lvIngredient);
 
             recipeText = (TextView) findViewById(R.id.tv_recipe);
