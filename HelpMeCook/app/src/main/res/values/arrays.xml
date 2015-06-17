@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinnerItems">
-        <item>@string/unitless</item>
-        <item>@string/teaspoon</item>
-        <item>@string/tablespoon</item>
-        <item>@string/pinch</item>
-        <item>@string/cup</item>
+        <item>@string/units</item>
+        <item>@string/grams</item>
         <item>@string/milliliter</item>
+        <item>@string/pinch</item>
+        <item>@string/tablespoon</item>
+        <item>@string/deseartpoon</item>
+        <item>@string/teaspoon</item>
+        <item>@string/coffeespoon</item>
+        <item>@string/cup</item>
     </string-array>
 </resources>

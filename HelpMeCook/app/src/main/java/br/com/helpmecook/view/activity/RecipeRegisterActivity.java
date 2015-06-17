@@ -1,36 +1,23 @@
 package br.com.helpmecook.view.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.provider.MediaStore.Images.ImageColumns;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -40,19 +27,14 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.List;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.model.Recipe;
-import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
-import br.com.helpmecook.view.adapter.IngredientsAdapter;
 import br.com.helpmecook.view.adapter.RecipeIngredientAdapter;
-import br.com.helpmecook.view.dialog.QuantityIngredientDialog;
 
 public class RecipeRegisterActivity extends ActionBarActivity {
 
@@ -219,7 +201,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             ArrayList<String> subStrinIngredientsQntd = new ArrayList<String>();
             for (Ingredient ingredient : i) {
                 if (ingredientsQntd[(int)ingredient.getId()] == null){
-                    subStrinIngredientsQntd.add("0 " + getString(R.string.units));
+                    subStrinIngredientsQntd.add(getString(R.string.unitless));
                 }else{
                     subStrinIngredientsQntd.add(ingredientsQntd[(int)ingredient.getId()]);
                 }
@@ -277,7 +259,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                                 ArrayList<String> subStrinIngredientsQntd = new ArrayList<String>();
                                 for (Ingredient ingredient : i) {
                                     if (ingredientsQntd[(int) ingredient.getId()] == null) {
-                                        subStrinIngredientsQntd.add("0 " + getString(R.string.units));
+                                        subStrinIngredientsQntd.add(getString(R.string.unitless));
                                     } else {
                                         subStrinIngredientsQntd.add(ingredientsQntd[(int) ingredient.getId()]);
                                     }
