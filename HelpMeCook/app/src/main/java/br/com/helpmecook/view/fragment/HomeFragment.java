@@ -1,44 +1,29 @@
 package br.com.helpmecook.view.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import org.apache.http.conn.HttpHostConnectException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.connection.JsonParser;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.AbstractRecipe;
-import br.com.helpmecook.model.Ingredient;
-import br.com.helpmecook.model.Recipe;
-import br.com.helpmecook.sqlite.RecipeDAO;
-import br.com.helpmecook.view.activity.IngredientSearchResultActivity;
-import br.com.helpmecook.view.activity.MainActivity;
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipeCardAdapter;
 
@@ -134,6 +119,8 @@ public class HomeFragment extends Fragment {
             Toast.makeText(context,context.getString(R.string.cant_connect), Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     public static void setListViewHeightBasedOnChildren(GridView gridView) {
         ListAdapter listAdapter = gridView.getAdapter();

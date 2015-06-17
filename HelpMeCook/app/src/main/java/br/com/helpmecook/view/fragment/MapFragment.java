@@ -1,7 +1,10 @@
 package br.com.helpmecook.view.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,10 +20,25 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.ByteArrayBuffer;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import br.com.helpmecook.R;
+import br.com.helpmecook.model.GooglePlace;
 
 /**
  * Created by Kandarpa on 16/06/2015.
@@ -28,7 +46,10 @@ import br.com.helpmecook.R;
 public class MapFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     protected static final String TAG = "basic-location-sample";
     private static final String GOOGLE_API_KEY = "AIzaSyDxHamWj6WwoF9lA8yPUsyxl5I9zwChzKY";
-    private int PROXIMITY_RADIUS = 5000;
+    private int PROXIMITY_RADIUS = 1500;
+    ArrayList<GooglePlace> placesList;
+    private ProgressDialog pDialog;
+    private Context context;
 
     /**
      * Provides the entry point to Google Play services.
@@ -68,7 +89,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         //My Location Button
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        // Perform any camera updates here
+        context = getActivity();
         return v;
     }
 
@@ -113,13 +134,6 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        /*mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();*/
     }
 
     @Override
@@ -149,12 +163,17 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         if (mLastLocation != null) {
             //Toast.makeText(getActivity(), "mLastLocation NAO e null", Toast.LENGTH_LONG).show();
             CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())).zoom(16).build();
+                    .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())).zoom(14).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            new googleplaces().execute();
+
         } else {
             Toast.makeText(getActivity(), getResources().getString(R.string.no_location_found), Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
@@ -184,117 +203,147 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             Toast.makeText(getActivity(), getResources().getString(R.string.no_location_found), Toast.LENGTH_LONG).show();
         }
     }
-}
 
 
 
-/*public class MapFragment extends Fragment {
+    //-----------------------------------------
+    private class googleplaces extends AsyncTask<View, Void, String> {
 
-    public MapFragment() { }
+        String placesJson;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            /*pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getString(R.string.searching_places));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();*/
+        }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_map,
-                container, false);
-        return fragmentView;
+        @Override
+        protected String doInBackground(View... urls) {
+            // make Call to the url
+            placesJson = makeCall("https://maps.googleapis.com/maps/api/place/search/json?location="
+                    + mLastLocation.getLatitude() + "," + mLastLocation.getLongitude()
+                    + "&radius="+ PROXIMITY_RADIUS +"&types=food&sensor=true&key=" + GOOGLE_API_KEY);
+
+            //print the call in the console
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (placesJson == null) {
+                // we have an error to the call
+                // we can also stop the progress bar
+            } else {
+                placesList = (ArrayList<GooglePlace>) parseGoogleParse(placesJson);
+                plotPlaces();
+            }
+            /*pDialog.dismiss();*/
+        }
     }
-}*/
 
 
-/*
-public class MapFragment extends Fragment {
+    private void plotPlaces(){
+        for (int i = 0; i < placesList.size(); i++) {
+            //Log.i("PLACES", placesList.get(i).getName() + "Lat: " + placesList.get(i).getLat());
 
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(
+                    new LatLng(placesList.get(i).getLat(), placesList.get(i).getLng())).title(placesList.get(i).getName());
 
-    private GoogleMap googleMap;
-    MapView mMapView;
+            // Changing marker icon
+            //marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+            marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
 
-    //Context context = getActivity();
+            // adding marker
+            googleMap.addMarker(marker);
+        }
+    }
 
-    //private double latitude = -3.7480424;
-    //private double longitude = -38.5220625;
+    public static String makeCall(String url) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+        // string buffers the url
+        StringBuffer buffer_string = new StringBuffer(url);
+        String replyString = "";
 
-
-        // inflate and return the layout
-        View v = inflater.inflate(R.layout.fragment_map, container,
-                false);
-        mMapView = (MapView) v.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-
-        mMapView.onResume();// needed to get the map to display immediately
+        // instanciate an HttpClient
+        HttpClient httpclient = new DefaultHttpClient();
+        // instanciate an HttpGet
+        HttpGet httpget = new HttpGet(buffer_string.toString());
 
         try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
+            // get the responce of the httpclient execution of the url
+            HttpResponse response = httpclient.execute(httpget);
+            InputStream is = response.getEntity().getContent();
+
+            // buffer input stream the result
+            BufferedInputStream bis = new BufferedInputStream(is);
+            ByteArrayBuffer baf = new ByteArrayBuffer(20);
+            int current = 0;
+            while ((current = bis.read()) != -1) {
+                baf.append((byte) current);
+            }
+            // the result as a string is ready for parsing
+            replyString = new String(baf.toByteArray());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(replyString);
 
-        googleMap = mMapView.getMap();
-
-        //Create and add marker
-        */
-/*
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("Voce");
-
-        // Changing marker icon
-        marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-        //marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-
-        // adding marker
-        googleMap.addMarker(marker);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude, longitude)).zoom(15).build();
-        googleMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
-        *//*
-
-
-        //Showing Current Location
-        googleMap.setMyLocationEnabled(true); // false to disable
-
-        //Log.i("MAPS", "Location: " +googleMap.getMyLocation().toString());
-
-
-        //My Location Button
-        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-        // Perform any camera updates here
-        return v;
+        // trim the whitespaces
+        return replyString.trim();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private static ArrayList<GooglePlace> parseGoogleParse(final String response) {
 
+        ArrayList<GooglePlace> temp = new ArrayList<GooglePlace>();
+        try {
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
+            // make an jsonObject in order to parse the response
+            JSONObject jsonObject = new JSONObject(response);
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
+            // make an jsonObject in order to parse the response
+            if (jsonObject.has("results")) {
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
+                JSONArray jsonArray = jsonObject.getJSONArray("results");
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mMapView.onLowMemory();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    GooglePlace poi = new GooglePlace();
+                    if (jsonArray.getJSONObject(i).has("name")) {
+                        poi.setName(jsonArray.getJSONObject(i).optString("name"));
+                        poi.setRating(jsonArray.getJSONObject(i).optString("rating", " "));
+                        poi.setLat(jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").optDouble("lat"));
+                        poi.setLng(jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").optDouble("lng"));
+
+                        if (jsonArray.getJSONObject(i).has("opening_hours")) {
+                            if (jsonArray.getJSONObject(i).getJSONObject("opening_hours").has("open_now")) {
+                                if (jsonArray.getJSONObject(i).getJSONObject("opening_hours").getString("open_now").equals("true")) {
+                                    poi.setOpenNow("YES");
+                                } else {
+                                    poi.setOpenNow("NO");
+                                }
+                            }
+                        } else {
+                            poi.setOpenNow("Not Known");
+                        }
+                        if (jsonArray.getJSONObject(i).has("types")) {
+                            JSONArray typesArray = jsonArray.getJSONObject(i).getJSONArray("types");
+
+                            for (int j = 0; j < typesArray.length(); j++) {
+                                poi.setCategory(typesArray.getString(j) + ", " + poi.getCategory());
+                            }
+                        }
+                    }
+                    temp.add(poi);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<GooglePlace>();
+        }
+        return temp;
+
     }
-}*/
+}
