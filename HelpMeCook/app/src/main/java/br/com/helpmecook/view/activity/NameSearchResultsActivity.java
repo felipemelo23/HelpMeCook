@@ -2,11 +2,8 @@ package br.com.helpmecook.view.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-<<<<<<< HEAD
 import android.content.DialogInterface;
-=======
 import android.content.Context;
->>>>>>> origin/MapFragment
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
