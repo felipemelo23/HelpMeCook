@@ -219,7 +219,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             ArrayList<String> subStrinIngredientsQntd = new ArrayList<String>();
             for (Ingredient ingredient : i) {
                 if (ingredientsQntd[(int)ingredient.getId()] == null){
-                    subStrinIngredientsQntd.add("0 " + getString(R.string.units));
+                    ingredientsQntd[(int)ingredient.getId()] = "0 " + getString(R.string.units);
+                    subStrinIngredientsQntd.add(ingredientsQntd[(int)ingredient.getId()]);
                 }else{
                     subStrinIngredientsQntd.add(ingredientsQntd[(int)ingredient.getId()]);
                 }
@@ -427,20 +428,25 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
         @Override
         protected Object doInBackground(Object[] params) {
-            recipe.setName(etName.getText().toString());
-            recipe.setText(etDescription.getText().toString());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    recipe.setName(etName.getText().toString());
+                    recipe.setText(etDescription.getText().toString());
 
-            if (picture.equals(null)){
-                recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(), R.drawable.plate));
-            } else {
-                recipe.setPicture(picture);
-            }
-            if (!(etPrepTime.getText().toString().equals(""))) {
-                recipe.setEstimatedTime(Integer.parseInt(etPrepTime.getText().toString()));
-            }
-            if (!(etPortionNum.getText().toString().equals(""))) {
-                recipe.setPortionNum(etPortionNum.getText().toString());
-            }
+                    if (picture.equals(null)){
+                        recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(), R.drawable.plate));
+                    } else {
+                        recipe.setPicture(picture);
+                    }
+                    if (!(etPrepTime.getText().toString().equals(""))) {
+                        recipe.setEstimatedTime(Integer.parseInt(etPrepTime.getText().toString()));
+                    }
+                    if (!(etPortionNum.getText().toString().equals(""))) {
+                        recipe.setPortionNum(etPortionNum.getText().toString());
+                    }
+                }
+            });
 
             List<Long> ingId = new ArrayList<Long>();
             for (int i = 0; i < ingredients.length; i++) {
