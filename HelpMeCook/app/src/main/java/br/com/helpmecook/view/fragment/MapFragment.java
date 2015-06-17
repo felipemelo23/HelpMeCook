@@ -225,7 +225,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             // make Call to the url
             placesJson = makeCall("https://maps.googleapis.com/maps/api/place/search/json?location="
                     + mLastLocation.getLatitude() + "," + mLastLocation.getLongitude()
-                    + "&radius="+ PROXIMITY_RADIUS +"&types=food&sensor=true&key=" + GOOGLE_API_KEY);
+                    + "&radius="+ PROXIMITY_RADIUS +"&keyword=food&sensor=true&key=" + GOOGLE_API_KEY);
 
             //print the call in the console
             return "";
