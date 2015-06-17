@@ -69,14 +69,20 @@
     <string name="title_recipe_alert">Deseja mesmo sair?</string>
     <string name="warning_recipe_alert">Suas alterações serão perdidas</string>
     <string name="cancel_recipe">Cancelar receita</string>
-    <string name="units">unid.</string>
 
-    <string name="unitless">-</string>
-    <string name="pinch">pitada</string>
-    <string name="teaspoon">colher de chá</string>
-    <string name="tablespoon">colher de sopa</string>
-    <string name="cup">xícara de chá</string>
+    <string name="units">unid.</string>
+    <string name="grams">grama(s)</string>
     <string name="milliliter">ml</string>
+    <string name="unitless">a gosto</string>
+    <string name="pinch">pitada(s)</string>
+    <string name="tablespoon">colher(es) de sopa</string>
+    <string name="deseartpoon">colher(es) de sobremesa</string>
+    <string name="teaspoon">colher(es) de chá</string>
+    <string name="coffeespoon">colher(es) de café</string>
+    <string name="cup">xícara(s)</string>
+    <string name="slice">fatia(s)</string>
+
+
     <string name="waiting_popular_recipes">Carregando Receitas Populares...</string>
     <string name="cant_connect">Não foi possível conectar à internet.</string>
     <string name="waiting_recents_popular_recipes">Carregando receitas...</string>

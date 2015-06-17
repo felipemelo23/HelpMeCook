@@ -106,6 +106,10 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         if (searchName != null && !searchName.trim().equals("")) {
             if (Manager.isOnline(NameSearchResultsActivity.this)) {
                 new NameSearchTask().execute();
+                if (view != null) {
+                    InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(NameSearchResultsActivity.this);
                 builder.setMessage(getString(R.string.no_connection));
@@ -130,12 +134,12 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         resultRecipes.setAdapter(adapter);
 
         resultRecipes.setOnItemClickListener(
-            new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    showRecipe(results.get(position).getId());
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        showRecipe(results.get(position).getId());
+                    }
                 }
-            }
         );
     }
 
