@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -17,15 +16,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.MapFragment;
-
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.view.fragment.CookbookFragment;
 import br.com.helpmecook.view.fragment.HomeFragment;
 import br.com.helpmecook.view.fragment.InfoFragment;
-
-import br.com.helpmecook.view.fragment.MapFragment2;
+import br.com.helpmecook.view.fragment.MapFragment;
 import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 
 public class MainActivity extends ActionBarActivity
@@ -67,7 +63,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         Fragment fragment = null;
-        FragmentActivity fragmentActivity = null;
 
         switch (position) {
             case 0:
@@ -104,7 +99,7 @@ public class MainActivity extends ActionBarActivity
                 SharedPreferences.Editor editor3 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor3.putInt(POSITION_NAV_DRAWER, 4).commit();
 
-                fragment = new MapFragment2();
+                fragment = new MapFragment();
                 break;
             case 5:
                 mTitle = getResources().getString(R.string.title_activity_info);
@@ -128,16 +123,6 @@ public class MainActivity extends ActionBarActivity
             // Erro na criação do fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
-//        if (fragmentActivity != null) {
-//            FragmentManager fragmentManager = getFragmentManager();
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.container, fragment).commit();
-//
-//            // Atualiza o titulo e fecha a navigation drawer
-//        } else {
-//            // Erro na criação do fragment
-//            Log.e("MainActivity", "Error in creating fragment");
-//        }
     }
 
     public void restoreActionBar() {
