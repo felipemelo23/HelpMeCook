@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.helpmecook.R;
 import br.com.helpmecook.model.Ingredient;
 
 /**
@@ -89,7 +90,10 @@ public class IngredientDAO {
             ingredient = new Ingredient();
             ingredient.setId(c.getLong(indexId));
             ingredient.setName(c.getString(indexName));
-            ingredient.setIconPath(c.getInt(indexIconPath));
+            //ingredient.setIconPath(c.getInt(indexIconPath));
+
+            //Esta linha deve ser mudada quando os icones forem inseridos no banco
+            ingredient.setIconPath(R.drawable.checkbox_blank_circle);
 
             c.close();
 
