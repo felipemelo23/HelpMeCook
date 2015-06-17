@@ -2,6 +2,7 @@ package br.com.helpmecook.view.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -236,11 +238,16 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                         if (((EditText) dialogContent.findViewById(R.id.et_quantity_ingredient_dialog)).getText().toString().trim().equals("")) {
                             Toast.makeText(getApplicationContext(), "Operação não efetivada, valor inválido", Toast.LENGTH_LONG).show();
                         } else {
-                            int qntd = Integer.parseInt(((EditText) dialogContent.findViewById(R.id.et_quantity_ingredient_dialog)).getText().toString());
+                            View view = getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                            }
+                            String qntd = ((EditText) dialogContent.findViewById(R.id.et_quantity_ingredient_dialog)).getText().toString();
                             String unit = spinner.getSelectedItem().toString();
 
-                            String quantity = new String(qntd + " " + unit);
-                            ingredientsQntd[(int) ing.getId()] = quantity;
+                            //String quantity = new String(qntd + " " + unit);
+                            ingredientsQntd[(int) ing.getId()] = qntd + " " + unit;
                             Log.i("UNIT", "Qntd " + ing.getName() + " : " + ingredientsQntd[(int) ing.getId()]);
 
                             if ((ingredients != null) && (ingredients.length > 0)) {

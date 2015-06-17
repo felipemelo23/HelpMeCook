@@ -10,5 +10,6 @@
         <item>@string/teaspoon</item>
         <item>@string/coffeespoon</item>
         <item>@string/cup</item>
+        <item>@string/slice</item>
     </string-array>
 </resources>

@@ -43,7 +43,7 @@ public class AbstractRecipe {
     }
 
     public void setPicture(Bitmap picture) {
-        int threshold = 200;
+        int threshold = 2000;
         if (picture != null) {
             int size = Math.max(picture.getWidth(),picture.getHeight());
 
@@ -55,11 +55,11 @@ public class AbstractRecipe {
                 if (picture.getWidth() > picture.getHeight()) {
                     width = threshold;
                     height = (threshold*picture.getHeight()/picture.getWidth());
-                    if (height < 100) height = 100;
+                    if (height < 800) height = 800;
                 } else {
                     width = (threshold*picture.getWidth()/picture.getHeight());
                     height = threshold;
-                    if (width < 100) width = 100;
+                    if (width < 800) width = 800;
                 }
                 picture = Bitmap.createScaledBitmap(picture, width, height, true);
             }

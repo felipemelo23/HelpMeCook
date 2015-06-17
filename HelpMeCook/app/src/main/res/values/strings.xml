@@ -80,6 +80,7 @@
     <string name="teaspoon">colher(es) de chá</string>
     <string name="coffeespoon">colher(es) de café</string>
     <string name="cup">xícara(s)</string>
+    <string name="slice">fatia(s)</string>
 
 
     <string name="waiting_popular_recipes">Carregando Receitas Populares...</string>
