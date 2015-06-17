@@ -1,20 +1,21 @@
 package br.com.helpmecook.view.activity;
 
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.FragmentManager;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -26,6 +27,8 @@ import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    GoogleApiClient.Builder mGoogleApiClient;
 
     public static final int MAIN = 0;
     private static final String FIRST_TIME = "first_time";
@@ -57,6 +60,7 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
 
     }
 
