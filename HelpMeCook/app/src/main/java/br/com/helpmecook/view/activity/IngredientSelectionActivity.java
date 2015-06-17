@@ -1,36 +1,26 @@
 package br.com.helpmecook.view.activity;
 
-import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Ingredient;
-import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
 
 
@@ -73,6 +63,7 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         clicked = new int[MAX_INGREDIENTS];
         for(int i=0; i<allIngredients.size(); i++){
             clicked[(int)allIngredients.get(i).getId()] = 0;
+            allIngredients.get(i).setIconPath(R.drawable.checkbox_blank_circle);
         }
 
         if (origin == RecipeRegisterActivity.REGISTER_RECIPE) {

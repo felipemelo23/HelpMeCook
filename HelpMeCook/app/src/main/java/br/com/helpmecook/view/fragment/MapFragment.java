@@ -46,7 +46,7 @@ import br.com.helpmecook.model.GooglePlace;
 public class MapFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     protected static final String TAG = "basic-location-sample";
     private static final String GOOGLE_API_KEY = "AIzaSyDxHamWj6WwoF9lA8yPUsyxl5I9zwChzKY";
-    private int PROXIMITY_RADIUS = 1500;
+    private int PROXIMITY_RADIUS = 2000;
     ArrayList<GooglePlace> placesList;
     private ProgressDialog pDialog;
     private Context context;
