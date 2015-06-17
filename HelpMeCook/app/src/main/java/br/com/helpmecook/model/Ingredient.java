@@ -1,5 +1,7 @@
 package br.com.helpmecook.model;
 
+import br.com.helpmecook.R;
+
 /**
  * Created by Andre on 30/04/2015.
  */
@@ -7,7 +9,7 @@ public class Ingredient {
 
     private long id;
     private String name;
-    private int iconPath;
+    private int iconPath = R.drawable.checkbox_blank_circle;
     private  String quantity;
 
     public long getId(){ return this.id; }

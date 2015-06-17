@@ -84,11 +84,18 @@
     <string name="loading_recipe">Carregando receita...</string>
     <string name="saving_recipe">Salvando receita...</string>
     <string name="searching">Buscando...</string>
+    <string name="searching_places">Buscando lugares próximos...</string>
     <string name="classifing_recipe">Estamos validando sua opinião...</string>
     <string name="accessibilityPictureDescription">Foto da Receita</string>
-    <string name="no_connection">Sem conexão com internet</string>
-    <string name="error_open_recipe">Não foi possível abrir esta receita</string>
-    <string name="empty_search">Insira um valor para a pesquisa</string>
+    <!--<string name="no_connection">Sem conexão com internet</string>-->
+    <!--<string name="error_open_recipe">Não foi possível abrir esta receita</string>-->
+    <!--<string name="empty_search">Insira um valor para a pesquisa</string>-->
+
+    <string name="no_location_found">Não foi possível encontrar a localização</string>
+
+    <!-- MapFragment -->
+
+
 
 
 </resources>

@@ -1,13 +1,14 @@
 package br.com.helpmecook.view.fragment;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.view.activity.MainActivity;
+
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipeCardAdapter;
 
@@ -125,6 +127,8 @@ public class HomeFragment extends Fragment {
             Toast.makeText(context,context.getString(R.string.cant_connect), Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     public static void setListViewHeightBasedOnChildren(GridView gridView) {
         ListAdapter listAdapter = gridView.getAdapter();
