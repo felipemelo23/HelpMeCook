@@ -20,6 +20,7 @@ import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Recipe;
 
 public class RecipeDAO {
+    private String separator = "\\$";
 
     private SQLiteDatabase database;
     private RecipeOpenHelper dbHelper;
@@ -138,7 +139,6 @@ public class RecipeDAO {
     public Recipe read(long id){
         Recipe recipe;
         Cursor c = database.query(TABLE_NAME, allColumns, ID + " ='" + id + "'", null, null, null, null);
-        Log.i("DebugCookbookManagerDAO", "Tamanho da Tabela " + c.getCount());
 
         if(c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
@@ -146,7 +146,6 @@ public class RecipeDAO {
             int indexTaste = c.getColumnIndex(TASTE);
             int indexDifficulty = c.getColumnIndex(DIFFICULTY);
             int indexIngredientList = c.getColumnIndex(INGREDIENT_LIST);
-            int indexQuantityList = c.getColumnIndex(INGREDIENT_QUANT);
             int indexUnitsList = c.getColumnIndex(INGREDIENT_UNITS);
             int indexText = c.getColumnIndex(TEXT);
             int indexEstimatedTime = c.getColumnIndex(ESTIMATED_TIME);
@@ -160,6 +159,7 @@ public class RecipeDAO {
             recipe.setTaste(c.getFloat(indexTaste));
             recipe.setDifficulty(c.getFloat(indexDifficulty));
             recipe.setIngredientList(stringToIdList(c.getString(indexIngredientList)));
+            Log.i("RecipeLists", "" + stringToUnitsList(c.getString(indexUnitsList)).size());
             recipe.setUnits(stringToUnitsList(c.getString(indexUnitsList)));
             recipe.setText(c.getString(indexText));
             recipe.setEstimatedTime(c.getInt(indexEstimatedTime));
@@ -180,7 +180,6 @@ public class RecipeDAO {
 
             return recipe;
         } else {
-            Log.i("DebugCookbookManagerDAO", "Exceção");
             return null;
         }
 
@@ -323,8 +322,6 @@ public class RecipeDAO {
         String idList = "";
         for (long ingId : recipe.getIngredientList()) {
             idList = idList + " " + ingId;
-            Log.i("Debug Ingredient 1", "" + ingId);
-
         }
         return idList;
     }
@@ -334,12 +331,15 @@ public class RecipeDAO {
         int count = 0;
         for (String unit : recipe.getUnits()) {
             if (count < recipe.getUnits().size()-1) {
-                idUnits += unit + "/$/";
+                idUnits += unit + "$";
             } else {
                 idUnits += unit;
             }
             count++;
         }
+
+        Log.i("UnidadeString",idUnits);
+
         return idUnits;
     }
 
@@ -349,16 +349,16 @@ public class RecipeDAO {
         while (st.hasMoreTokens()) {
             ingredientList.add(Long.parseLong(st.nextToken()));
         }
-        Log.i("Debug Ingredient 2", "" );
 
         return ingredientList;
     }
 
-    private List stringToUnitsList(String untList) {
+    private List stringToUnitsList(String unitString) {
         List<String> unitsList = new ArrayList<String>();
-        String[] st = untList.split("/$/");
+        String[] st = unitString.split(separator);
 
         for (int i = 0; i < st.length; i++) {
+            Log.i("String", st[i]);
             unitsList.add(st[i]);
         }
 

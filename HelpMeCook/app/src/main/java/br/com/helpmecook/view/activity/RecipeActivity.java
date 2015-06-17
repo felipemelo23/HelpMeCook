@@ -304,6 +304,7 @@ public class RecipeActivity extends ActionBarActivity {
         @Override
         protected Object doInBackground(Object[] params) {
             recipe = Manager.getRecipeById(recipeId, getApplicationContext());
+            Log.i("RecipeLists", recipe.getIngredientNum()+"");
             return null;
         }
 
