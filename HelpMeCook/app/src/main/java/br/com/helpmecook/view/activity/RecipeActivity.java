@@ -54,25 +54,25 @@ public class RecipeActivity extends ActionBarActivity {
         if (extras != null) {
             recipeId = extras.getLong(RECIPE_ID);
         } else {
-            Toast.makeText(getApplicationContext(), "Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
-            finish();
-        }
-
-        if (Manager.isOnline(RecipeActivity.this)) {
-            new GetRecipeTask().execute();
-        } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
-            builder.setMessage("Sem conexão com internet");
-            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            AlertDialog dialog = builder.create();
+            AlertDialog dialog = createDialog(getString(R.string.error_open_recipe));
             dialog.show();
         }
 
+        new GetRecipeTask().execute();
+
+    }
+
+    private AlertDialog createDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
+        builder.setMessage(message);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        return dialog;
     }
 
     public void loadRecipe() {
@@ -156,8 +156,8 @@ public class RecipeActivity extends ActionBarActivity {
                 ((LinearLayout) findViewById(R.id.ll_portion_num)).setVisibility(View.GONE);
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Não foi possível abrir esta receita", Toast.LENGTH_LONG).show();
-            finish();
+            AlertDialog dialog = createDialog(getString(R.string.error_open_recipe));
+            dialog.show();
         }
     }
 

@@ -36,7 +36,6 @@ public class Manager {
     public static final int LOCAL_POPULAR = 0;
     public static final int SERVER_POPULAR = 1;
 
-
     /**
      * @param id Número inteiro que identifica uma receita.
      * @param context Contexto da aplicação
@@ -152,11 +151,15 @@ public class Manager {
      */
     public static Boolean addToCookbook(Recipe recipe, Context context) {
         CookbookDAO cookbookDAO = new CookbookDAO(context);
+        RecipeDAO recipeDAO = new RecipeDAO(context);
 
         try{
             cookbookDAO.open();
 
             if (cookbookDAO.insert(recipe) != -1){
+                recipeDAO.open();
+                recipeDAO.insert(recipe);
+                recipeDAO.close();
                 cookbookDAO.close();
                 return true;
             } else {
@@ -166,6 +169,49 @@ public class Manager {
         } catch (java.sql.SQLException e) {
             return false;
         }
+    }
+
+    /**
+     * @param recipe Receita que sera removida do cookbook
+     * @param context Contexto da aplicação
+     * @return Retorna true se a receita foi removida do cookbook e false se ela não foi.
+     */
+    public static boolean removeFromCookbook(Recipe recipe, Context context) {
+        CookbookDAO cookbookDAO = new CookbookDAO(context);
+        RecipeDAO recipeDAO = new RecipeDAO(context);
+
+        try {
+            cookbookDAO.open();
+            boolean deleted = cookbookDAO.delete(recipe.getId());
+            recipeDAO.open();
+            recipeDAO.delete(recipe.getId());
+            recipeDAO.close();
+            cookbookDAO.close();
+            return deleted;
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * @param recipeID ID da receita que está no cookbook
+     * @param context Contexto da aplicaação
+     * @return Recipe recipe que está no cookbook
+     */
+    public static Recipe getRecipeFromLocalDB(long recipeID, Context context) {
+        RecipeDAO recipeDAO = new RecipeDAO(context);
+        Recipe recipe = null;
+
+        try {
+            recipeDAO.open();
+            recipe = recipeDAO.read(recipeID);
+            recipeDAO.close();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+        return recipe;
     }
 
     /**
@@ -226,25 +272,6 @@ public class Manager {
             ingredientDAO.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * @param recipe Receita que sera removida do cookbook
-     * @param context Contexto da aplicação
-     * @return Retorna true se a receita foi removida do cookbook e false se ela não foi.
-     */
-    public static boolean removeFromCookbook(Recipe recipe, Context context) {
-        CookbookDAO cookbookDAO = new CookbookDAO(context);
-
-        try {
-            cookbookDAO.open();
-            boolean deleted = cookbookDAO.delete(recipe.getId());
-            cookbookDAO.close();
-            return deleted;
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -341,17 +368,28 @@ public class Manager {
                 Log.i("GetPopular", "Server");
             }
         } else {
-            SharedPreferences settings = context.getSharedPreferences(POPULARS,0);
-            List<Long> ids = new ArrayList<>();
-            for (int i = 0; i < 6; i++) {
-                ids.add(settings.getLong("" + i, 0));
-            }
-            populars = getAbstractRecipes(ids, context);
-            for (AbstractRecipe ar : populars) {
-                Log.i("GetPopular", ar.getId() + "");
-            }
-            Log.i("GetPopular", "Local");
+            return getLocalPopularRecipes(context);
         }
+
+        return populars;
+    }
+
+    /**
+     *
+     */
+    public static List<AbstractRecipe> getLocalPopularRecipes (Context context) {
+        List<AbstractRecipe> populars = null;
+
+        SharedPreferences settings = context.getSharedPreferences(POPULARS,0);
+        List<Long> ids = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            ids.add(settings.getLong("" + i, 0));
+        }
+        populars = getAbstractRecipes(ids, context);
+        for (AbstractRecipe ar : populars) {
+            Log.i("GetPopular", ar.getId() + "");
+        }
+        Log.i("GetPopular", "Local");
 
         return populars;
     }
@@ -421,8 +459,7 @@ public class Manager {
                 recipe.setId(localId);
                 recipe.setSync(false);
 
-                editor.putLong("localIdValue", localId - 1);
-                editor.commit();
+                editor.putLong("localIdValue", localId - 1).commit();
 
                 recipeDAO.insert(recipe);
                 cookbookDAO.insert(recipe);

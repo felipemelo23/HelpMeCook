@@ -2,6 +2,7 @@ package br.com.helpmecook.view.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +18,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import br.com.helpmecook.R;
@@ -123,8 +123,16 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             setListViewHeightBasedOnChildren(resultRecipesPlus);
 
         } else {
-            Toast.makeText(getApplicationContext(), getString(R.string.cant_search), Toast.LENGTH_LONG).show();
-            finish();
+            AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
+            builder.setMessage(getString(R.string.cant_search));
+            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
     public void showRecipe(long id) {

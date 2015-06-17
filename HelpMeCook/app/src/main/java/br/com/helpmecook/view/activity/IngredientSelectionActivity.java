@@ -1,36 +1,26 @@
 package br.com.helpmecook.view.activity;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Ingredient;
-import br.com.helpmecook.sqlite.IngredientDAO;
 import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
 
 
@@ -45,7 +35,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
     private ArrayList<Long> wantedIngredients;
     private ArrayList<Long> unwantedIngredients;
     private List<Ingredient> allIngredients;
-    //public List<Integer> clicked;
     public int[] clicked;
     public static final String REQUEST_CODE = "Request_code";
     int origin;
@@ -67,8 +56,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         if (allIngredients == null) {
             allIngredients = new ArrayList<Ingredient>();
         }
-
-        //clicked = new ArrayList<Integer>();
 
         clicked = new int[MAX_INGREDIENTS];
         for(int i=0; i<allIngredients.size(); i++){
@@ -164,13 +151,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
                 unwantedIngredients.add((long)i);
             }
         }
-        /*if(wantedIngredients.isEmpty()) {
-            for (int i=0; i<clicked.size(); i++){
-                if (clicked.get(i) != 2){
-                    wantedIngredients.add(allIngredients.get(i).getId());
-                }
-            }
-        }*/
 
         intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
         intent.putExtra(UNWANTED_INGREDIENTS, unwantedIngredients);
@@ -189,7 +169,12 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             case R.id.menu_ok:
                 //abaixo o conteúdo que estava na finada função buttonClick
                 if (origin == MainActivity.MAIN) {
-                    executeSearch();
+                    if (Manager.isOnline(IngredientSelectionActivity.this)) {
+                        executeSearch();
+                    } else {
+                        AlertDialog dialog = createDialog(getString(R.string.no_connection));
+                        dialog.show();
+                    }
                 }
                 else{
                     wantedIngredients = new ArrayList<Long>(allIngredients.size());
@@ -211,32 +196,48 @@ public class IngredientSelectionActivity extends ActionBarActivity {
                 }
                 return false;
             case R.id.menu_sugestion:
-                AlertDialog.Builder alert = new AlertDialog.Builder(IngredientSelectionActivity.this);
-                alert.setTitle("Sugira um ingrediente");
+                if (Manager.isOnline(IngredientSelectionActivity.this)) {
 
-                final EditText input = new EditText(IngredientSelectionActivity.this);
-                alert.setView(input);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(IngredientSelectionActivity.this);
+                    alert.setTitle("Sugira um ingrediente");
 
-                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                    final EditText input = new EditText(IngredientSelectionActivity.this);
+                    alert.setView(input);
 
-                        String srt = input.getEditableText().toString();
-                        //!!!!tem que armazenar essa string no banco de dados!! !!
-                        Toast.makeText(IngredientSelectionActivity.this,srt,Toast.LENGTH_LONG).show();
-                    }
-                });
-                alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = alert.create();
-                alertDialog.show();
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            String srt = input.getEditableText().toString();
+                            //!!!!tem que armazenar essa string no banco de dados!! !!
+                        }
+                    });
+                    alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+                } else {
+                    AlertDialog dialog = createDialog(getString(R.string.no_connection));
+                    dialog.show();
+                }
                 return false;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-
+    private AlertDialog createDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSelectionActivity.this);
+        builder.setMessage(message);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        return dialog;
+    }
 }

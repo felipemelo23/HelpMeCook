@@ -11,16 +11,16 @@ import br.com.helpmecook.model.Recipe;
  */
 public class RecipeOpenHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String RECIPE_TABLE_CREATE =
             "CREATE TABLE " + RecipeDAO.TABLE_NAME + " (" +
-                    RecipeDAO.ID + " INTEGER PRIMARY KEY," +
-                    RecipeDAO.NOME + " TEXT," +
+                    RecipeDAO.ID + " INTEGER PRIMARY KEY, " +
+                    RecipeDAO.NOME + " TEXT, " +
                     RecipeDAO.TASTE + " REAL, " +
                     RecipeDAO.DIFFICULTY + " REAL, " +
                     RecipeDAO.INGREDIENT_LIST + " TEXT, " +
-                    RecipeDAO.INGREDIENT_UNITS + " TEXT," +
+                    RecipeDAO.INGREDIENT_UNITS + " TEXT, " +
                     RecipeDAO.TEXT + " TEXT, " +
                     RecipeDAO.ESTIMATED_TIME + " INTEGER, " +
                     RecipeDAO.PORTION_NUM + " TEXT, " +

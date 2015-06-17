@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+//    buildToolsVersion "21.1.1"
+    buildToolsVersion "22.0.1"
+
 
     defaultConfig {
         applicationId "br.com.helpmecook"
@@ -18,11 +19,18 @@ android {
         }
     }
 }
-
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+//    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+
     compile 'com.android.support:support-v4:21.0.0'
     compile 'de.hdodenhof:circleimageview:1.2.1'
     compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+//    compile 'com.google.android.gms:play-services:4.3.23'
+}
+
+repositories {
 }
