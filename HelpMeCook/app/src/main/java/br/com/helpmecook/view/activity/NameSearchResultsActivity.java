@@ -1,6 +1,8 @@
 package br.com.helpmecook.view.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -77,9 +79,22 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         EditText etSearchName = (EditText) findViewById(R.id.et_name_search);
         searchName = etSearchName.getText().toString();
         if (searchName != null && !searchName.trim().equals("")) {
-            new NameSearchTask().execute();
+            if (Manager.isOnline(NameSearchResultsActivity.this)) {
+                new NameSearchTask().execute();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(NameSearchResultsActivity.this);
+                builder.setMessage(getString(R.string.no_connection));
+                builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         }else{
-            Toast.makeText(getApplicationContext(),"Insira um valor para pesquisar", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),getString(R.string.empty_search), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -118,12 +133,6 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
         //listaAlunos = savedInstanceState.getStringArrayList(ALUNOS_KEY);
 //        Log.i(TAG, "onRestoreInstanceState(): " + listRecipe);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        this.loadList();
     }
 
     private class NameSearchTask extends AsyncTask {

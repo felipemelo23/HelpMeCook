@@ -188,10 +188,6 @@ public class MainActivity extends ActionBarActivity
             return "You are at PostExecute";
         }
 
-        protected void onProgressUpdate(Integer...a){
-            Log.d("Asyntask","You are in progress update ... " + a[0]);
-        }
-
         protected void onPostExecute(String result) {
             Log.d("Asyntask",result);
             pDialog.dismiss();
@@ -227,5 +223,9 @@ public class MainActivity extends ActionBarActivity
         return super.isFinishing();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Log.i("Main - Ciclo de Vida","onBackPressed");
+        super.onBackPressed();
+    }
 }

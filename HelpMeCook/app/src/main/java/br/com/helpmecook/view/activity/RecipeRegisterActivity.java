@@ -431,9 +431,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             recipe.setText(etDescription.getText().toString());
 
             if (picture.equals(null)){
-                recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(),R.drawable.plate));
+                recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(), R.drawable.plate));
             } else {
-
                 recipe.setPicture(picture);
             }
             if (!(etPrepTime.getText().toString().equals(""))) {

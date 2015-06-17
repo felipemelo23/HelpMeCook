@@ -124,7 +124,7 @@ public class RecipeDAO {
         return database.update(TABLE_NAME, values, ID + " = '" + recipe.getId() + "'", null);
     }
 
-    public boolean dalete(long id){
+    public boolean delete(long id){
         long deleted = database.delete(TABLE_NAME, ID + " = '" + id + "'", null);
 
         if (deleted == 0) {

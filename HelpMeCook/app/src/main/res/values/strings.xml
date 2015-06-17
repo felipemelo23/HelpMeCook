@@ -86,6 +86,9 @@
     <string name="searching">Buscando...</string>
     <string name="classifing_recipe">Estamos validando sua opinião...</string>
     <string name="accessibilityPictureDescription">Foto da Receita</string>
+    <string name="no_connection">Sem conexão com internet</string>
+    <string name="error_open_recipe">Não foi possível abrir esta receita</string>
+    <string name="empty_search">Insira um valor para a pesquisa</string>
 
 
 </resources>
