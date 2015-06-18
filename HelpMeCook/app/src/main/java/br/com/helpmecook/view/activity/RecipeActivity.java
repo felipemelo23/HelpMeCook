@@ -1,6 +1,5 @@
 package br.com.helpmecook.view.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -8,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -35,15 +33,15 @@ public class RecipeActivity extends ActionBarActivity {
 
     public static final String RECIPE_ID = "recipeID";
 
-    ImageView banner;
-    ImageButton addCookBook;
-    RatingBar rbTaste, rbDifficulty;
-    ListView lvIngredient;
-    TextView recipeText;
-    TextView recipePrepTime;
-    TextView recipePortionNumber;
+    private ImageView banner;
+    private ImageButton addCookBook;
+    private RatingBar rbTaste, rbDifficulty;
+    private ListView lvIngredient;
+    private TextView recipeText;
+    private TextView recipePrepTime;
+    private TextView recipePortionNumber;
 
-    ProgressDialog pDialog;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,10 +206,7 @@ public class RecipeActivity extends ActionBarActivity {
                 if (Manager.isOnline(RecipeActivity.this)) {
                     new ClassifyRecipeTaste().execute();
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
-                    builder.setMessage("Sem conexão com internet");
-                    builder.setNeutralButton("Ok", null);
-                    AlertDialog dialog2 = builder.create();
+                    AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();
                 }
 
@@ -247,10 +242,7 @@ public class RecipeActivity extends ActionBarActivity {
                 if (Manager.isOnline(RecipeActivity.this)) {
                     new ClassifyRecipeDifficulty().execute();
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
-                    builder.setMessage("Sem conexão com internet");
-                    builder.setNeutralButton("Ok", null);
-                    AlertDialog dialog2 = builder.create();
+                    AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();
                 }
             }
@@ -287,6 +279,21 @@ public class RecipeActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.i("Recipe - Ciclo de Vida", "onBackPressed");
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onNavigateUp() {
+        Log.i("Recipe - Ciclo de Vida", "onNavigateUp");
+        if (getIntent().getExtras().getBoolean(IngredientSearchResultActivity.SEARCH_RESULT, false)) {
+
+        }
+        return super.onNavigateUp();
     }
 
     private class GetRecipeTask extends AsyncTask {
