@@ -1,28 +1,14 @@
 package br.com.helpmecook.model;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Base64InputStream;
-import android.util.Base64OutputStream;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Scanner;
-
-import br.com.helpmecook.view.activity.MainActivity;
 
 /**
  * Created by Mariana on 30/04/15.
@@ -35,6 +21,8 @@ public class Recipe extends AbstractRecipe {
     private String portionNum;
     private Calendar lastAcess;
     private boolean sync;
+    private int extraIngNum = -1;
+
 
     public Recipe() {
         super();
@@ -138,5 +126,21 @@ public class Recipe extends AbstractRecipe {
             return true;
         }
         return false;
+    }
+
+    public int getExtraIngNum() {
+        return extraIngNum;
+    }
+
+    public int getExtraIngredientNum(List<Long> ingredients){
+        int extraIngredientNum = 0;
+
+        for (int i = 0; i < this.ingredientList.size(); i++) {
+            if (!ingredients.contains(this.ingredientList.get(i))){
+                extraIngredientNum ++;
+            }
+        }
+        this.extraIngNum = extraIngredientNum;
+        return extraIngredientNum;
     }
 }
