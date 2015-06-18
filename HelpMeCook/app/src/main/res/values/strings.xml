@@ -98,6 +98,7 @@
     <string name="empty_search">Insira um valor para a pesquisa</string>
 
     <string name="no_location_found">Não foi possível encontrar a localização</string>
+    <string name="must_select_ingredient_message">Você deve selecionar algum ingrediente!</string>
 
     <!-- MapFragment -->
 
