@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -28,9 +27,10 @@ import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.view.adapter.RecipesListAdapter;
 
-
 public class NameSearchResultsActivity extends ActionBarActivity {
+
     public static final String SEARCH_NAME = "searchName";
+
     private String searchName;
     private ListView resultRecipes;
     private List<AbstractRecipe> results;
@@ -60,7 +60,7 @@ public class NameSearchResultsActivity extends ActionBarActivity {
                             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         }
                     }else{
-                        Toast.makeText(getApplicationContext(),"Insira um valor para pesquisar", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.empty_search), Toast.LENGTH_LONG).show();
                     }
                     handled = true;
                 }
@@ -73,30 +73,16 @@ public class NameSearchResultsActivity extends ActionBarActivity {
             etSearchName.setText(searchName);
             executeNameSearch();
         }
-
-        //lvRecipes = (ListView) findViewById(R.id.lvRecipes);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_name_search_results, menu);
-        return true;
+        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -150,20 +136,6 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //outState.putStringArrayList(ALUNOS_KEY, (ArrayList<Aluno>) listaAlunos);
-        super.onSaveInstanceState(outState);
-//        Log.i(TAG, "onSaveInstanceState(): " + listRecipe);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //listaAlunos = savedInstanceState.getStringArrayList(ALUNOS_KEY);
-//        Log.i(TAG, "onRestoreInstanceState(): " + listRecipe);
-    }
-
     private class NameSearchTask extends AsyncTask {
 
         @Override
@@ -189,5 +161,4 @@ public class NameSearchResultsActivity extends ActionBarActivity {
             executeNameSearch();
         }
     }
-
 }
