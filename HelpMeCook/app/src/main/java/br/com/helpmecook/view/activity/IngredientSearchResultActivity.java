@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,10 @@ import br.com.helpmecook.view.adapter.RecipesListAdapter;
 
 
 public class IngredientSearchResultActivity extends ActionBarActivity {
+
+    public static final int RESULT_RECIPE = 1;
+    public static final String SEARCH_RESULT = "search_result";
+
     private ListView resultRecipes;
     private ListView resultRecipesPlus;
     private List<AbstractRecipe> results;
@@ -50,18 +55,11 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         wanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
         unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
 
-        /*for (int i = 0; i < wantedId.length; i++) {
-            wanted.add(wantedId[i]);
-        }
-        for (int i = 0; i < unwantedId.length; i++) {
-            unwanted.add(unwantedId[i]);
-        }*/
-
         if (Manager.isOnline(IngredientSearchResultActivity.this)) {
             new IngredientSearchTask().execute();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
-            builder.setMessage("Sem conexão com internet");
+            builder.setMessage(getString(R.string.no_connection));
             builder.setNeutralButton("Ok", null);
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -91,7 +89,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
 
             if (results.size() == 0 && plus.size() == 0){
-                Toast.makeText(getApplicationContext(),"Não foram encontradas receitas", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.no_results), Toast.LENGTH_LONG).show();
             }
 
             resultRecipes = (ListView) findViewById(R.id.lvRecipes);
@@ -138,8 +136,29 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     public void showRecipe(long id) {
         Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
+        intent.putExtra(SEARCH_RESULT, true);
 
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_RECIPE);
+    }
+
+    /**
+     * Caso volte de uma receita selecionada de uma pesquisa, os resultados dessa pesquisa devem continuar aparecendo
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            Log.i("onActivityResult", "resultCode != RESULT_OK");
+        } else {
+            switch (requestCode) {
+                case RESULT_RECIPE:
+                    // Carrega os resultados de novo?
+                    break;
+            }
+        }
     }
 
     private class IngredientSearchTask extends AsyncTask {

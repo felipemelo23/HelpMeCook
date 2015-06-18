@@ -163,7 +163,8 @@ public class MainActivity extends ActionBarActivity
 
         protected void onPreExecute(){
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage(getString(R.string.searching));
+            pDialog.setTitle("Carregando ingredientes...");
+            pDialog.setMessage("Não se preocupe, isso só vai acontecer uma vez");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

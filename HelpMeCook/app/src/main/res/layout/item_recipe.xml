@@ -12,7 +12,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginLeft="10dp"
         android:textColor="@color/background"
-        android:text="+2"
+        android:text="+.."
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <de.hdodenhof.circleimageview.CircleImageView
