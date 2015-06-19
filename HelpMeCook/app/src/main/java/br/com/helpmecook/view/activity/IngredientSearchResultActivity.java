@@ -27,11 +27,9 @@ import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.view.adapter.RecipesListAdapter;
 
-
 public class IngredientSearchResultActivity extends ActionBarActivity {
 
     public static final int RESULT_RECIPE = 1;
-    public static final String SEARCH_RESULT = "search_result";
 
     private ListView resultRecipes;
     private ListView resultRecipesPlus;
@@ -65,12 +63,6 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             dialog.show();
             finish();
         }
-    }
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
     }
 
     @Override
@@ -136,29 +128,8 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     public void showRecipe(long id) {
         Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
-        intent.putExtra(SEARCH_RESULT, true);
 
         startActivityForResult(intent, RESULT_RECIPE);
-    }
-
-    /**
-     * Caso volte de uma receita selecionada de uma pesquisa, os resultados dessa pesquisa devem continuar aparecendo
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            Log.i("onActivityResult", "resultCode != RESULT_OK");
-        } else {
-            switch (requestCode) {
-                case RESULT_RECIPE:
-                    // Carrega os resultados de novo?
-                    break;
-            }
-        }
     }
 
     private class IngredientSearchTask extends AsyncTask {
