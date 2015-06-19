@@ -1,14 +1,14 @@
 package br.com.helpmecook.view.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,27 +28,27 @@ import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
-
 public class RecipeActivity extends ActionBarActivity {
     private long recipeId;
     private Recipe recipe;
 
     public static final String RECIPE_ID = "recipeID";
 
-    ImageView banner;
-    ImageButton addCookBook;
-    RatingBar rbTaste, rbDifficulty;
-    ListView lvIngredient;
-    TextView recipeText;
-    TextView recipePrepTime;
-    TextView recipePortionNumber;
+    private ImageView banner;
+    private ImageButton addCookBook;
+    private RatingBar rbTaste, rbDifficulty;
+    private ListView lvIngredient;
+    private TextView recipeText;
+    private TextView recipePrepTime;
+    private TextView recipePortionNumber;
 
-    ProgressDialog pDialog;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -208,10 +208,7 @@ public class RecipeActivity extends ActionBarActivity {
                 if (Manager.isOnline(RecipeActivity.this)) {
                     new ClassifyRecipeTaste().execute();
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
-                    builder.setMessage("Sem conexão com internet");
-                    builder.setNeutralButton("Ok", null);
-                    AlertDialog dialog2 = builder.create();
+                    AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();
                 }
 
@@ -247,10 +244,7 @@ public class RecipeActivity extends ActionBarActivity {
                 if (Manager.isOnline(RecipeActivity.this)) {
                     new ClassifyRecipeDifficulty().execute();
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
-                    builder.setMessage("Sem conexão com internet");
-                    builder.setNeutralButton("Ok", null);
-                    AlertDialog dialog2 = builder.create();
+                    AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();
                 }
             }
@@ -281,12 +275,16 @@ public class RecipeActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+             finish();
+        }
         return super.onOptionsItemSelected(item);
+
     }
 
     private class GetRecipeTask extends AsyncTask {

@@ -40,16 +40,17 @@ import br.com.helpmecook.view.adapter.RecipeIngredientAdapter;
 
 public class RecipeRegisterActivity extends ActionBarActivity {
 
+    public static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
     public static final int REGISTER_RECIPE = 1;
     private static final int SELECT_INGREDIENT = 2;
     private static final int SELECT_PICTURE = 1;
-    public static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
     private static final String RECIPE_NAME_KEY = "NAME";
     private static final String INGREDIENTS_KEY = "INGREDIENTS";
     private static final String PREPARE_TIME_KEY = "PREPARE_TIME";
     private static final String PORTION_KEY = "PORTION_KEY";
     private static final String DESCRIPTION_KEY = "DESCRIPTION";
     private static final String PICTURE_KEY = "PICTURE";
+
     private Recipe recipe;
     private ImageView ivRecipePicture;
     private EditText etName;
@@ -61,7 +62,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     private Button btAddIngredient;
     private Bitmap picture;
     private long ingredients[];
-    //private List<String> ingredientsQntd;
     private String[] ingredientsQntd = new String[3000];
 
     private ProgressDialog pDialog;
@@ -117,7 +117,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         Log.i("Register-Ciclo de Vida", "OnSave");
-        // Tem que fazer essa funcao(ainda tem que fazer, ou o comentário é que não foi apagado?)
         outState.putString(RECIPE_NAME_KEY, etName.getText().toString());
         outState.putLongArray(INGREDIENTS_KEY, ingredients);
         outState.putString(PREPARE_TIME_KEY, etPrepTime.getText().toString());
@@ -131,7 +130,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         Log.i("Register-Ciclo de Vida", "OnRestore");
-        // e essa
         super.onRestoreInstanceState(savedInstanceState);
         etName.setText(savedInstanceState.getString(RECIPE_NAME_KEY));
         ingredients = savedInstanceState.getLongArray(INGREDIENTS_KEY);
@@ -150,7 +148,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 new RegisterRecipeTask().execute();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
-                builder.setMessage("Sem conexão com internet");
+                builder.setMessage(getString(R.string.no_connection));
                 builder.setNeutralButton("Ok", null);
                 AlertDialog dialog = builder.create();
                 dialog.show();
@@ -309,12 +307,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i("Register-Ciclo de Vida", "OnRestart");
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         Log.i("Register-Ciclo de Vida", "OnActivityResult");
@@ -364,14 +356,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onNavigateUp() {
-
-        Log.i("Ciclo de Vida", "onNavigateUp");
-
-        return super.onNavigateUp();
     }
 
     @Override

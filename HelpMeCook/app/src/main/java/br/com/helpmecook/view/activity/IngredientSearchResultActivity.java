@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,8 +27,10 @@ import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.view.adapter.RecipesListAdapter;
 
-
 public class IngredientSearchResultActivity extends ActionBarActivity {
+
+    public static final int RESULT_RECIPE = 1;
+
     private ListView resultRecipes;
     private ListView resultRecipesPlus;
     private List<AbstractRecipe> results;
@@ -41,6 +44,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient_search_result);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
@@ -50,18 +54,11 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         wanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.WANTED_INGREDIENTS);
         unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
 
-        /*for (int i = 0; i < wantedId.length; i++) {
-            wanted.add(wantedId[i]);
-        }
-        for (int i = 0; i < unwantedId.length; i++) {
-            unwanted.add(unwantedId[i]);
-        }*/
-
         if (Manager.isOnline(IngredientSearchResultActivity.this)) {
             new IngredientSearchTask().execute();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
-            builder.setMessage("Sem conexão com internet");
+            builder.setMessage(getString(R.string.no_connection));
             builder.setNeutralButton("Ok", null);
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -70,18 +67,15 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onStart() {
-
-        super.onStart();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -91,7 +85,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
 
             if (results.size() == 0 && plus.size() == 0){
-                Toast.makeText(getApplicationContext(),"Não foram encontradas receitas", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.no_results), Toast.LENGTH_LONG).show();
             }
 
             resultRecipes = (ListView) findViewById(R.id.lvRecipes);
@@ -139,7 +133,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_RECIPE);
     }
 
     private class IngredientSearchTask extends AsyncTask {

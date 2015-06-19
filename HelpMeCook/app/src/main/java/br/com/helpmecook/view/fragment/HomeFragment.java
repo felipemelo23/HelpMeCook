@@ -2,7 +2,6 @@ package br.com.helpmecook.view.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
-import android.widget.Toast;
 
 import org.apache.http.conn.HttpHostConnectException;
 
@@ -25,24 +23,20 @@ import java.util.List;
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.AbstractRecipe;
-import br.com.helpmecook.view.activity.MainActivity;
 
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipeCardAdapter;
 
 public class HomeFragment extends Fragment {
+
     private static final String FIRST_TIME = "first_time_pops";
-
-    private Context context;
-    LayoutInflater inflater;
-    ViewGroup container;
-
-    private List<AbstractRecipe> popularRecipes;
-    private ProgressDialog pDialog;
-
     public static int POPULAR_PARAM;
 
-    View fragmentView;
+    private Context context;
+    private LayoutInflater inflater;
+    private ViewGroup container;
+    private List<AbstractRecipe> popularRecipes;
+    private View fragmentView;
 
     public HomeFragment(){}
 
@@ -55,18 +49,16 @@ public class HomeFragment extends Fragment {
                 container, false);
 
         context = getActivity();
-        loadRecents();
         SharedPreferences settings = getActivity().getSharedPreferences(FIRST_TIME, 0);
 
         if (Manager.isOnline(getActivity())) {
             new MostPopularTask().execute();
-            settings.edit().putBoolean(FIRST_TIME, false).commit();
         } else if (!(settings.getBoolean(FIRST_TIME, true))) {
             popularRecipes = Manager.getLocalPopularRecipes(getActivity());
-            loadPopular();
+            loadPopularAndRecents();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Sem conexão com internet");
+            builder.setMessage(getString(R.string.no_connection));
             builder.setNeutralButton("Ok", null);
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -82,18 +74,8 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void loadRecents() {
-
-    }
-
-    private void loadPopular() {
+    private void loadPopularAndRecents() {
         GridView gvRecents = (GridView) fragmentView.findViewById(R.id.gv_recents);
-
-        if (Manager.getRecentRecipes(context) == null) {
-            Log.i("HomeFragment", "contexto esta nulo");
-        } else {
-            Log.i("HomeFragment", "contexto nao esta nulo");
-        }
 
         final RecipeCardAdapter adapterRecents = new RecipeCardAdapter(context, Manager.getRecentRecipes(context));
         gvRecents.setAdapter(adapterRecents);
@@ -106,8 +88,6 @@ public class HomeFragment extends Fragment {
                 showRecipe(adapterRecents.getItem(position).getId());
             }
         });
-
-        setListViewHeightBasedOnChildren(gvRecents);
 
         if (popularRecipes != null) {
             GridView gvPop = (GridView) fragmentView.findViewById(R.id.gv_pop);
@@ -123,12 +103,10 @@ public class HomeFragment extends Fragment {
             });
 
             setListViewHeightBasedOnChildren(gvPop);
-        } else {
-            Toast.makeText(context,context.getString(R.string.cant_connect), Toast.LENGTH_LONG).show();
         }
+
+        setListViewHeightBasedOnChildren(gvRecents);
     }
-
-
 
     public static void setListViewHeightBasedOnChildren(GridView gridView) {
         ListAdapter listAdapter = gridView.getAdapter();
@@ -145,33 +123,32 @@ public class HomeFragment extends Fragment {
             if (i%gridView.getNumColumns()==0){
                 totalHeight += listItem.getMeasuredHeight();
             }
-            //totalHeight += listItem.getMeasuredHeight();
         }
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
 
-        //totalHeight = totalHeight/gridView.getNumColumns();
-
         params.height = totalHeight + (gridView.getHorizontalSpacing() * (listAdapter.getCount()/gridView.getNumColumns() - 1));
+        Log.i("Tamanho Grid Home", " " + params.height);
         gridView.setLayoutParams(params);
     }
 
     private class MostPopularTask extends AsyncTask {
+        SharedPreferences settings = getActivity().getSharedPreferences(FIRST_TIME, 0);
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(context);
-            pDialog.setMessage(context.getString(R.string.waiting_recents_popular_recipes));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+            if (settings.getBoolean(FIRST_TIME, false)) {
+                popularRecipes = Manager.getLocalPopularRecipes(getActivity());
+            }
+            loadPopularAndRecents();
         }
 
         @Override
         protected Object doInBackground(Object[] params) {
             try {
                 popularRecipes = Manager.getPopularRecipes(POPULAR_PARAM,context);
+                settings.edit().putBoolean(FIRST_TIME, false).commit();
             } catch (HttpHostConnectException e) {
                 e.printStackTrace();
                 popularRecipes = null;
@@ -182,8 +159,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Object o) {
-            pDialog.dismiss();
-            loadPopular();
+            loadPopularAndRecents();
         }
     }
 }

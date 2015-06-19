@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
- * Created by ck0119 on 30/04/15.
+ * Created by Andre on 30/04/15.
  */
 
 public class AbstractRecipe {

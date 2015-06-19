@@ -69,8 +69,6 @@ public class RecipeCardAdapter extends BaseAdapter{
             name.setShadowLayer(2, 2, 2, Color.BLACK);
             RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_card);
 
-            Log.i("RecipeCardPos", position+"");
-
             icon.setImageBitmap(recipes.get(position).getPicture());
             name.setText(recipes.get(position).getName().toUpperCase());
             rbTaste.setRating(recipes.get(position).getTaste());

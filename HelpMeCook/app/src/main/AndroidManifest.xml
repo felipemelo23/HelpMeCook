@@ -29,11 +29,7 @@
         </activity>
         <activity
             android:name=".view.activity.RecipeActivity"
-            android:label="@string/title_activity_recipe"
-            android:parentActivityName=".view.activity.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activity.MainActivity" />
+            android:label="@string/title_activity_recipe" >
         </activity>
         <activity
             android:name=".view.activity.NameSearchResultsActivity"
@@ -61,9 +57,6 @@
             android:name=".view.activity.IngredientSearchResultActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_ingredient_search_result" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.helpmecook.view.activity.MainActivity" />
             />
         </activity>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />

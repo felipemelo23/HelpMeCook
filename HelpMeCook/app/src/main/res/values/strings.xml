@@ -99,6 +99,7 @@
 
     <string name="no_location_found">Não foi possível encontrar a localização</string>
     <string name="must_select_ingredient_message">Você deve selecionar algum ingrediente!</string>
+    <string name="no_results">Não foram encontradas receitas</string>
 
     <!-- MapFragment -->
 
