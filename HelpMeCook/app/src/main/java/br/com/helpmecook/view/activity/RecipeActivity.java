@@ -59,8 +59,6 @@ public class RecipeActivity extends ActionBarActivity {
         }
 
         new GetRecipeTask().execute();
-
-
     }
 
     private AlertDialog createDialog(String message) {
@@ -94,9 +92,7 @@ public class RecipeActivity extends ActionBarActivity {
             }
         });
         dialog.show();
-
     }
-
 
     public void loadRecipe() {
         if (recipe != null) {

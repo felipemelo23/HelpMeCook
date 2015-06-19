@@ -56,11 +56,7 @@ public class RecipesListAdapter extends BaseAdapter{
         TextView name = (TextView) convertView.findViewById(R.id.tv_recipe_name_detail);
         RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_detail);
         RatingBar rbDifficulty = (RatingBar) convertView.findViewById(R.id.rb_difficulty_detail);
-        TextView tvExtras = (TextView) convertView.findViewById(R.id.tv_ex);
         CircleImageView exBackground = (CircleImageView) convertView.findViewById(R.id.iv_ex);
-        exBackground.setVisibility(View.INVISIBLE);
-        tvExtras.setVisibility(View.INVISIBLE);
-
         TextView tvExtras = (TextView) convertView.findViewById(R.id.tv_ex);
         tvExtras.bringToFront();
 
@@ -78,7 +74,6 @@ public class RecipesListAdapter extends BaseAdapter{
             exBackground.setVisibility(View.VISIBLE);
             tvExtras.setVisibility(View.VISIBLE);
         }
-
 
         tvExtras.bringToFront();
 
