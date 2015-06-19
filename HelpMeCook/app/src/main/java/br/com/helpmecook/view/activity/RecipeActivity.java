@@ -3,8 +3,10 @@ package br.com.helpmecook.view.activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +28,6 @@ import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.view.adapter.IngredientsAdapter;
 
-
 public class RecipeActivity extends ActionBarActivity {
     private long recipeId;
     private Recipe recipe;
@@ -47,6 +48,8 @@ public class RecipeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -273,27 +276,16 @@ public class RecipeActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.i("Recipe - Ciclo de Vida", "onBackPressed");
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onNavigateUp() {
-        Log.i("Recipe - Ciclo de Vida", "onNavigateUp");
-        if (getIntent().getExtras().getBoolean(IngredientSearchResultActivity.SEARCH_RESULT, false)) {
-
+        if (item.getItemId() == android.R.id.home) {
+             finish();
         }
-        return super.onNavigateUp();
+        return super.onOptionsItemSelected(item);
+
     }
 
     private class GetRecipeTask extends AsyncTask {
