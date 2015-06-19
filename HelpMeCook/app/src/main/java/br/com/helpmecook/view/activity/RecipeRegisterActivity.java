@@ -40,10 +40,10 @@ import br.com.helpmecook.view.adapter.RecipeIngredientAdapter;
 
 public class RecipeRegisterActivity extends ActionBarActivity {
 
+    public static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
     public static final int REGISTER_RECIPE = 1;
     private static final int SELECT_INGREDIENT = 2;
     private static final int SELECT_PICTURE = 1;
-    public static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
     private static final String RECIPE_NAME_KEY = "NAME";
     private static final String INGREDIENTS_KEY = "INGREDIENTS";
     private static final String PREPARE_TIME_KEY = "PREPARE_TIME";
@@ -62,7 +62,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     private Button btAddIngredient;
     private Bitmap picture;
     private long ingredients[];
-    //private List<String> ingredientsQntd;
     private String[] ingredientsQntd = new String[3000];
 
     private ProgressDialog pDialog;
@@ -308,12 +307,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i("Register-Ciclo de Vida", "OnRestart");
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         Log.i("Register-Ciclo de Vida", "OnActivityResult");
@@ -363,14 +356,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onNavigateUp() {
-
-        Log.i("Ciclo de Vida", "onNavigateUp");
-
-        return super.onNavigateUp();
     }
 
     @Override

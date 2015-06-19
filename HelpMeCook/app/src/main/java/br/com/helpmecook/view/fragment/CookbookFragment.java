@@ -1,27 +1,20 @@
 package br.com.helpmecook.view.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
-import br.com.helpmecook.model.AbstractRecipe;
 import br.com.helpmecook.model.Cookbook;
-import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.view.activity.RecipeActivity;
 import br.com.helpmecook.view.adapter.RecipesListAdapter;
 

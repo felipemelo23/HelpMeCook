@@ -1,6 +1,5 @@
 package br.com.helpmecook.view.activity;
 
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -15,8 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.view.fragment.CookbookFragment;
@@ -28,7 +25,7 @@ import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    GoogleApiClient.Builder mGoogleApiClient;
+    //GoogleApiClient.Builder mGoogleApiClient;
 
     public static final int MAIN = 0;
     private static final String FIRST_TIME = "first_time";
@@ -60,8 +57,6 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-
     }
 
     @Override
@@ -70,7 +65,7 @@ public class MainActivity extends ActionBarActivity
 
         switch (position) {
             case 0:
-                mTitle = getResources().getString(R.string.app_name);
+                mTitle = getString(R.string.app_name);
 
                 SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor.putInt(POSITION_NAV_DRAWER, 0).commit();
@@ -84,7 +79,7 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
                 break;
             case 2:
-                mTitle = getResources().getString(R.string.title_activity_cookbook);
+                mTitle = getString(R.string.title_activity_cookbook);
 
                 SharedPreferences.Editor editor2 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor2.putInt(POSITION_NAV_DRAWER, 2).commit();
@@ -98,7 +93,7 @@ public class MainActivity extends ActionBarActivity
                 startActivity(new Intent(MainActivity.this, RecipeRegisterActivity.class));
                 break;
             case 4:
-                mTitle = getResources().getString(R.string.title_activity_map);
+                mTitle = getString(R.string.title_activity_map);
 
                 SharedPreferences.Editor editor3 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor3.putInt(POSITION_NAV_DRAWER, 4).commit();
@@ -106,7 +101,7 @@ public class MainActivity extends ActionBarActivity
                 fragment = new MapFragment();
                 break;
             case 5:
-                mTitle = getResources().getString(R.string.title_activity_info);
+                mTitle = getString(R.string.title_activity_info);
 
                 SharedPreferences.Editor editor4 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor4.putInt(POSITION_NAV_DRAWER, 5).commit();
@@ -171,15 +166,11 @@ public class MainActivity extends ActionBarActivity
         }
 
         protected String doInBackground(Void...arg0) {
-            Log.d("Asyntask","On doInBackground...");
-
             Manager.insertAllIngredients(getApplicationContext());
-
-            return "You are at PostExecute";
+            return null;
         }
 
         protected void onPostExecute(String result) {
-            Log.d("Asyntask",result);
             pDialog.dismiss();
         }
     }
@@ -187,35 +178,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
-        Log.i("Main - Ciclo de Vida", "onResume " + settings.getInt(POSITION_NAV_DRAWER, 0));
         super.onResume();
         //atualizar os fragments
         onNavigationDrawerItemSelected(settings.getInt(POSITION_NAV_DRAWER, 0));
-    }
-
-    @Override
-    protected void onStop() {
-        Log.i("Main - Ciclo de Vida", "onStop");
-        //SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
-        //editor.putInt(POSITION_NAV_DRAWER, 0).commit();
-        super.onStop();
-    }
-
-    @Override
-    public void finish() {
-        Log.i("Main - Ciclo de Vida", "finish");
-        super.finish();
-    }
-
-    @Override
-    public boolean isFinishing() {
-        Log.i("Main - Ciclo de Vida", "isFinishing");
-        return super.isFinishing();
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.i("Main - Ciclo de Vida","onBackPressed");
-        super.onBackPressed();
     }
 }

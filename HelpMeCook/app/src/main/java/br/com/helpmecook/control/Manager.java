@@ -409,7 +409,6 @@ public class Manager {
 
             for (long id : ids) {
                 Recipe recipe = recipeDAO.read(id);
-                Log.i("Debug Cookbook Manager", id + "");
                 cookbook.addRecipe(recipe);
             }
 

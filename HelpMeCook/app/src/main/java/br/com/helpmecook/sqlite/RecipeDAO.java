@@ -188,7 +188,6 @@ public class RecipeDAO {
     public AbstractRecipe readAbstractRecipe(long id){
         AbstractRecipe recipe;
         Cursor c = database.query(TABLE_NAME, allColumns, ID + " ='" + id + "'", null, null, null, null);
-        Log.i("DebugCookbookManagerDAO", "Tamanho da Tabela " + c.getCount());
 
         if(c.moveToFirst()) {
             int indexId = c.getColumnIndex(ID);
