@@ -5,11 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,8 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -315,20 +315,17 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         } else {
             switch (requestCode) {
                 case SELECT_PICTURE:
-                    Uri selectedImage = intent.getData();
+                    Uri contentUri = intent.getData();
+                    Bitmap tempPic = null;
 
-                    InputStream inputStream = null;
-                    try {
-                        inputStream = getContentResolver().openInputStream(
-                                selectedImage);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                    Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
+                    if (cursor == null) {
+                        tempPic = Manager.compressImage(contentUri.getPath());
+                    } else {
+                        cursor.moveToFirst();
+                        int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                        tempPic = Manager.compressImage(cursor.getString(index));
                     }
-
-                    final BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 2; //hard code it to whatever is reasonable
-
-                    Bitmap tempPic = BitmapFactory.decodeStream(inputStream, null, options);
 
                     if (tempPic != null) {
                         picture = tempPic;
@@ -404,8 +401,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    recipe.setName(etName.getText().toString());
-                    recipe.setText(etDescription.getText().toString());
 
                     if (picture.equals(null)){
                         recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(), R.drawable.plate));
@@ -421,6 +416,9 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 }
             });
 
+            recipe.setName(etName.getText().toString());
+            recipe.setText(etDescription.getText().toString());
+
             List<Long> ingId = new ArrayList<Long>();
             for (int i = 0; i < ingredients.length; i++) {
                 Log.i("DebugIngredient", "id: " + ingredients[i]);
@@ -434,6 +432,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 ingQnt.add(ingredientsQntd[(int) ingredients[i]]);
             }
             recipe.setUnits(ingQnt);
+
+
 
             Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
 

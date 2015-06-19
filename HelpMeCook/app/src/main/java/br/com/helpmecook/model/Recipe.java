@@ -21,7 +21,6 @@ public class Recipe extends AbstractRecipe {
     private String portionNum;
     private Calendar lastAcess;
     private boolean sync;
-    private int extraIngNum = -1;
 
 
     public Recipe() {
@@ -127,10 +126,6 @@ public class Recipe extends AbstractRecipe {
         return false;
     }
 
-    public int getExtraIngNum() {
-        return extraIngNum;
-    }
-
     public int getExtraIngredientNum(List<Long> ingredients){
         int extraIngredientNum = 0;
 
@@ -139,6 +134,8 @@ public class Recipe extends AbstractRecipe {
                 extraIngredientNum ++;
             }
         }
+
+
         this.extraIngNum = extraIngredientNum;
         return extraIngredientNum;
     }
