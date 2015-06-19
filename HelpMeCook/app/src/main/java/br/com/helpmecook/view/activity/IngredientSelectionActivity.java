@@ -52,6 +52,12 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         Intent intent = getIntent();
         origin = intent.getExtras().getInt(REQUEST_CODE);
 
+        if (origin == MainActivity.MAIN) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
         allIngredients = Manager.getIngredients(getApplicationContext());
 
         if (allIngredients == null) {
@@ -172,6 +178,9 @@ public class IngredientSelectionActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return false;
             case R.id.menu_ok:
                 //abaixo o conteúdo que estava na finada função buttonClick
                 if (origin == MainActivity.MAIN) {
