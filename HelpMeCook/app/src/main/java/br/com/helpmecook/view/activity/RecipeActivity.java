@@ -165,6 +165,7 @@ public class RecipeActivity extends ActionBarActivity {
 
             recipeText = (TextView) findViewById(R.id.tv_recipe);
             recipeText.setText(recipe.getText());
+            Log.i("NAME LOSS", "RecipeAct name: " + recipe.getText());
 
             recipePrepTime = (TextView) findViewById(R.id.tv_prep_time);
             if (recipe.getEstimatedTime() == 1) {

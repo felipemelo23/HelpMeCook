@@ -417,8 +417,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    recipe.setName(etName.getText().toString());
-                    recipe.setText(etDescription.getText().toString());
 
                     if (picture.equals(null)){
                         recipe.setPicture(BitmapFactory.decodeResource((RecipeRegisterActivity.this).getResources(), R.drawable.plate));
@@ -434,6 +432,9 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 }
             });
 
+            recipe.setName(etName.getText().toString());
+            recipe.setText(etDescription.getText().toString());
+
             List<Long> ingId = new ArrayList<Long>();
             for (int i = 0; i < ingredients.length; i++) {
                 Log.i("DebugIngredient", "id: " + ingredients[i]);
@@ -447,6 +448,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 ingQnt.add(ingredientsQntd[(int) ingredients[i]]);
             }
             recipe.setUnits(ingQnt);
+
+
 
             Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
 
