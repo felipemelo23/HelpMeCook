@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (settings.getBoolean(FIRST_TIME, false)) {
+            if (!(settings.getBoolean(FIRST_TIME, false))) {
                 popularRecipes = Manager.getLocalPopularRecipes(getActivity());
             }
             loadPopularAndRecents();
