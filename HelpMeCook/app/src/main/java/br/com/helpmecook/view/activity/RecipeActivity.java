@@ -1,6 +1,5 @@
 package br.com.helpmecook.view.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -8,7 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -27,6 +26,7 @@ import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Recipe;
 import br.com.helpmecook.view.adapter.IngredientsAdapter;
+import br.com.helpmecook.view.dialog.ImageDialog;
 
 
 public class RecipeActivity extends ActionBarActivity {
@@ -60,6 +60,7 @@ public class RecipeActivity extends ActionBarActivity {
 
         new GetRecipeTask().execute();
 
+
     }
 
     private AlertDialog createDialog(String message) {
@@ -75,12 +76,43 @@ public class RecipeActivity extends ActionBarActivity {
         return dialog;
     }
 
+    private void launchImageDialog() {
+        LayoutInflater factory = LayoutInflater.from(this);
+        View imageDialogView = factory.inflate(R.layout.dialog_image, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
+        final AlertDialog dialog = builder.create();
+
+        ImageView fullBannerImage = (ImageView) imageDialogView.findViewById(R.id.fullBannerImage);
+        fullBannerImage.setImageBitmap(recipe.getPicture());
+
+
+        fullBannerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
+
     public void loadRecipe() {
         if (recipe != null) {
             setTitle(recipe.getName());
 
             banner = (ImageView) findViewById(R.id.banner);
             banner.setImageBitmap(recipe.getPicture());
+
+            banner.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ImageDialog dialog = new ImageDialog(RecipeActivity.this, recipe.getPicture());
+                    dialog.show();
+                    //launchImageDialog();
+                }
+            });
 
             addCookBook = (ImageButton) findViewById(R.id.add_cookbook);
             // Se a receita já estiver no cookbook, o botão de adicionar vira de remover

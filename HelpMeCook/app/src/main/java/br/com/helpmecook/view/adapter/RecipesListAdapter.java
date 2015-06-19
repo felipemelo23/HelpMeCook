@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -56,6 +55,10 @@ public class RecipesListAdapter extends BaseAdapter{
         TextView name = (TextView) convertView.findViewById(R.id.tv_recipe_name_detail);
         RatingBar rbTaste = (RatingBar) convertView.findViewById(R.id.rb_taste_detail);
         RatingBar rbDifficulty = (RatingBar) convertView.findViewById(R.id.rb_difficulty_detail);
+        TextView tvExtras = (TextView) convertView.findViewById(R.id.tv_ex);
+        CircleImageView exBackground = (CircleImageView) convertView.findViewById(R.id.iv_ex);
+        exBackground.setVisibility(View.INVISIBLE);
+        tvExtras.setVisibility(View.INVISIBLE);
 
         if (recipes != null) Log.i("Debug", recipes.get(position) + "");
 
@@ -63,6 +66,19 @@ public class RecipesListAdapter extends BaseAdapter{
         name.setText(recipes.get(position).getName());
         rbTaste.setRating(recipes.get(position).getTaste());
         rbDifficulty.setRating(recipes.get(position).getDifficulty());
+
+        if (recipes.get(position).getExtraIngNum() > 0){
+            if (recipes.get(position).getExtraIngNum() > 9){
+                tvExtras.setText("+..");
+            }else{
+                tvExtras.setText("+" + recipes.get(position).getExtraIngNum());
+            }
+            exBackground.setVisibility(View.VISIBLE);
+            tvExtras.setVisibility(View.VISIBLE);
+        }
+
+
+        tvExtras.bringToFront();
 
         return convertView;
     }
