@@ -1,7 +1,6 @@
 package br.com.helpmecook.model;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 /**
  * Created by ck0119 on 30/04/15.
@@ -44,31 +43,6 @@ public class AbstractRecipe {
     }
 
     public void setPicture(Bitmap picture) {
-        int threshold = 816;
-        if (picture != null) {
-            int size = Math.max(picture.getWidth(),picture.getHeight());
-
-            Log.i("PicWidthBefore", picture.getWidth()+"");
-            Log.i("PicHeightBefore", picture.getHeight()+"");
-
-            if (size > threshold) {
-                int width, height;
-                if (picture.getWidth() > picture.getHeight()) {
-                    width = threshold;
-                    height = (threshold*picture.getHeight()/picture.getWidth());
-                    if (height < 816) height = 816;
-                } else {
-                    width = (threshold*picture.getWidth()/picture.getHeight());
-                    height = threshold;
-                    if (width < 816) width = 816;
-                }
-                picture = Bitmap.createScaledBitmap(picture, width, height, true);
-            }
-
-            Log.i("PicWidthAfter", picture.getWidth()+"");
-            Log.i("PicHeightAfter", picture.getHeight()+"");
-        }
-
         this.picture = picture;
     }
 
