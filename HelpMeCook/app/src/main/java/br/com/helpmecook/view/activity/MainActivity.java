@@ -177,9 +177,19 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     protected void onResume() {
-        SharedPreferences settings = getSharedPreferences(POSITION_NAV_DRAWER, 0);
         super.onResume();
         //atualizar os fragments
-        onNavigationDrawerItemSelected(settings.getInt(POSITION_NAV_DRAWER, 0));
+        onNavigationDrawerItemSelected(getSharedPreferences(POSITION_NAV_DRAWER, 0).getInt(POSITION_NAV_DRAWER, 0));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSharedPreferences(POSITION_NAV_DRAWER, 0).getInt(POSITION_NAV_DRAWER, 0) != 0) {
+            SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
+            editor.putInt(POSITION_NAV_DRAWER, 0).commit();
+            onNavigationDrawerItemSelected(0);
+            return;
+        }
+        super.onBackPressed();
     }
 }
