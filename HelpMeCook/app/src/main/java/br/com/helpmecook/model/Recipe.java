@@ -49,7 +49,6 @@ public class Recipe extends AbstractRecipe {
     }
 
     public List<Long> getIngredientList() {
-        System.out.println("teste" + ingredientList.size());
         return ingredientList;
     }
 

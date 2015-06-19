@@ -290,8 +290,6 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(replyString);
-
         // trim the whitespaces
         return replyString.trim();
     }
