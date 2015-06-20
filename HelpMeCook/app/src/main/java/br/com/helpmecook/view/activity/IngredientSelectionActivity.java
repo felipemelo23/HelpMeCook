@@ -46,7 +46,7 @@ public class IngredientSelectionActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ingredient_selection_activity);
+        setContentView(R.layout.activity_ingredient_selection);
 
         Intent intent = getIntent();
         origin = intent.getExtras().getInt(REQUEST_CODE);
