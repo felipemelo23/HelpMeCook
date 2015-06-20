@@ -30,19 +30,18 @@ import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
  */
 public class IngredientSelectionActivity extends ActionBarActivity {
 
+    public static final String REQUEST_CODE = "Request_code";
+    public static final String WANTED_INGREDIENTS = "Wanted_ingredients";
+    public static final String UNWANTED_INGREDIENTS = "Unwanted_ingredients";
     private static final int MAX_INGREDIENTS = 300;
+    public int[] clicked;
     private ListView lvList;
-    IngredientSelectionAdapter ingredientSelectionAdapter;
+    private IngredientSelectionAdapter ingredientSelectionAdapter;
     private ArrayList<Long> wantedIngredients;
     private ArrayList<Long> unwantedIngredients;
     private List<Ingredient> allIngredients;
-    public int[] clicked;
-    public static final String REQUEST_CODE = "Request_code";
-    int origin;
-    public static final String WANTED_INGREDIENTS = "Wanted_ingredients";
-    public static final String UNWANTED_INGREDIENTS = "Unwanted_ingredients";
-
-    EditText search;
+    private EditText search;
+    private int origin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

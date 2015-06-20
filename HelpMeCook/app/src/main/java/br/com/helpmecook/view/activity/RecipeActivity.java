@@ -3,6 +3,7 @@ package br.com.helpmecook.view.activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +23,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Recipe;
@@ -29,11 +34,13 @@ import br.com.helpmecook.view.adapter.IngredientsAdapter;
 import br.com.helpmecook.view.dialog.ImageDialog;
 
 public class RecipeActivity extends ActionBarActivity {
-    private long recipeId;
-    private Recipe recipe;
 
     public static final String RECIPE_ID = "recipeID";
+    public static final String REQUEST_CODE = "Request_code";
 
+    private long recipeId;
+    private Recipe recipe;
+    private int origin;
     private ImageView banner;
     private ImageButton addCookBook;
     private RatingBar rbTaste, rbDifficulty;
@@ -58,7 +65,17 @@ public class RecipeActivity extends ActionBarActivity {
             dialog.show();
         }
 
-        new GetRecipeTask().execute();
+        GetRecipeTask grt = new GetRecipeTask();
+        grt.execute();
+        try {
+            grt.get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
     }
 
     private AlertDialog createDialog(String message) {
@@ -310,10 +327,12 @@ public class RecipeActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-             finish();
+            if (getIntent().getExtras().getInt(REQUEST_CODE) == 1) {
+                startActivity(new Intent(RecipeActivity.this, MainActivity.class));
+            }
+            finish();
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     private class GetRecipeTask extends AsyncTask {

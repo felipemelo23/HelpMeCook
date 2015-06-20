@@ -44,6 +44,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     public static final int REGISTER_RECIPE = 1;
     private static final int SELECT_INGREDIENT = 2;
     private static final int SELECT_PICTURE = 1;
+    public static final int REGISTER = 1;
     private static final String RECIPE_NAME_KEY = "NAME";
     private static final String INGREDIENTS_KEY = "INGREDIENTS";
     private static final String PREPARE_TIME_KEY = "PREPARE_TIME";
@@ -351,6 +352,7 @@ public class RecipeRegisterActivity extends ActionBarActivity {
     public void showRecipe(long id) {
         Intent intent = new Intent(RecipeRegisterActivity.this, RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
+        intent.putExtra(IngredientSelectionActivity.REQUEST_CODE, REGISTER);
 
         startActivity(intent);
     }
@@ -432,8 +434,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                 ingQnt.add(ingredientsQntd[(int) ingredients[i]]);
             }
             recipe.setUnits(ingQnt);
-
-
 
             Log.i("RecipeRegisterActivity", "" + Manager.registerRecipe(recipe, getApplicationContext()));
 

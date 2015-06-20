@@ -29,7 +29,7 @@ import br.com.helpmecook.view.adapter.RecipeCardAdapter;
 
 public class HomeFragment extends Fragment {
 
-    private static final String FIRST_TIME = "first_time_pops";
+    public static final String FIRST_TIME = "first_time_pops";
     public static int POPULAR_PARAM;
 
     private Context context;
@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (!(settings.getBoolean(FIRST_TIME, false))) {
+            if (!(settings.getBoolean(FIRST_TIME, true))) {
                 popularRecipes = Manager.getLocalPopularRecipes(getActivity());
             }
             loadPopularAndRecents();
@@ -148,7 +148,6 @@ public class HomeFragment extends Fragment {
         protected Object doInBackground(Object[] params) {
             try {
                 popularRecipes = Manager.getPopularRecipes(POPULAR_PARAM,context);
-                settings.edit().putBoolean(FIRST_TIME, false).commit();
             } catch (HttpHostConnectException e) {
                 e.printStackTrace();
                 popularRecipes = null;

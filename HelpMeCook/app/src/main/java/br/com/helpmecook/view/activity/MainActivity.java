@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.view.fragment.CookbookFragment;
@@ -25,7 +27,7 @@ import br.com.helpmecook.view.fragment.NavigationDrawerFragment;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    //GoogleApiClient.Builder mGoogleApiClient;
+    GoogleApiClient.Builder mGoogleApiClient;
 
     public static final int MAIN = 0;
     private static final String FIRST_TIME = "first_time";

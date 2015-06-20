@@ -371,6 +371,9 @@ public class Manager {
                 editor.commit();
                 HomeFragment.POPULAR_PARAM = LOCAL_POPULAR;
                 Log.i("GetPopular", "Server");
+
+                SharedPreferences settings2 = context.getSharedPreferences(HomeFragment.FIRST_TIME, 0);
+                settings2.edit().putBoolean(HomeFragment.FIRST_TIME, false).commit();
             }
         } else {
             return getLocalPopularRecipes(context);
@@ -451,7 +454,6 @@ public class Manager {
         remoteDBId = accessor.registerRecipe(recipe);
 
         try {
-            Log.i("DebugManager", "Foi inserido no bd local");
             cookbookDAO.open();
             recipeDAO.open();
 
@@ -469,13 +471,14 @@ public class Manager {
                 cookbookDAO.insert(recipe);
                 cookbookDAO.close();
                 recipeDAO.close();
+                Log.i("DebugManager", "Foi inserido no bd local");
                 return 1;
             }else{
-                Log.i("DebugManager", "Foi inserido no servidor");
                 recipe.setId(remoteDBId);
                 recipe.setSync(true);
                 internalDB = cookbookDAO.insert(recipe);
                 cookbookDAO.close();
+                Log.i("DebugManager", "Foi inserido no servidor");
                 return 2;
             }
         } catch (Exception e) {
@@ -600,7 +603,10 @@ public class Manager {
         if (height > reqHeight || width > reqWidth) {
             final int heightRatio = Math.round((float) height/ (float) reqHeight);
             final int widthRatio = Math.round((float) width / (float) reqWidth);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;      }       final float totalPixels = width * height;       final float totalReqPixelsCap = reqWidth * reqHeight * 2;       while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;      }
+        final float totalPixels = width * height;
+        final float totalReqPixelsCap = reqWidth * reqHeight * 2;
+        while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
             inSampleSize++;
         }
 
