@@ -116,19 +116,20 @@ public class HomeFragment extends Fragment {
         }
 
         int totalHeight = 0;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, gridView);
-            listItem.measure(0, 0);
-            if (i%gridView.getNumColumns()==0){
-                totalHeight += listItem.getMeasuredHeight();
+        int n = 0;
+        try {
+            while (listAdapter.getItem(n) != null) {
+                if (n == 0) {
+                    totalHeight += 340;
+                } else {
+                    totalHeight += 324;
+                }
+                n +=2;
             }
-        }
+        } catch (IndexOutOfBoundsException e) {}
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
-
-        params.height = totalHeight + (gridView.getHorizontalSpacing() * (listAdapter.getCount()/gridView.getNumColumns() - 1));
-        Log.i("Tamanho Grid Home", " " + params.height);
+        params.height = totalHeight;
         gridView.setLayoutParams(params);
     }
 
