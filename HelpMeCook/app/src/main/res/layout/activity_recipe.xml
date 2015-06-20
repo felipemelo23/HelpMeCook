@@ -17,22 +17,22 @@
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop"
+                android:contentDescription="@string/accessibilityPictureDescription"
 
                 android:descendantFocusability="beforeDescendants"
                 android:focusableInTouchMode="true"
-                android:contentDescription="@string/accessibilityPictureDescription" />
+                android:scaleType="centerCrop" />
 
             <ImageButton
                 android:id="@+id/add_cookbook"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignRight="@+id/banner"
                 android:layout_alignEnd="@+id/banner"
+                android:layout_alignRight="@+id/banner"
                 android:layout_below="@id/banner"
                 android:layout_marginBottom="-35dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="-5dp"
                 android:background="@drawable/cookbook_plus"
                 android:clickable="true"
@@ -46,8 +46,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/banner"
-                android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:clickable="true"
                 android:rating="3" />
@@ -88,17 +88,17 @@
                 android:text="@string/difficulty"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/text" />
-
-
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <LinearLayout
                 android:id="@+id/ll_prep_time"
@@ -135,10 +135,10 @@
 
                 android:orientation="horizontal"
                 android:paddingBottom="16dp"
+                android:paddingEnd="16dp"
                 android:paddingLeft="16dp"
-                android:paddingStart="16dp"
                 android:paddingRight="16dp"
-                android:paddingEnd="16dp">
+                android:paddingStart="16dp">
 
                 <ImageView
                     android:id="@+id/iv_portion_num"
@@ -188,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -220,13 +220,13 @@
             android:id="@+id/tv_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/text"/>
+            android:textColor="@color/text" />
 
     </LinearLayout>
 </ScrollView>
