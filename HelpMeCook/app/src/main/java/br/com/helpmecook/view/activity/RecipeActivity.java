@@ -65,16 +65,28 @@ public class RecipeActivity extends ActionBarActivity {
             dialog.show();
         }
 
-        GetRecipeTask grt = new GetRecipeTask();
-        grt.execute();
-        try {
-            grt.get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
+        if (Manager.isOnline(RecipeActivity.this)) {
+            GetRecipeTask grt = new GetRecipeTask();
+            grt.execute();
+            try {
+                grt.get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            recipe = Manager.getRecipeFromLocalDB(recipeId, RecipeActivity.this);
+            if (recipe == null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
+                builder.setMessage(getString(R.string.no_connection));
+                builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         }
     }
 

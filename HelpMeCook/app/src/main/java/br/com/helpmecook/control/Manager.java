@@ -86,6 +86,37 @@ public class Manager {
         }
     }
 
+    public static Recipe getRecipeOnLocaDB(long id, Context context) {
+        RecipeDAO recipeDAO = new RecipeDAO(context);
+        RecentsDAO recentsDAO = new RecentsDAO(context);
+
+        try {
+            recipeDAO.open();
+            recentsDAO.open();
+
+            //Tenta achar a receita no banco de dados local.
+            Recipe recipe = recipeDAO.read(id);
+            if (recipe != null) {
+                Calendar cal = Calendar.getInstance();
+                recipe.updateLastAcess(cal);
+                recipeDAO.update(recipe);
+
+                if (recentsDAO.read(recipe.getId()) == null){
+                    recentsDAO.insert(recipe);
+                } else {
+                    recentsDAO.update(recipe);
+                }
+
+                return recipe;
+            } else {
+                return null;
+            }
+        } catch (java.sql.SQLException e) {
+            return null;
+        }
+    }
+
+
     /**
      * @param ids Lista de Identificadores de Receita.
      * @return Retorna uma lista de receitas resumidas.

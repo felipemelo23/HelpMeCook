@@ -59,10 +59,14 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
             builder.setMessage(getString(R.string.no_connection));
-            builder.setNeutralButton("Ok", null);
+            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
             AlertDialog dialog = builder.create();
             dialog.show();
-            finish();
         }
     }
 
