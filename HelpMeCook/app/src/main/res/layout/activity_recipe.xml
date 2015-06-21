@@ -40,7 +40,7 @@
 
             <RatingBar
                 android:id="@+id/rb_taste"
-                style="@style/rating_bar"
+                android:progressDrawable="@drawable/custom_ratingbar"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
                 android:layout_alignParentLeft="true"
@@ -67,7 +67,7 @@
 
             <RatingBar
                 android:id="@+id/rb_difficulty"
-                style="@style/rating_bar"
+                android:progressDrawable="@drawable/custom_ratingbar"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
                 android:layout_alignParentLeft="true"
