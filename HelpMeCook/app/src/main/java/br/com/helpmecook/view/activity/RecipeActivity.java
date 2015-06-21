@@ -23,9 +23,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -74,7 +72,7 @@ public class RecipeActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
         } else {
-            recipe = Manager.getRecipeFromLocalDB(recipeId, RecipeActivity.this);
+            recipe = Manager.getRecipeOnLocalDB(recipeId, RecipeActivity.this);
             if (recipe == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
                 builder.setMessage(getString(R.string.no_connection));

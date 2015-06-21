@@ -86,7 +86,7 @@ public class Manager {
         }
     }
 
-    public static Recipe getRecipeOnLocaDB(long id, Context context) {
+    public static Recipe getRecipeOnLocalDB(long id, Context context) {
         RecipeDAO recipeDAO = new RecipeDAO(context);
         RecentsDAO recentsDAO = new RecentsDAO(context);
 
