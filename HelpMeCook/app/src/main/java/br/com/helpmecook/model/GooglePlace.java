@@ -2,6 +2,8 @@ package br.com.helpmecook.model;
 
 import android.location.Location;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kandarpa on 17/06/2015.
  */
@@ -13,6 +15,7 @@ public class GooglePlace {
     private double lat;
     private double lng;
     private Location location;
+    private ArrayList<String> types;
 
 
     public GooglePlace() {
@@ -24,6 +27,17 @@ public class GooglePlace {
         this.lng = 0;
     }
 
+    public void setTypes(ArrayList<String> types) {
+        this.types = types;
+    }
+
+    public boolean idType(String type){
+        boolean result = false;
+        if (category.contains(type)){
+            result = true;
+        }
+        return result;
+    }
 
     public void setLat(double lat) {
         this.lat = lat;
