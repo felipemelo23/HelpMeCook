@@ -202,13 +202,13 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (context != null){
+            /*if (context != null){
                 pDialog = new ProgressDialog(context);
                 pDialog.setMessage(getString(R.string.searching_places));
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
-            }
+            }*/
         }
 
         @Override
@@ -234,7 +234,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                 placesList = (ArrayList<GooglePlace>) parseGoogleParse(placesJson);
                 plotPlaces();
             }
-            pDialog.dismiss();
+            // pDialog.dismiss();
         }
     }
 

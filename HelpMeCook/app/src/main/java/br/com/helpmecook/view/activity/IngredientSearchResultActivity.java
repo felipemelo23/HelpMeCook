@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +81,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             RecipesListAdapter plusAdapter = new RecipesListAdapter(getApplicationContext(), plus);
 
             if (results.size() == 0 && plus.size() == 0){
-                Toast.makeText(getApplicationContext(),getString(R.string.no_results), Toast.LENGTH_LONG).show();
+                showAlertDialog();
             }
 
             resultRecipes = (ListView) findViewById(R.id.lvRecipes);
@@ -166,6 +165,32 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         return dialog;
     }
 
+    private void showAlertDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
+        builder.setMessage(getString(R.string.warning_search_result_alert));
+        builder.setTitle(getString(R.string.title_search_result_alert));
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor editor = getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).edit();
+                editor.putInt(MainActivity.POSITION_NAV_DRAWER, 4).commit();
+                startActivity(new Intent(IngredientSearchResultActivity.this, MainActivity.class));
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void timeLimit(final AsyncTask task) {
         new Thread() {
             public void run() {
@@ -176,7 +201,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
                         } catch (Exception e) {
                             AlertDialog dialog = createDialog(getString(R.string.timeout));
                             dialog.show();
-                            Log.i("IngredientSearchResultActivity", "timeout");
+                            //Log.i("IngredientSearchResultActivity", "timeout");
                             e.printStackTrace();
                         }
                     }

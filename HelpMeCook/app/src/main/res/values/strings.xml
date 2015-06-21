@@ -58,8 +58,8 @@
 
     <!--IngredientSearchResults-->
     <string name="title_activity_ingredient_search_result">Resultados</string>
-    <string name="results">Resultados</string>
-    <string name="resultsplusone">Receitas com mais ingredientes</string>
+    <string name="results">Apenas ingredientes selecionados</string>
+    <string name="resultsplusone">Presisam de ingredientes extras</string>
     <string name="recipe_registered">Criada com sucesso!</string>
     <string name="what_are_you_doing">O que exatamente você está tentando fazer?</string>
     <string name="cant_search">Não foi possível realizar a busca</string>
@@ -68,6 +68,8 @@
     <string name="tv_preparation_mode">MODO DE PREPARO</string>
     <string name="title_recipe_alert">Deseja mesmo sair?</string>
     <string name="warning_recipe_alert">Suas alterações serão perdidas</string>
+    <string name="title_search_result_alert">Não foram encontradas receitas</string>
+    <string name="warning_search_result_alert">Deseja procurar no mapa estabelecimentos onde pode encontrar comida?</string>
     <string name="cancel_recipe">Cancelar receita</string>
 
     <string name="units">unid.</string>
