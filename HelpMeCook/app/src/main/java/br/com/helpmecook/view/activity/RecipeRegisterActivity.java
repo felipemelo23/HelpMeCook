@@ -31,7 +31,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -42,9 +41,9 @@ import br.com.helpmecook.view.adapter.RecipeIngredientAdapter;
 public class RecipeRegisterActivity extends ActionBarActivity {
 
     public static final String CURRENT_INGREDIENTS = "CURRENT_INGREDIENTS";
+    public static final int REGISTER_RECIPE = 1;
     private static final int SELECT_INGREDIENT = 2;
     private static final int SELECT_PICTURE = 1;
-    public static final int REGISTER_RECIPE = 1;
     public static final int REGISTER = 1;
     private static final String RECIPE_NAME_KEY = "NAME";
     private static final String INGREDIENTS_KEY = "INGREDIENTS";
@@ -139,6 +138,23 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         etPortionNum.setText(savedInstanceState.getString(PORTION_KEY));
         etDescription.setText(savedInstanceState.getString(DESCRIPTION_KEY));
         picture = savedInstanceState.getParcelable(PICTURE_KEY);
+    }
+
+    public void registerRecipe() {
+        recipe = new Recipe();
+        if ((etName.getText().toString().equals("")) || (etDescription.getText().toString().equals("")) || (ingredients == null)){ // + lista de ingredientes
+            Toast.makeText(RecipeRegisterActivity.this, getResources().getString(R.string.blank_fields), Toast.LENGTH_LONG).show();
+        } else {
+            if (Manager.isOnline(RecipeRegisterActivity.this)) {
+                new RegisterRecipeTask().execute();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
+                builder.setMessage(getString(R.string.no_connection));
+                builder.setNeutralButton("Ok", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        }
     }
 
     @Override
@@ -272,6 +288,25 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         });
     }
 
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -314,35 +349,17 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        showAlertDialog();
-    }
-
-    public void registerRecipe() {
-        recipe = new Recipe();
-        if ((etName.getText().toString().equals("")) || (etDescription.getText().toString().equals("")) || (ingredients == null)){ // + lista de ingredientes
-            Toast.makeText(RecipeRegisterActivity.this, getResources().getString(R.string.blank_fields), Toast.LENGTH_LONG).show();
-        } else {
-            if (Manager.isOnline(RecipeRegisterActivity.this)) {
-                final RegisterRecipeTask task = new RegisterRecipeTask();
-                timeLimit(task);
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
-                builder.setMessage(getString(R.string.no_connection));
-                builder.setNeutralButton("Ok", null);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        }
-    }
-
     public void showRecipe(long id) {
         Intent intent = new Intent(RecipeRegisterActivity.this, RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
         intent.putExtra(IngredientSelectionActivity.REQUEST_CODE, REGISTER);
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        showAlertDialog();
     }
 
     private void showAlertDialog() {
@@ -367,47 +384,6 @@ public class RecipeRegisterActivity extends ActionBarActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
-
-    private void timeLimit(final AsyncTask task) {
-        new Thread() {
-            public void run() {
-                (RecipeRegisterActivity.this).runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
-                        } catch (Exception e) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
-                            builder.setMessage(getString(R.string.timeout));
-                            builder.setNeutralButton("Ok", null);
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                            Log.i("RecipeRegisterActivity", "timeout");
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }.start();
     }
 
     private class RegisterRecipeTask extends AsyncTask {

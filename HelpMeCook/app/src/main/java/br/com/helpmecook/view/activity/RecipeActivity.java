@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.concurrent.TimeUnit;
 
 import br.com.helpmecook.R;
@@ -36,6 +37,7 @@ public class RecipeActivity extends ActionBarActivity {
 
     private long recipeId;
     private Recipe recipe;
+    private int origin;
     private ImageView banner;
     private ImageButton addCookBook;
     private RatingBar rbTaste, rbDifficulty;
@@ -61,18 +63,25 @@ public class RecipeActivity extends ActionBarActivity {
         }
 
         if (Manager.isOnline(RecipeActivity.this)) {
-            recipe = Manager.getRecipeOnLocalDB(recipeId, RecipeActivity.this);
-            if (recipe == null) {
-                final GetRecipeTask task = new GetRecipeTask();
-                timeLimit(task);
-            } else {
-                loadRecipe();
+            GetRecipeTask grt = new GetRecipeTask();
+            grt.execute();
+            try {
+                grt.get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
         } else {
             recipe = Manager.getRecipeOnLocalDB(recipeId, RecipeActivity.this);
             if (recipe == null) {
-                AlertDialog dialog = createDialog(getString(R.string.no_connection));
+                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
+                builder.setMessage(getString(R.string.no_connection));
+                builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                AlertDialog dialog = builder.create();
                 dialog.show();
             } else {
                 loadRecipe();
@@ -91,25 +100,6 @@ public class RecipeActivity extends ActionBarActivity {
         });
         AlertDialog dialog = builder.create();
         return dialog;
-    }
-
-    private void timeLimit(final AsyncTask task) {
-        new Thread() {
-            public void run() {
-                (RecipeActivity.this).runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
-                        } catch (Exception e) {
-                            AlertDialog dialog = createDialog(getString(R.string.timeout));
-                            dialog.show();
-                            Log.i("RecipeActivity", "timeout");
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }.start();
     }
 
     public void loadRecipe() {
@@ -252,8 +242,7 @@ public class RecipeActivity extends ActionBarActivity {
                 dialog.dismiss();
 
                 if (Manager.isOnline(RecipeActivity.this)) {
-                    final ClassifyRecipeTaste task = new ClassifyRecipeTaste();
-                    timeLimit(task);
+                    new ClassifyRecipeTaste().execute();
                 } else {
                     AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();
@@ -289,8 +278,7 @@ public class RecipeActivity extends ActionBarActivity {
                 dialog.dismiss();
 
                 if (Manager.isOnline(RecipeActivity.this)) {
-                    final ClassifyRecipeDifficulty task = new ClassifyRecipeDifficulty();
-                    timeLimit(task);
+                    new ClassifyRecipeDifficulty().execute();
                 } else {
                     AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();
@@ -335,14 +323,6 @@ public class RecipeActivity extends ActionBarActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getIntent().getExtras().getInt(REQUEST_CODE) == 1) {
-            startActivity(new Intent(RecipeActivity.this, MainActivity.class));
-        }
-        super.onBackPressed();
     }
 
     private class GetRecipeTask extends AsyncTask {

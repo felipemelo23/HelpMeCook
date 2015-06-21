@@ -79,7 +79,7 @@
     <string name="pinch">pitada(s)</string>
     <string name="tablespoon">colher(es) de sopa</string>
     <string name="deseartpoon">colher(es) de sobremesa</string>
-    <string name="teaspoon">colher (es) de chá</string>
+    <string name="teaspoon">colher(es) de chá</string>
     <string name="coffeespoon">colher(es) de café</string>
     <string name="cup">xícara(s)</string>
     <string name="slice">fatia(s)</string>
@@ -102,7 +102,6 @@
     <string name="no_location_found">Não foi possível encontrar a localização</string>
     <string name="must_select_ingredient_message">Você deve selecionar algum ingrediente!</string>
     <string name="no_results">Não foram encontradas receitas</string>
-    <string name="timeout">Tempo limite de espera atingido, verifique sua internet</string>
 
     <!-- MapFragment -->
 

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -77,6 +75,7 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
@@ -92,8 +91,7 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         searchName = etSearchName.getText().toString();
         if (searchName != null && !searchName.trim().equals("")) {
             if (Manager.isOnline(NameSearchResultsActivity.this)) {
-                final NameSearchTask task = new NameSearchTask();
-                timeLimit(task);
+                new NameSearchTask().execute();
                 if (view != null) {
                     InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -136,33 +134,6 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
         startActivity(intent);
-    }
-
-    private void timeLimit(final AsyncTask task) {
-        new Thread() {
-            public void run() {
-                (NameSearchResultsActivity.this).runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
-                        } catch (Exception e) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(NameSearchResultsActivity.this);
-                            builder.setMessage(getString(R.string.timeout));
-                            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                            Log.i("NameSearchResultsActivity", "timeout");
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }.start();
     }
 
     private class NameSearchTask extends AsyncTask {
