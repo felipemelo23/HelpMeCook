@@ -158,7 +158,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         if (mLastLocation != null) {
             //Toast.makeText(getActivity(), "mLastLocation NAO e null", Toast.LENGTH_LONG).show();
             CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())).zoom(14).build();
+                    .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())).zoom(15).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             new googleplaces().execute();
@@ -202,17 +202,22 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            /*pDialog = new ProgressDialog(context);
-            pDialog.setMessage(getString(R.string.searching_places));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();*/
+            if (context != null){
+                pDialog = new ProgressDialog(context);
+                pDialog.setMessage(getString(R.string.searching_places));
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
         }
 
         @Override
         protected String doInBackground(View... urls) {
             // make Call to the url
             placesJson = makeCall("https://maps.googleapis.com/maps/api/place/search/json?location="
+                    + mLastLocation.getLatitude() + "," + mLastLocation.getLongitude()
+                    + "&radius="+ PROXIMITY_RADIUS +"&keyword=food&sensor=true&key=" + GOOGLE_API_KEY);
+            Log.i("Places URL", "https://maps.googleapis.com/maps/api/place/search/json?location="
                     + mLastLocation.getLatitude() + "," + mLastLocation.getLongitude()
                     + "&radius="+ PROXIMITY_RADIUS +"&keyword=food&sensor=true&key=" + GOOGLE_API_KEY);
 
@@ -229,21 +234,29 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                 placesList = (ArrayList<GooglePlace>) parseGoogleParse(placesJson);
                 plotPlaces();
             }
-            /*pDialog.dismiss();*/
+            pDialog.dismiss();
         }
     }
 
     private void plotPlaces(){
         for (int i = 0; i < placesList.size(); i++) {
-            //Log.i("PLACES", placesList.get(i).getName() + "Lat: " + placesList.get(i).getLat());
 
             // create marker
             MarkerOptions marker = new MarkerOptions().position(
                     new LatLng(placesList.get(i).getLat(), placesList.get(i).getLng())).title(placesList.get(i).getName());
+            Log.i("PLACES", "category: " + placesList.get(i).getCategory());
 
             // Changing marker icon
-            //marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-            marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            if (placesList.get(i).idType("cafe")){
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.cafe));
+            }else if (placesList.get(i).idType("restaurant")){
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
+            } else if (placesList.get(i).idType("supermarket")){
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.supermarket));
+            }else {
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.other));
+            }
+            //marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
 
             // adding marker
             googleMap.addMarker(marker);
