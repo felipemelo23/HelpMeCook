@@ -96,6 +96,7 @@ public class Manager {
 
             //Tenta achar a receita no banco de dados local.
             Recipe recipe = recipeDAO.read(id);
+            //Caso tenha achado, coloca nas recents
             if (recipe != null) {
                 Calendar cal = Calendar.getInstance();
                 recipe.updateLastAcess(cal);
@@ -109,6 +110,7 @@ public class Manager {
 
                 return recipe;
             } else {
+                //Caso não, retorna null
                 return null;
             }
         } catch (java.sql.SQLException e) {

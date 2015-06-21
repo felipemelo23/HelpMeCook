@@ -126,13 +126,6 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -156,6 +149,31 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //atualizar os fragments
+        onNavigationDrawerItemSelected(getSharedPreferences(POSITION_NAV_DRAWER, 0).getInt(POSITION_NAV_DRAWER, 0));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSharedPreferences(POSITION_NAV_DRAWER, 0).getInt(POSITION_NAV_DRAWER, 0) != 0) {
+            SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
+            editor.putInt(POSITION_NAV_DRAWER, 0).commit();
+            onNavigationDrawerItemSelected(0);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    public void restoreActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
+    }
+
     class AsyncTaskLoadIngredients extends AsyncTask<Void, Integer, String> {
 
         protected void onPreExecute(){
@@ -175,23 +193,5 @@ public class MainActivity extends ActionBarActivity
         protected void onPostExecute(String result) {
             pDialog.dismiss();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //atualizar os fragments
-        onNavigationDrawerItemSelected(getSharedPreferences(POSITION_NAV_DRAWER, 0).getInt(POSITION_NAV_DRAWER, 0));
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getSharedPreferences(POSITION_NAV_DRAWER, 0).getInt(POSITION_NAV_DRAWER, 0) != 0) {
-            SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
-            editor.putInt(POSITION_NAV_DRAWER, 0).commit();
-            onNavigationDrawerItemSelected(0);
-            return;
-        }
-        super.onBackPressed();
     }
 }

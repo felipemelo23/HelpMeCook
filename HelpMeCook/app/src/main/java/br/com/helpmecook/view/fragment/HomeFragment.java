@@ -20,6 +20,7 @@ import android.widget.ListAdapter;
 import org.apache.http.conn.HttpHostConnectException;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -53,7 +54,8 @@ public class HomeFragment extends Fragment {
         SharedPreferences settings = getActivity().getSharedPreferences(FIRST_TIME, 0);
 
         if (Manager.isOnline(getActivity())) {
-            new MostPopularTask().execute();
+            final MostPopularTask task = new MostPopularTask();
+            timeLimit(task);
         } else if (!(settings.getBoolean(FIRST_TIME, true))) {
             popularRecipes = Manager.getLocalPopularRecipes(getActivity());
             loadPopularAndRecents();
@@ -66,6 +68,28 @@ public class HomeFragment extends Fragment {
         }
 
         return fragmentView;
+    }
+
+    private void timeLimit(final AsyncTask task) {
+        new Thread() {
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
+                        } catch (Exception e) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage(getString(R.string.timeout));
+                            builder.setNeutralButton("Ok", null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                            Log.i("HomeFragment", "timeout");
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }.start();
     }
 
     public void showRecipe(long id) {

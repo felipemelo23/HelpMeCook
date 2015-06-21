@@ -1,6 +1,5 @@
 package br.com.helpmecook.view.activity;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +22,6 @@ import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
 import br.com.helpmecook.model.Ingredient;
 import br.com.helpmecook.view.adapter.IngredientSelectionAdapter;
-
 
 /**
  * Created by mariana on 08/05/15.
@@ -145,29 +143,6 @@ public class IngredientSelectionActivity extends ActionBarActivity {
         super.onBackPressed();
     }
 
-    private void executeSearch(){
-        wantedIngredients = new ArrayList<Long>();
-        unwantedIngredients = new ArrayList<Long>();
-        Intent intent = new Intent(getApplicationContext(),IngredientSearchResultActivity.class);
-
-        for (int i=0; i<clicked.length; i++){
-            if (clicked[i]==1){
-                wantedIngredients.add((long)i);
-            }
-            if (clicked[i]==2){
-                unwantedIngredients.add((long)i);
-            }
-        }
-
-        if (wantedIngredients.size() != 0 || unwantedIngredients.size() > 0) {
-            intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
-            intent.putExtra(UNWANTED_INGREDIENTS, unwantedIngredients);
-            startActivity(intent);
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.must_select_ingredient_message, Toast.LENGTH_LONG).show();
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_ingredient_selection_activity, menu);
@@ -239,6 +214,29 @@ public class IngredientSelectionActivity extends ActionBarActivity {
                 return false;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void executeSearch(){
+        wantedIngredients = new ArrayList<Long>();
+        unwantedIngredients = new ArrayList<Long>();
+        Intent intent = new Intent(getApplicationContext(),IngredientSearchResultActivity.class);
+
+        for (int i=0; i<clicked.length; i++){
+            if (clicked[i]==1){
+                wantedIngredients.add((long)i);
+            }
+            if (clicked[i]==2){
+                unwantedIngredients.add((long)i);
+            }
+        }
+
+        if (wantedIngredients.size() != 0 || unwantedIngredients.size() > 0) {
+            intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
+            intent.putExtra(UNWANTED_INGREDIENTS, unwantedIngredients);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.must_select_ingredient_message, Toast.LENGTH_LONG).show();
         }
     }
 
