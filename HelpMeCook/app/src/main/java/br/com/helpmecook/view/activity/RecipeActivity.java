@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -103,26 +102,6 @@ public class RecipeActivity extends ActionBarActivity {
         return dialog;
     }
 
-    private void launchImageDialog() {
-        LayoutInflater factory = LayoutInflater.from(this);
-        View imageDialogView = factory.inflate(R.layout.dialog_image, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(RecipeActivity.this);
-        final AlertDialog dialog = builder.create();
-
-        ImageView fullBannerImage = (ImageView) imageDialogView.findViewById(R.id.fullBannerImage);
-        fullBannerImage.setImageBitmap(recipe.getPicture());
-
-
-        fullBannerImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
     public void loadRecipe() {
         if (recipe != null) {
             setTitle(recipe.getName());
@@ -135,7 +114,6 @@ public class RecipeActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     ImageDialog dialog = new ImageDialog(RecipeActivity.this, recipe.getPicture());
                     dialog.show();
-                    launchImageDialog();
                 }
             });
 
