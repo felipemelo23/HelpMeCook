@@ -78,7 +78,11 @@ public class HomeFragment extends Fragment {
                     public void run() {
                         try {
                             task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
-                        } catch (Exception e) {
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (TimeoutException e) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             builder.setMessage(context.getString(R.string.timeout));
                             builder.setNeutralButton("Ok", null);

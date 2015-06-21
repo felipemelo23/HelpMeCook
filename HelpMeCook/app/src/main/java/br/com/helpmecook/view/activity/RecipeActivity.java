@@ -21,7 +21,10 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -100,7 +103,11 @@ public class RecipeActivity extends ActionBarActivity {
                     public void run() {
                         try {
                             task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
-                        } catch (Exception e) {
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (TimeoutException e) {
                             AlertDialog dialog = createDialog(getString(R.string.timeout));
                             dialog.show();
                             Log.i("RecipeActivity", "timeout");
