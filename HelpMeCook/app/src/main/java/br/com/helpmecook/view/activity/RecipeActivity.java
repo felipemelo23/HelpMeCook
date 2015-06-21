@@ -84,6 +84,8 @@ public class RecipeActivity extends ActionBarActivity {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            } else {
+                loadRecipe();
             }
         }
     }
