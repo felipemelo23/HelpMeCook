@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="br.com.helpmecook.view.activity.SplashScreen"
-    android:background="@color/secondary"
+    android:background="@color/primary"
     android:layout_gravity="center">
 
     <ImageView
