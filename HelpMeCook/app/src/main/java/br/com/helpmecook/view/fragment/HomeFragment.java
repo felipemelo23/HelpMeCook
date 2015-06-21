@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,13 +109,14 @@ public class HomeFragment extends Fragment {
         setListViewHeightBasedOnChildren(gvRecents);
     }
 
-    public static void setListViewHeightBasedOnChildren(GridView gridView) {
+    public void setListViewHeightBasedOnChildren(GridView gridView) {
         ListAdapter listAdapter = gridView.getAdapter();
         if (listAdapter == null) {
             // pre-condition
             return;
         }
 
+        int orientation = context.getResources().getConfiguration().orientation;
         int totalHeight = 0;
         int n = 0;
         try {
@@ -124,7 +126,12 @@ public class HomeFragment extends Fragment {
                 } else {
                     totalHeight += 324;
                 }
-                n +=2;
+
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    n += 2;
+                } else {
+                    n += 3;
+                }
             }
         } catch (IndexOutOfBoundsException e) {}
 
