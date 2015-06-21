@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import br.com.helpmecook.R;
+import br.com.helpmecook.view.activity.MainActivity;
 import br.com.helpmecook.view.adapter.NavDrawerListAdapter;
 import br.com.helpmecook.model.NavDrawerItem;
 
@@ -89,7 +90,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        selectItem(getActivity().getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).getInt(MainActivity.POSITION_NAV_DRAWER, 0));
     }
 
     @Override
@@ -139,7 +140,7 @@ public class NavigationDrawerFragment extends Fragment {
         adapter = new NavDrawerListAdapter(getActivity(),
                 navDrawerItems);
         mDrawerListView.setAdapter(adapter);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        mDrawerListView.setItemChecked(getActivity().getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).getInt(MainActivity.POSITION_NAV_DRAWER, 0), true);
         return mDrawerListView;
     }
 
@@ -222,13 +223,16 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
+        mCurrentSelectedPosition = getActivity().getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).getInt(MainActivity.POSITION_NAV_DRAWER, 0);
+        if ((position != 1) && (position != 3)) {
+            if (mDrawerListView != null) {
+                mDrawerListView.setItemChecked(position, true);
+            }
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
+
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
@@ -253,7 +257,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        outState.putInt(STATE_SELECTED_POSITION, getActivity().getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).getInt(MainActivity.POSITION_NAV_DRAWER, 0));
     }
 
     @Override

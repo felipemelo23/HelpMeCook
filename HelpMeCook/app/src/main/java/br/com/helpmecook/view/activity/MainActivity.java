@@ -30,8 +30,8 @@ public class MainActivity extends ActionBarActivity
     GoogleApiClient.Builder mGoogleApiClient;
 
     public static final int MAIN = 0;
+    public static final String POSITION_NAV_DRAWER = "position";
     private static final String FIRST_TIME = "first_time";
-    private static final String POSITION_NAV_DRAWER = "position";
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
@@ -68,6 +68,7 @@ public class MainActivity extends ActionBarActivity
         switch (position) {
             case 0:
                 mTitle = getString(R.string.app_name);
+                restoreActionBar();
 
                 SharedPreferences.Editor editor = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor.putInt(POSITION_NAV_DRAWER, 0).commit();
@@ -82,6 +83,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 2:
                 mTitle = getString(R.string.title_activity_cookbook);
+                restoreActionBar();
 
                 SharedPreferences.Editor editor2 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor2.putInt(POSITION_NAV_DRAWER, 2).commit();
@@ -96,6 +98,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 4:
                 mTitle = getString(R.string.title_activity_map);
+                restoreActionBar();
 
                 SharedPreferences.Editor editor3 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor3.putInt(POSITION_NAV_DRAWER, 4).commit();
@@ -104,6 +107,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 5:
                 mTitle = getString(R.string.title_activity_info);
+                restoreActionBar();
 
                 SharedPreferences.Editor editor4 = getSharedPreferences(POSITION_NAV_DRAWER, 0).edit();
                 editor4.putInt(POSITION_NAV_DRAWER, 5).commit();

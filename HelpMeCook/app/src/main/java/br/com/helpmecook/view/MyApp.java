@@ -1,9 +1,11 @@
 package br.com.helpmecook.view;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import br.com.helpmecook.control.Manager;
+import br.com.helpmecook.view.activity.MainActivity;
 import br.com.helpmecook.view.fragment.HomeFragment;
 
 /**
@@ -19,6 +21,8 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         HomeFragment.POPULAR_PARAM = Manager.SERVER_POPULAR;
+        SharedPreferences.Editor editor = getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).edit();
+        editor.putInt(MainActivity.POSITION_NAV_DRAWER, 0).commit();
         Log.i("Application", "onCreate");
     }
 }

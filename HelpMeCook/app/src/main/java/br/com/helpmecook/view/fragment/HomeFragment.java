@@ -55,7 +55,8 @@ public class HomeFragment extends Fragment {
 
         if (Manager.isOnline(getActivity())) {
             final MostPopularTask task = new MostPopularTask();
-            timeLimit(task);
+            task.execute();
+            //timeLimit(task);
         } else if (!(settings.getBoolean(FIRST_TIME, true))) {
             popularRecipes = Manager.getLocalPopularRecipes(getActivity());
             loadPopularAndRecents();
@@ -69,7 +70,7 @@ public class HomeFragment extends Fragment {
 
         return fragmentView;
     }
-
+/*
     private void timeLimit(final AsyncTask task) {
         new Thread() {
             public void run() {
@@ -78,8 +79,8 @@ public class HomeFragment extends Fragment {
                         try {
                             task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
                         } catch (Exception e) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage(getString(R.string.timeout));
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage(context.getString(R.string.timeout));
                             builder.setNeutralButton("Ok", null);
                             AlertDialog dialog = builder.create();
                             dialog.show();
@@ -91,7 +92,7 @@ public class HomeFragment extends Fragment {
             }
         }.start();
     }
-
+*/
     public void showRecipe(long id) {
         Intent intent = new Intent(context, RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
