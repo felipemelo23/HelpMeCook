@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -37,8 +38,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     private List<AbstractRecipe> plus;
     private List<Long> wanted;
     private List<Long> unwanted;
-
-    ProgressDialog pDialog;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +55,10 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
 
         if (Manager.isOnline(IngredientSearchResultActivity.this)) {
-            new IngredientSearchTask().execute();
+            final IngredientSearchTask task = new IngredientSearchTask();
+            timeLimit(task);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
-            builder.setMessage(getString(R.string.no_connection));
-            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            AlertDialog dialog = builder.create();
+            AlertDialog dialog = createDialog(getString(R.string.no_connection));
             dialog.show();
         }
     }
@@ -133,11 +126,63 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             dialog.show();
         }
     }
+
     public void showRecipe(long id) {
         Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
 
         startActivityForResult(intent, RESULT_RECIPE);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+
+    private AlertDialog createDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
+        builder.setMessage(message);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        return dialog;
+    }
+
+    private void timeLimit(final AsyncTask task) {
+        new Thread() {
+            public void run() {
+                (IngredientSearchResultActivity.this).runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            task.execute().get(9999, TimeUnit.MILLISECONDS);//requisito não funcional, tudo com internet em menos de 10s
+                        } catch (Exception e) {
+                            AlertDialog dialog = createDialog(getString(R.string.timeout));
+                            dialog.show();
+                            Log.i("IngredientSearchResultActivity", "timeout");
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }.start();
     }
 
     private class IngredientSearchTask extends AsyncTask {
@@ -169,24 +214,5 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             pDialog.dismiss();
             showResults();
         }
-    }
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 }
