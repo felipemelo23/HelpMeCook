@@ -103,6 +103,7 @@
     <string name="must_select_ingredient_message">Você deve selecionar algum ingrediente!</string>
     <string name="no_results">Não foram encontradas receitas</string>
     <string name="timeout">Tempo limite de espera atingido, verifique sua internet</string>
+    <string name="too_much_ingredients_selecteds">Você não pode fazer uma receita com tantos ingredientes!</string>
 
     <!-- MapFragment -->
 

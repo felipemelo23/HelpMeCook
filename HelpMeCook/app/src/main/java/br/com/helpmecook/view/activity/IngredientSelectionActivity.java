@@ -231,12 +231,17 @@ public class IngredientSelectionActivity extends ActionBarActivity {
             }
         }
 
-        if (wantedIngredients.size() != 0 || unwantedIngredients.size() > 0) {
-            intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
-            intent.putExtra(UNWANTED_INGREDIENTS, unwantedIngredients);
-            startActivity(intent);
+        if (wantedIngredients.size() + unwantedIngredients.size() > 189) {
+            AlertDialog dialog = createDialog(getString(R.string.too_much_ingredients_selecteds));
+            dialog.show();
         } else {
-            Toast.makeText(getApplicationContext(), R.string.must_select_ingredient_message, Toast.LENGTH_LONG).show();
+            if (wantedIngredients.size() != 0 || unwantedIngredients.size() > 0) {
+                intent.putExtra(WANTED_INGREDIENTS, wantedIngredients);
+                intent.putExtra(UNWANTED_INGREDIENTS, unwantedIngredients);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.must_select_ingredient_message, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
