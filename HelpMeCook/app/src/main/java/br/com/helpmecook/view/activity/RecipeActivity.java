@@ -181,6 +181,7 @@ public class RecipeActivity extends ActionBarActivity {
             Log.i("NAME LOSS", "RecipeAct name: " + recipe.getText());
 
             recipePrepTime = (TextView) findViewById(R.id.tv_prep_time);
+            Log.i("PREP", "Tempo estimado: " + recipe.getEstimatedTime());
             if (recipe.getEstimatedTime() == 1) {
                 recipePrepTime.setText(recipe.getEstimatedTime() + " minuto");
             } else if (recipe.getEstimatedTime() > 0) {
@@ -192,6 +193,7 @@ public class RecipeActivity extends ActionBarActivity {
             }
 
             recipePortionNumber = (TextView) findViewById(R.id.tv_portion_number);
+            Log.i("PREP", "Num porção: " + recipe.getPortionNum());
             if (recipe.getPortionNum() != null && !recipe.getPortionNum().isEmpty() && Integer.parseInt(recipe.getPortionNum()) == 1) {
                 recipePortionNumber.setText(recipe.getPortionNum() + " porção");
             } else if (recipe.getPortionNum() != null && !recipe.getPortionNum().isEmpty()) {
@@ -253,7 +255,7 @@ public class RecipeActivity extends ActionBarActivity {
 
                 if (Manager.isOnline(RecipeActivity.this)) {
                     final ClassifyRecipeTaste task = new ClassifyRecipeTaste();
-                    timeLimit(task);
+                    //timeLimit(task);
                 } else {
                     AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();
@@ -290,7 +292,8 @@ public class RecipeActivity extends ActionBarActivity {
 
                 if (Manager.isOnline(RecipeActivity.this)) {
                     final ClassifyRecipeDifficulty task = new ClassifyRecipeDifficulty();
-                    timeLimit(task);
+                    task.execute();
+                    //timeLimit(task);
                 } else {
                     AlertDialog dialog2 = createDialog(getString(R.string.no_connection));
                     dialog2.show();

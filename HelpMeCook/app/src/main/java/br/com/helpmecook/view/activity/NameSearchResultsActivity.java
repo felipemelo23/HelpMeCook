@@ -93,7 +93,8 @@ public class NameSearchResultsActivity extends ActionBarActivity {
         if (searchName != null && !searchName.trim().equals("")) {
             if (Manager.isOnline(NameSearchResultsActivity.this)) {
                 final NameSearchTask task = new NameSearchTask();
-                timeLimit(task);
+                task.execute();
+                //timeLimit(task);
                 if (view != null) {
                     InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

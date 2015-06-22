@@ -55,7 +55,8 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
 
         if (Manager.isOnline(IngredientSearchResultActivity.this)) {
             final IngredientSearchTask task = new IngredientSearchTask();
-            timeLimit(task);
+            task.execute();
+            //timeLimit(task);
         } else {
             AlertDialog dialog = createDialog(getString(R.string.no_connection));
             dialog.show();

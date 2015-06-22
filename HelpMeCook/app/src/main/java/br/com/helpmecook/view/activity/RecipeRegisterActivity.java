@@ -326,7 +326,8 @@ public class RecipeRegisterActivity extends ActionBarActivity {
         } else {
             if (Manager.isOnline(RecipeRegisterActivity.this)) {
                 final RegisterRecipeTask task = new RegisterRecipeTask();
-                timeLimit(task);
+                task.execute();
+                //timeLimit(task);
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecipeRegisterActivity.this);
                 builder.setMessage(getString(R.string.no_connection));
@@ -433,17 +434,19 @@ public class RecipeRegisterActivity extends ActionBarActivity {
                     } else {
                         recipe.setPicture(picture);
                     }
-                    if (!(etPrepTime.getText().toString().equals(""))) {
-                        recipe.setEstimatedTime(Integer.parseInt(etPrepTime.getText().toString()));
-                    }
-                    if (!(etPortionNum.getText().toString().equals(""))) {
-                        recipe.setPortionNum(etPortionNum.getText().toString());
-                    }
                 }
             });
 
             recipe.setName(etName.getText().toString());
             recipe.setText(etDescription.getText().toString());
+
+
+            if (!(etPrepTime.getText().toString().equals(""))) {
+                recipe.setEstimatedTime(Integer.parseInt(etPrepTime.getText().toString()));
+            }
+            if (!(etPortionNum.getText().toString().equals(""))) {
+                recipe.setPortionNum(etPortionNum.getText().toString());
+            }
 
             List<Long> ingId = new ArrayList<Long>();
             for (int i = 0; i < ingredients.length; i++) {
