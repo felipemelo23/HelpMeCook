@@ -67,9 +67,6 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-        // inflate and return the layout
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -92,8 +89,6 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         context = getActivity();
         return v;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -173,15 +168,12 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         }
     }
 
-
-
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
-
 
     @Override
     public void onConnectionSuspended(int cause) {
@@ -203,9 +195,6 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             Toast.makeText(getActivity(), getResources().getString(R.string.no_location_found), Toast.LENGTH_LONG).show();
         }
     }
-
-
-
     //-----------------------------------------
     private class googleplaces extends AsyncTask<View, Void, String> {
 
@@ -248,7 +237,6 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             // pDialog.dismiss();
         }
     }
-
 
     private void plotPlaces(){
         for (int i = 0; i < placesList.size(); i++) {
@@ -355,6 +343,5 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             return new ArrayList<GooglePlace>();
         }
         return temp;
-
     }
 }

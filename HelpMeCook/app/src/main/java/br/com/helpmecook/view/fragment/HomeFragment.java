@@ -20,6 +20,7 @@ import android.widget.ListAdapter;
 import org.apache.http.conn.HttpHostConnectException;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -92,7 +93,6 @@ public class HomeFragment extends Fragment {
         }.start();
     }
 */
-
     public void showRecipe(long id) {
         Intent intent = new Intent(context, RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);

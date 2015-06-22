@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import br.com.helpmecook.R;
 import br.com.helpmecook.control.Manager;
@@ -36,8 +37,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
     private List<AbstractRecipe> plus;
     private List<Long> wanted;
     private List<Long> unwanted;
-
-    ProgressDialog pDialog;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +54,10 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         unwanted = (List<Long>) intent.getSerializableExtra(IngredientSelectionActivity.UNWANTED_INGREDIENTS);
 
         if (Manager.isOnline(IngredientSearchResultActivity.this)) {
-            new IngredientSearchTask().execute();
+            final IngredientSearchTask task = new IngredientSearchTask();
+            timeLimit(task);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
-            builder.setMessage(getString(R.string.no_connection));
-            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            AlertDialog dialog = builder.create();
+            AlertDialog dialog = createDialog(getString(R.string.no_connection));
             dialog.show();
         }
     }
@@ -132,6 +125,7 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             dialog.show();
         }
     }
+
     public void showRecipe(long id) {
         Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
         intent.putExtra(RecipeActivity.RECIPE_ID, id);
@@ -139,7 +133,6 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         startActivityForResult(intent, RESULT_RECIPE);
     }
 
-<<<<<<< HEAD
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
@@ -217,8 +210,6 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
         }.start();
     }
 
-=======
->>>>>>> parent of 91854c6... Tratamento tempo limite de espera
     private class IngredientSearchTask extends AsyncTask {
 
         @Override
@@ -248,24 +239,5 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
             pDialog.dismiss();
             showResults();
         }
-    }
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 }
