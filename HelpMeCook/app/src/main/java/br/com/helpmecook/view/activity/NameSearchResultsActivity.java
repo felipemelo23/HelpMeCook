@@ -117,19 +117,25 @@ public class NameSearchResultsActivity extends ActionBarActivity {
     }
 
     private void executeNameSearch() {
-        RecipesListAdapter adapter = new RecipesListAdapter(getApplicationContext(), results);
+        if (!results.isEmpty()) {
+            RecipesListAdapter adapter = new RecipesListAdapter(getApplicationContext(), results);
 
-        resultRecipes = (ListView) findViewById(R.id.lv_name_search_result);
-        resultRecipes.setAdapter(adapter);
+            resultRecipes = (ListView) findViewById(R.id.lv_name_search_result);
+            resultRecipes.setAdapter(adapter);
 
-        resultRecipes.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        showRecipe(results.get(position).getId());
+            resultRecipes.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            showRecipe(results.get(position).getId());
+                        }
                     }
-                }
-        );
+            );
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.no_namesearch_result, Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     public void showRecipe(long id) {
