@@ -2,9 +2,11 @@ package br.com.helpmecook.view.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,25 +171,37 @@ public class IngredientSearchResultActivity extends ActionBarActivity {
 
     private void showAlertDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(IngredientSearchResultActivity.this);
-        builder.setMessage(getString(R.string.warning_search_result_alert));
         builder.setTitle(getString(R.string.title_search_result_alert));
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);;
+        if (mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            builder.setMessage(getString(R.string.warning_search_result_alert));
 
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences.Editor editor = getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).edit();
-                editor.putInt(MainActivity.POSITION_NAV_DRAWER, 4).commit();
-                startActivity(new Intent(IngredientSearchResultActivity.this, MainActivity.class));
-                dialog.dismiss();
-            }
-        });
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SharedPreferences.Editor editor = getSharedPreferences(MainActivity.POSITION_NAV_DRAWER, 0).edit();
+                    editor.putInt(MainActivity.POSITION_NAV_DRAWER, 4).commit();
+                    startActivity(new Intent(IngredientSearchResultActivity.this, MainActivity.class));
+                    dialog.dismiss();
+                }
+            });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            builder.setMessage("GPS desligado!");
+            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+
 
         AlertDialog dialog = builder.create();
         dialog.show();
